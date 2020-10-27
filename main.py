@@ -9,11 +9,11 @@ import hmac
 
 def signature(jwtJson, key):
     if jwtJson["header"]["alg"] == "HS256":
-        signature = hmac.new(key.encode(), encodeJwt(jwtJson).encode(), hashlib.sha256).digest()
-        click.echo(signature)
-        click.echo("test: " + base64.b64encode(signature).decode('utf-8'))
-        click.echo("header: " + encodeJwt(jwtJson))
-        click.echo( encodeJwt(jwtJson) + "." +  base64.b64encode(signature).decode('utf-8'))
+        jwt = encodeJwt(jwtJson)
+        signature = hmac.new(key.encode(), jwt.encode(), hashlib.sha256).digest()
+        newSig = base64.urlsafe_b64encode(signature).decode('UTF-8').strip("=")
+        return jwt + "." + newSig
+
 
 
 def encodedToJson(encodedString):
@@ -22,8 +22,8 @@ def encodedToJson(encodedString):
 
 
 def encodeJwt(jwtJson):
-    headerEncoded = base64.b64encode(json.dumps(jwtJson["header"]).encode('utf-8')).decode('utf-8')
-    payloadEncoded = base64.b64encode(json.dumps(jwtJson["payload"]).encode('utf-8')).decode('utf-8')
+    headerEncoded = base64.urlsafe_b64encode(json.dumps(jwtJson["header"]).encode('utf-8')).decode('utf-8').strip('=')
+    payloadEncoded = base64.urlsafe_b64encode(json.dumps(jwtJson["payload"], separators=(',', ':')).encode()).decode('utf-8').strip('=')
     return headerEncoded + "." + payloadEncoded
 
 
@@ -42,6 +42,8 @@ def printDecoded(jwt):
     click.echo(f"Header: {jwtJson['header']}")
     click.echo(f"Payload: {jwtJson['payload']}")
     click.echo(f"Signature: {jwtJson['signature']}")
+    jwtEncoded = encodeJwt(jwtJson)
+    click.echo(jwtEncoded)
 
 
 def changeAlg(jwtJson, algo):
@@ -56,7 +58,6 @@ def changePayload(jwtJson, payload):
 
 def checkHmac(jwtJson, file):
     jwtJson = changeAlg(jwtJson, "HS256")
-    click.echo(type(encodeJwt(jwtJson)))
     return signature(jwtJson, open(file).read())
 
 
@@ -74,7 +75,7 @@ def main(jwt, print, payload, none_vulnerability, hmac):
     if hmac:
         if path.exists(hmac):
             jwt = checkHmac(jwtToJson(jwt), hmac)
-            click.echo(jwt)
+            click.echo(f"\nnew JWT: {jwt}")
         else:
             click.echo("File not found")
     if none_vulnerability:
