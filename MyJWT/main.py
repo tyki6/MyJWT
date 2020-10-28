@@ -1,15 +1,8 @@
-import base64
-import hashlib
 import json
 import sys
 
 import click
-import os.path
 from os import path
-import hmac
-
-from texttable import Texttable
-
 from MyJWT.modifyJWT import changePayload, addheader, changeAlg, signature, addpayload
 from MyJWT.utils import jwtToJson, encodeJwt
 from MyJWT.vulnerabilities import injectSqlKid, bruteforceDict, checkHmac, printDecoded
