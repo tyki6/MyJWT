@@ -104,7 +104,7 @@ class TestMain(TestCase):
         result = self.runner.invoke(myjwt_cli, [self.jwt, '--hmac'])
         self.assertEqual(result.exit_code, 2)
 
-        result = self.runner.invoke(myjwt_cli, [self.jwt, '--hmac', "./examples/Rsa-Hmac-confusion/public.pem"])
+        result = self.runner.invoke(myjwt_cli, [self.jwt, '--hmac', "./examples/05-rsa-hmac-confusion/public.pem"])
         self.assertEqual(result.exit_code, 0)
 
     def testBruteForceCli(self):

@@ -12,7 +12,7 @@ class TestVulnerabilities(TestCase):
         self.jwtBruteForce = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjpudWxsfQ.Tr0VvdP6rVBGBGuI_luxGCOaz6BbhC6IxRTlKOW8UjM"
         self.jwtKid = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6ImtleTEifQ.eyJ1c2VyIjpudWxsfQ.2B9ZKzJ3FeJ9yoNLDGKgcxOuo05PwDRzFQ_34CrGteQ"
         self.key = "pentesterlab"
-        self.path = "./examples/Rsa-Hmac-confusion/public.pem"
+        self.path = "./examples/05-rsa-hmac-confusion/public.pem"
         self.password = "./wordlist/common_pass.txt"
         self.signature = "KJDuTWSj9wa3NL3j1u2HOijvgu-oO9tBjKGxjo_qdXQ"
         self.injection = "../../../../../../dev/null"

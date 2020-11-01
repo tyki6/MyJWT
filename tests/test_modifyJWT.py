@@ -24,7 +24,7 @@ class TestModifyJWT(TestCase):
             PAYLOAD: self.payload,
             SIGNATURE: self.signature
         }
-        self.path = "./examples/Rsa-Hmac-confusion/public.pem"
+        self.path = "./examples/05-rsa-hmac-confusion/public.pem"
 
     def testAddPayload(self):
         with self.assertRaises(InvalidJwtJson):
