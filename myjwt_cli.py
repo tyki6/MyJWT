@@ -17,12 +17,12 @@ from MyJWT.vulnerabilities import injectSqlKid, bruteforceDict, printDecoded, co
 @click.command()
 @click.argument('jwt')
 # modify your jwt
-@click.option("--full-payload", help="New payload json format")
-@click.option("--add-header", multiple=True)
-@click.option("--add-payload", "-p", multiple=True)
+@click.option("--full-payload", help="New payload for your jwt.Json format Required")
+@click.option("--add-header", "-h", help="Add a new key, value to your jwt header, if key is present old value will be replaced.Format: key=value", multiple=True)
+@click.option("--add-payload", "-p", help="Add a new key, value to your jwt payload, if key is present old value will be replaced.Format: key=value", multiple=True)
 # signature
-@click.option("--sign")
-@click.option("--verify")
+@click.option("--sign", help="Sign Your jwt with key given")
+@click.option("--verify", help="verify your key")
 # vulnerabilities
 @click.option("--none-vulnerability", '-none', is_flag=True, help="Check None Alg vulnerability")
 @click.option("--hmac", help="Check RS/HMAC Alg vulnerability")
