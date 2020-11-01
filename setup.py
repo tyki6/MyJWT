@@ -3,8 +3,19 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+dev_requires = [
+    'coverage',
+    'flake8',
+    'pytest',
+]
+
+install_requires = [
+    "click",
+    "requests"
+]
+
 setuptools.setup(
-    name="MyJWT",
+    name="myjwt",
     version="1.0.0",
     author="mBouamama",
     author_email="matthieubouamama@gmail.com",
@@ -12,6 +23,10 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/mBouamama/MyJWT",
+    install_requires=install_requires,
+    extras_require={
+        'dev': dev_requires,
+    },
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
