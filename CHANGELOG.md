@@ -12,3 +12,4 @@ All notable changes to this project will be documented in this file.
 - kid injection
 - cli
 - unit test
+- wordlist

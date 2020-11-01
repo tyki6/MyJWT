@@ -13,13 +13,20 @@ from MyJWT.variables import NOT_VALID_JWT, CHECK_DOCS, NOT_CRAKED, CRACKED, VALI
     VALID_PAYLOAD_JSON, NEW_JWT, INVALID_SIGNATURE, VALID_SIGNATURE
 from MyJWT.vulnerabilities import injectSqlKid, bruteforceDict, printDecoded, confusionRsaHmac
 
+VERSION = "1.0.0"
+
 
 @click.command()
+@click.version_option(VERSION)
 @click.argument('jwt')
 # modify your jwt
 @click.option("--full-payload", help="New payload for your jwt.Json format Required")
-@click.option("--add-header", "-h", help="Add a new key, value to your jwt header, if key is present old value will be replaced.Format: key=value", multiple=True)
-@click.option("--add-payload", "-p", help="Add a new key, value to your jwt payload, if key is present old value will be replaced.Format: key=value", multiple=True)
+@click.option("--add-header", "-h",
+              help="Add a new key, value to your jwt header, if key is present old value will be replaced.Format: key=value",
+              multiple=True)
+@click.option("--add-payload", "-p",
+              help="Add a new key, value to your jwt payload, if key is present old value will be replaced.Format: key=value",
+              multiple=True)
 # signature
 @click.option("--sign", help="Sign Your jwt with key given")
 @click.option("--verify", help="verify your key")
@@ -30,7 +37,8 @@ from MyJWT.vulnerabilities import injectSqlKid, bruteforceDict, printDecoded, co
 @click.option("--kid", help="Kid Injection sql")
 # print
 @click.option("--print", is_flag=True, help="Print Decoded JWT")
-def myjwt_cli(jwt, full_payload, add_header, add_payload, sign, verify, none_vulnerability, hmac, bruteforce, kid, print):
+def myjwt_cli(jwt, full_payload, add_header, add_payload, sign, verify, none_vulnerability, hmac, bruteforce, kid,
+              print):
     if not isValidJwt(jwt):
         sys.exit(NOT_VALID_JWT)
     if bruteforce:
