@@ -1,9 +1,7 @@
 import click
-from texttable import Texttable
-
 from MyJWT.Exception import InvalidJWT
 from MyJWT.modifyJWT import changeAlg, signature
-from MyJWT.utils import jwtToJson, encodeJwt, isValidJwt
+from MyJWT.utils import jwtToJson, encodeJwt, isValidJwt, HEADER
 
 
 def noneVulnerability(jwt):
@@ -82,7 +80,7 @@ def injectSqlKid(jwt, injection):
         raise InvalidJWT("Invalid JWT format")
 
     jwtJson = jwtToJson(jwt)
-    jwtJson["header"]["kid"] = injection
+    jwtJson[HEADER]["kid"] = injection
     return signature(jwtJson, "")
 
 

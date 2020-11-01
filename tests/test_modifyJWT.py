@@ -1,9 +1,7 @@
 from unittest import TestCase
-from unittest.mock import patch
-
 from MyJWT.Exception import InvalidJwtJson, InvalidParam, UnknownAlg
 from MyJWT.modifyJWT import addpayload, addheader, changeAlg, changePayload, signature
-from MyJWT.utils import HEADER, PAYLOAD, SIGNATURE, encodedToJson, encodeJwt, jwtToJson
+from MyJWT.utils import HEADER, PAYLOAD, SIGNATURE, jwtToJson
 
 
 class TestModifyJWT(TestCase):
@@ -11,8 +9,14 @@ class TestModifyJWT(TestCase):
     def setUp(self):
         self.invalidJWT = "test.test"
         self.jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0.eyJsb2dpbiI6ImF6In0."
-        self.jwtRsa = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJsb2dpbiI6ImEifQ.Fjziy6GSQpP9tQRyko5APZjdymkQ8EJGOa-A2JQ6xcAVucXRhZbdBbAM2DG8io_brP_ROAqYaNlvRVsztXoPHFz_e7D2K0q6f02RXeRwZJGOhy0K-Oj9Z1UmFJWqVpAAafN75w7OKoSRh6BtQfH8XDleqwpVoywCuWFdYrSbqBoVskRQkp8H-HUC5XmN5om4-NdiQkiKa7OFQ6Hoklclz9_WD5rc-HWJp3rJW4EIHzOPfs1GuDuhtIRu0uuRYp4vvzLZcVm0BhlK9e_fmFcbsTz3MwVHIeFEIx2NjQdhE-CefQ4tNg6Rr6OtgGExToUfD0i0mAoAhTcvmoyO6c2paQ"
-        self.jwtHs256 = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpbiI6ImEifQ.KJDuTWSj9wa3NL3j1u2HOijvgu-oO9tBjKGxjo_qdXQ"
+        self.jwtRsa = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJsb2dpbiI6ImEifQ.Fjziy6GSQpP9tQRyko5APZjdymkQ8EJGOa" \
+                      "-A2JQ6xcAVucXRhZbdBbAM2DG8io_brP_ROAqYaNlvRVsztXoPHFz_e7D2K0q6f02RXeRwZJGOhy0K" \
+                      "-Oj9Z1UmFJWqVpAAafN75w7OKoSRh6BtQfH8XDleqwpVoywCuWFdYrSbqBoVskRQkp8H-HUC5XmN5om4" \
+                      "-NdiQkiKa7OFQ6Hoklclz9_WD5rc" \
+                      "-HWJp3rJW4EIHzOPfs1GuDuhtIRu0uuRYp4vvzLZcVm0BhlK9e_fmFcbsTz3MwVHIeFEIx2NjQdhE" \
+                      "-CefQ4tNg6Rr6OtgGExToUfD0i0mAoAhTcvmoyO6c2paQ"
+        self.jwtHs256 = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpbiI6ImEifQ.KJDuTWSj9wa3NL3j1u2HOijvgu" \
+                        "-oO9tBjKGxjo_qdXQ"
         self.encodedString = "eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0"
         self.header = {"typ": "JWT", "alg": "none"}
         self.addHeader = {"kid": "1"}
@@ -91,9 +95,6 @@ class TestModifyJWT(TestCase):
         self.assertEqual(jwt, self.jwtHs256)
 
         newJwtJson = self.jwtJson
-        newJwtJson["header"]["alg"] = "unknowAlg"
+        newJwtJson[HEADER]["alg"] = "unknowAlg"
         with self.assertRaises(UnknownAlg):
             signature(newJwtJson, "")
-
-
-

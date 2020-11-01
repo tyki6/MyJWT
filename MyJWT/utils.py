@@ -7,6 +7,7 @@ HEADER = "header"
 PAYLOAD = "payload"
 SIGNATURE = "signature"
 
+
 def jwtToJson(jwt):
     """
     Transform your jwt string to a dict.
@@ -77,5 +78,5 @@ def isValidJwtJson(jwtJson):
     :rtype: bool
     """
     return HEADER in jwtJson and PAYLOAD in jwtJson and SIGNATURE in jwtJson \
-           and type(jwtJson[HEADER]) is dict and type(jwtJson[PAYLOAD]) is dict \
-           and type(jwtJson[SIGNATURE]) is str
+        and type(jwtJson[HEADER]) is dict and type(jwtJson[PAYLOAD]) is dict \
+        and type(jwtJson[SIGNATURE]) is str

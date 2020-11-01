@@ -1,5 +1,7 @@
 import setuptools
 
+from MyJWT.myjwt_cli import VERSION
+
 with open("README.md", "r") as fh:
     long_description = fh.read()
 dev_requires = [
@@ -23,6 +25,11 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/mBouamama/MyJWT",
     install_requires=install_requires,
+    entry_points={
+        'console_scripts': [
+            'myjwt = MyJWT.myjwt_cli:myjwt_cli',
+        ],
+    },
     extras_require={
         'dev': dev_requires,
     },

@@ -51,4 +51,3 @@ class TestUtils(TestCase):
 
     def testIsValidJwtJson(self):
         self.assertTrue(isValidJwtJson(self.jwtJson))
-

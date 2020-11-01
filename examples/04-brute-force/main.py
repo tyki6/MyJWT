@@ -1,4 +1,3 @@
-from MyJWT.utils import jwtToJson
 from MyJWT.vulnerabilities import bruteforceDict
 
 jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjpudWxsfQ.Tr0VvdP6rVBGBGuI_luxGCOaz6BbhC6IxRTlKOW8UjM"

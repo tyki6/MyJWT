@@ -3,10 +3,6 @@ import sys
 from json import JSONDecodeError
 
 import click
-from os import path
-
-from click import pass_context, Path, File
-
 from MyJWT.modifyJWT import changePayload, addheader, changeAlg, signature, addpayload
 from MyJWT.utils import jwtToJson, encodeJwt, HEADER, isValidJwt, SIGNATURE
 from MyJWT.variables import NOT_VALID_JWT, CHECK_DOCS, NOT_CRAKED, CRACKED, VALID_PAYLOAD, VALID_HEADER, \

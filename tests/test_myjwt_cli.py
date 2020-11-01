@@ -7,17 +7,24 @@ from click.testing import CliRunner
 from MyJWT.modifyJWT import changePayload
 from MyJWT.utils import jwtToJson, HEADER, PAYLOAD, SIGNATURE
 from MyJWT.variables import NOT_VALID_JWT, VALID_PAYLOAD_JSON, NEW_JWT, VALID_SIGNATURE, CHECK_DOCS, NOT_CRAKED, CRACKED
-from myjwt_cli import myjwt_cli
+from MyJWT.myjwt_cli import myjwt_cli
 
 
 class TestMain(TestCase):
 
     def setUp(self):
-        self.jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJsb2dpbiI6ImEifQ.Fjziy6GSQpP9tQRyko5APZjdymkQ8EJGOa-A2JQ6xcAVucXRhZbdBbAM2DG8io_brP_ROAqYaNlvRVsztXoPHFz_e7D2K0q6f02RXeRwZJGOhy0K-Oj9Z1UmFJWqVpAAafN75w7OKoSRh6BtQfH8XDleqwpVoywCuWFdYrSbqBoVskRQkp8H-HUC5XmN5om4-NdiQkiKa7OFQ6Hoklclz9_WD5rc-HWJp3rJW4EIHzOPfs1GuDuhtIRu0uuRYp4vvzLZcVm0BhlK9e_fmFcbsTz3MwVHIeFEIx2NjQdhE-CefQ4tNg6Rr6OtgGExToUfD0i0mAoAhTcvmoyO6c2paQ"
+        self.jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJsb2dpbiI6ImEifQ.Fjziy6GSQpP9tQRyko5APZjdymkQ8EJGOa" \
+                   "-A2JQ6xcAVucXRhZbdBbAM2DG8io_brP_ROAqYaNlvRVsztXoPHFz_e7D2K0q6f02RXeRwZJGOhy0K" \
+                   "-Oj9Z1UmFJWqVpAAafN75w7OKoSRh6BtQfH8XDleqwpVoywCuWFdYrSbqBoVskRQkp8H-HUC5XmN5om4" \
+                   "-NdiQkiKa7OFQ6Hoklclz9_WD5rc" \
+                   "-HWJp3rJW4EIHzOPfs1GuDuhtIRu0uuRYp4vvzLZcVm0BhlK9e_fmFcbsTz3MwVHIeFEIx2NjQdhE" \
+                   "-CefQ4tNg6Rr6OtgGExToUfD0i0mAoAhTcvmoyO6c2paQ"
         self.runner = CliRunner()
-        self.jwtBruteForce = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjpudWxsfQ.Tr0VvdP6rVBGBGuI_luxGCOaz6BbhC6IxRTlKOW8UjM"
+        self.jwtBruteForce = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjpudWxsfQ" \
+                             ".Tr0VvdP6rVBGBGuI_luxGCOaz6BbhC6IxRTlKOW8UjM"
         self.password = "./wordlist/common_pass.txt"
-        self.jwtKid = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6ImtleTEifQ.eyJ1c2VyIjpudWxsfQ.2B9ZKzJ3FeJ9yoNLDGKgcxOuo05PwDRzFQ_34CrGteQ"
+        self.jwtKid = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6ImtleTEifQ.eyJ1c2VyIjpudWxsfQ" \
+                      ".2B9ZKzJ3FeJ9yoNLDGKgcxOuo05PwDRzFQ_34CrGteQ"
         self.injection = "../../../../../../dev/null"
 
     def testErrorCli(self):
@@ -35,10 +42,11 @@ class TestMain(TestCase):
         result = self.runner.invoke(myjwt_cli, [self.jwt, '--full-payload'])
         self.assertEqual(result.exit_code, 2)
 
-        result = self.runner.invoke(myjwt_cli,[self.jwt, '--full-payload', "test"])
+        result = self.runner.invoke(myjwt_cli, [self.jwt, '--full-payload', "test"])
         self.assertIn(VALID_PAYLOAD_JSON, result.output)
 
-        result = self.runner.invoke(myjwt_cli, [self.jwt, '--full-payload', "{\"username\": \"test\", \"password\": \"test\"}"])
+        result = self.runner.invoke(myjwt_cli,
+                                    [self.jwt, '--full-payload', "{\"username\": \"test\", \"password\": \"test\"}"])
         jwtVerify = changePayload(jwtToJson(self.jwt), json.loads("{\"username\": \"test\", \"password\": \"test\"}"))
         jwt = re.search(f"{NEW_JWT}(.*)", result.output).groups()[0]
         self.assertEqual(jwtToJson(jwt), jwtVerify)

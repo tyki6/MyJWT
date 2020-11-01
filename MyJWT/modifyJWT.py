@@ -102,7 +102,6 @@ def signature(jwtJson, key):
     if not isValidJwtJson(jwtJson):
         raise InvalidJwtJson("Invalid JWT json format")
 
-    # todo add new alg
     if jwtJson[HEADER]["alg"] == "none":
         return encodeJwt(jwtJson) + "."
     elif jwtJson[HEADER]["alg"] == "HS256":
@@ -110,5 +109,15 @@ def signature(jwtJson, key):
         signature = hmac.new(key.encode(), jwt.encode(), hashlib.sha256).digest()
         newSig = base64.urlsafe_b64encode(signature).decode('UTF-8').strip("=")
         return jwt + "." + newSig
+    elif jwtJson[HEADER]["alg"] == "HS384":
+        jwt = encodeJwt(jwtJson)
+        signature = hmac.new(key.encode(), jwt.encode(), hashlib.sha384).digest()
+        newSig = base64.urlsafe_b64encode(signature).decode('UTF-8').strip("=")
+        return jwt + "." + newSig
+    elif jwtJson[HEADER]["alg"] == "HS512":
+        jwt = encodeJwt(jwtJson)
+        signature = hmac.new(key.encode(), jwt.encode(), hashlib.sha512).digest()
+        newSig = base64.urlsafe_b64encode(signature).decode('UTF-8').strip("=")
+        return jwt + "." + newSig
 
-    raise UnknownAlg("Unknown alg " + jwtJson["header"]["alg"] + "send an issue please.")
+    raise UnknownAlg("Unknown alg " + jwtJson[HEADER]["alg"] + "send an issue please.")
