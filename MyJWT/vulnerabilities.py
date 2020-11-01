@@ -1,4 +1,6 @@
 import click
+import requests
+
 from MyJWT.Exception import InvalidJWT
 from MyJWT.modifyJWT import changeAlg, signature
 from MyJWT.utils import jwtToJson, encodeJwt, isValidJwt, HEADER
@@ -82,6 +84,24 @@ def injectSqlKid(jwt, injection):
     jwtJson = jwtToJson(jwt)
     jwtJson[HEADER]["kid"] = injection
     return signature(jwtJson, "")
+
+
+def sendJwtToUrl(url, method, data, cookies, jwt):
+    """
+    Send requests to your url.
+
+    :param str url: your url
+    :param str method: method (GET, POST, etc.....)
+    :param dict data: json to send
+    :param dict cookies: cookies to send
+    :param str jwt: your jwt
+    :return: Response
+    :rtype: requests.Response
+    """
+    if method == "POST":
+        return requests.post(url, json=data, headers={"Authorization": "Bearer " + jwt}, cookies=cookies)
+
+    return requests.request(method=method, url=url, json=data, cookies=cookies)
 
 
 def printDecoded(jwt):

@@ -2,6 +2,8 @@ import json
 import re
 from unittest import TestCase
 
+import requests
+import requests_mock
 from click.testing import CliRunner
 
 from MyJWT.modifyJWT import changePayload
@@ -141,3 +143,30 @@ class TestMain(TestCase):
     def testPrint(self):
         result = self.runner.invoke(myjwt_cli, [self.jwt, '--print'])
         self.assertEqual(result.exit_code, 0)
+
+    @requests_mock.mock()
+    def testUrl(self, m):
+        status_code = 200
+        m.get("http://localhost:8080", json={}, status_code=status_code)
+
+        result = self.runner.invoke(myjwt_cli,
+                                    [self.jwt, '-u', "http://localhost:8080", "-c", "data=data", "-d", "data=data"])
+        self.assertEqual(result.exit_code, 0)
+
+        result = self.runner.invoke(myjwt_cli,
+                                    [self.jwt, '-u', "http://localhost:8080", "-c", "data"])
+        self.assertEqual(result.exit_code, 1)
+
+        result = self.runner.invoke(myjwt_cli, [self.jwt, '-u', "http://localhost:8080", "-d", "data"])
+        self.assertEqual(result.exit_code, 1)
+
+        result = self.runner.invoke(myjwt_cli, [self.jwt, '-u', "http://localhost:8080", "-d", "data=MY_JWT"])
+        self.assertEqual(result.exit_code, 0)
+
+        result = self.runner.invoke(myjwt_cli, [self.jwt, '-u', "http://localhost:8080", "-c", "data=MY_JWT"])
+        self.assertEqual(result.exit_code, 0)
+
+        # m.side_effect = requests.exceptions.ConnectionError()
+        # result = self.runner.invoke(myjwt_cli, [self.jwt, '-u', "http://localhost:8080"])
+        # self.assertEqual('', result.output)
+        # self.assertEqual(result.exit_code, 1)

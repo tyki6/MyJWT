@@ -7,6 +7,7 @@ with open("README.md", "r") as fh:
 dev_requires = [
     'coverage',
     'flake8',
+    'requests-mock',
     'pytest',
 ]
 

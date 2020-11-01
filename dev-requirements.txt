@@ -1,0 +1,4 @@
+coverage
+requests-mock
+flake8
+pytest

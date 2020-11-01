@@ -123,6 +123,13 @@ jwt = injectSqlKid(jwt, injection)
 jwt = signature(jwtToJson(jwt), sign)
 ```
 Full example here: [06-kid-injection](./examples/06-kid-injection/main.py)
+
+## Send your new Jwt to url
+
+### CLI
+```
+YOUR_JSON -u YOUR_URL -c "jwt=MY_JWT" --non-vulnerability --add-payload "username=admin"
+```
 # Download
 Check github releases. Latest is available at https://github.com/mBouamama/MyJWT/releases/latest
 # Contribute

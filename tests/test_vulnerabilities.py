@@ -2,7 +2,10 @@ from unittest import TestCase
 
 from MyJWT.Exception import InvalidJWT
 from MyJWT.utils import HEADER, SIGNATURE, PAYLOAD, jwtToJson
-from MyJWT.vulnerabilities import noneVulnerability, confusionRsaHmac, bruteforceDict, injectSqlKid, printDecoded
+from MyJWT.vulnerabilities import noneVulnerability, confusionRsaHmac, bruteforceDict, injectSqlKid, printDecoded, \
+    sendJwtToUrl
+
+import requests_mock
 
 
 class TestVulnerabilities(TestCase):
@@ -69,3 +72,19 @@ class TestVulnerabilities(TestCase):
         with self.assertRaises(InvalidJWT):
             printDecoded("")
         printDecoded(self.jwtBruteForce)
+
+    @requests_mock.mock()
+    def testSendJwtToUrl(self, m):
+        status_code = 200
+        m.get("http://localhost:8080", json={}, status_code=status_code)
+
+        response = sendJwtToUrl("http://localhost:8080", "GET", {"data":"data"}, {"cookie":"cookie"}, "test")
+        self.assertEqual(response.request.method, "GET")
+        self.assertEqual(response.request.json(), {"data":"data"})
+
+        status_code = 200
+        m.post("http://localhost:8080", json={}, status_code=status_code)
+        response = sendJwtToUrl("http://localhost:8080", "POST", {"data": "data"}, {"cookie": "cookie"}, "test")
+        self.assertEqual(response.request.method, "POST")
+        self.assertEqual(response.request.json(), {"data": "data"})
+        self.assertEqual(response.request.headers["Authorization"], "Bearer test")
