@@ -25,7 +25,7 @@ from MyJWT.vulnerabilities import injectSqlKid, bruteforceDict, printDecoded, co
 @click.option("--verify", help="verify your key")
 # vulnerabilities
 @click.option("--none-vulnerability", '-none', is_flag=True, help="Check None Alg vulnerability")
-@click.option("--hmac", help="Check RS/HMAC Alg vulnerability")
+@click.option("--hmac", type=click.Path(exists=True), help="Check RS/HMAC Alg vulnerability")
 @click.option("--bruteforce", type=click.Path(exists=True), help="Bruteforce to guess th secret used to sign the token")
 @click.option("--kid", help="Kid Injection sql")
 # print
