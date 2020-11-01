@@ -1,2 +1,2 @@
 click
-texttable
+requests
