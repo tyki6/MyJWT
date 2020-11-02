@@ -35,7 +35,7 @@ jobs:
             fi
             docker login -u $DOCKER_USER -p $DOCKER_PASSWORD docker.pkg.github.com
             docker build -t $IMAGE_NAME:$DOCKER_TAG .
-            docker push $IMAGE_NAME:$DOCKER_TAG
+            docker push docker.pkg.github.com/$IMAGE_NAME:$DOCKER_TAG
 workflows:
   deploy:
     jobs:
