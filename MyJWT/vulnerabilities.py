@@ -1,3 +1,5 @@
+import json
+
 import click
 import requests
 
@@ -115,6 +117,6 @@ def printDecoded(jwt):
         raise InvalidJWT("Invalid JWT format")
 
     jwtJson = jwtToJson(jwt)
-    click.echo(f"Header: {jwtJson['header']}")
-    click.echo(f"Payload: {jwtJson['payload']}")
-    click.echo(f"Signature: {jwtJson['signature']}")
+    click.echo("Header: " + json.dumps(jwtJson['header']))
+    click.echo("Payload: " + json.dumps(jwtJson['payload']))
+    click.echo("Signature: " + json.dumps(jwtJson['signature']))

@@ -25,4 +25,3 @@ workflows:
           image: mbouamama/myjwt/myjwt
           tag: latest
           registry: docker.pkg.github.com
-          update-description: true

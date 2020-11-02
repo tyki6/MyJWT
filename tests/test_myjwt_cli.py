@@ -50,7 +50,7 @@ class TestMain(TestCase):
         result = self.runner.invoke(myjwt_cli,
                                     [self.jwt, '--full-payload', "{\"username\": \"test\", \"password\": \"test\"}"])
         jwtVerify = changePayload(jwtToJson(self.jwt), json.loads("{\"username\": \"test\", \"password\": \"test\"}"))
-        jwt = re.search(f"{NEW_JWT}(.*)", result.output).groups()[0]
+        jwt = re.search(NEW_JWT + "(.*)", result.output).groups()[0]
         self.assertEqual(jwtToJson(jwt), jwtVerify)
         self.assertEqual(result.exit_code, 0)
 
@@ -62,7 +62,7 @@ class TestMain(TestCase):
         self.assertEqual(result.exit_code, 1)
 
         result = self.runner.invoke(myjwt_cli, [self.jwt, '--add-header', "username=admin"])
-        jwt = re.search(f"{NEW_JWT}(.*)", result.output).groups()[0]
+        jwt = re.search(NEW_JWT + "(.*)", result.output).groups()[0]
         jwtJson = jwtToJson(jwt)
         self.assertEqual(jwtJson[HEADER]["username"], "admin")
         self.assertEqual(result.exit_code, 0)
@@ -75,7 +75,7 @@ class TestMain(TestCase):
         self.assertEqual(result.exit_code, 1)
 
         result = self.runner.invoke(myjwt_cli, [self.jwt, '--add-payload', "username=admin"])
-        jwt = re.search(f"{NEW_JWT}(.*)", result.output).groups()[0]
+        jwt = re.search(NEW_JWT + "(.*)", result.output).groups()[0]
         jwtJson = jwtToJson(jwt)
         self.assertEqual(jwtJson[PAYLOAD]["username"], "admin")
         self.assertEqual(result.exit_code, 0)
@@ -88,7 +88,7 @@ class TestMain(TestCase):
         self.assertEqual(result.exit_code, 1)
 
         result = self.runner.invoke(myjwt_cli, [self.jwtBruteForce, '--sign', "pentesterlab"])
-        jwt = re.search(f"{NEW_JWT}(.*)", result.output).groups()[0]
+        jwt = re.search(NEW_JWT + "(.*)", result.output).groups()[0]
         self.assertEqual(self.jwtBruteForce, jwt)
         self.assertEqual(result.exit_code, 0)
 
@@ -105,7 +105,7 @@ class TestMain(TestCase):
 
     def testNoneVulnerability(self):
         result = self.runner.invoke(myjwt_cli, [self.jwt, '--none-vulnerability'])
-        jwt = re.search(f"{NEW_JWT}(.*)", result.output).groups()[0]
+        jwt = re.search(NEW_JWT + "(.*)", result.output).groups()[0]
         self.assertEqual("none", jwtToJson(jwt)[HEADER]["alg"])
         self.assertEqual("", jwtToJson(jwt)[SIGNATURE])
         self.assertEqual(result.exit_code, 0)
