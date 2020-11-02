@@ -1,5 +1,4 @@
 orbs:
-  docker: circleci/docker@1.5.0
   pypi: pennlabs/pypi-tools@0.0.3
 version: 2.1
 jobs:
@@ -10,12 +9,33 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-          name: Build Docker image prod
+          name: Unit test
           command: |
             pip install tox
             pip install codecov
             tox
             codecov -t $TOKEN_CODECOV
+  publish_prod:
+    environment:
+      IMAGE_NAME: mbouamama/myjwt/myjwt
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Docker image prod
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              DOCKER_TAG="latest"
+            fi
+
+            if [ -n "${CIRCLE_TAG}" ]; then
+              DOCKER_TAG="$CIRCLE_TAG"
+            fi
+            docker login -u $DOCKER_USER -p $DOCKER_PASSWORD docker.pkg.github.com
+            docker build -t $IMAGE_NAME:$DOCKER_TAG .
+            docker push $IMAGE_NAME:$DOCKER_TAG
 workflows:
   deploy:
     jobs:
@@ -33,23 +53,10 @@ workflows:
               only: '/[0-9]+(\.[0-9]+)*/'
           requires:
             - unit_test
-      - docker/publish:
-          context: myjwt
-          image: mbouamama/myjwt/myjwt
-          tag: latest
-          registry: docker.pkg.github.com
-          requires:
-            - unit_test
-          branches:
-            only: master
-      - docker/publish:
-          context: myjwt
-          image: mbouamama/myjwt/myjwt
-          tag: $CIRCLE_TAG
-          registry: docker.pkg.github.com
-          requires:
-            - unit_test
-          branches:
-            ignore: /.*/
-          tags:
-            only: '/[0-9]+(\.[0-9]+)*/'
+      - publish_prod:
+          context: api_proxy
+          filters:
+            branches:
+              only: master
+            tags:
+              only: /.*/
