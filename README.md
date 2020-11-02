@@ -1,4 +1,5 @@
 # MyJWT
+[![mBouamama](https://circleci.com/gh/mBouamama/MyJWT.svg?style=shield)](https://circleci.com/gh/mBouamama/MyJWT.svg?style=shield)
 
 # Introduction
 This cli is for pentesters, CTF players, or dev.<br>
