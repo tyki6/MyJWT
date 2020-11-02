@@ -4,7 +4,7 @@ version: 2.1
 jobs:
   unit_test:
     docker:
-      - image: circleci/python:3.8.6
+      - image: pennlabs/tox:d94aa67bd172351b25b8fd33308478be59f608ac
     steps:
       - checkout
       - setup_remote_docker
