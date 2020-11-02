@@ -60,3 +60,5 @@ workflows:
               only: master
             tags:
               only: /.*/
+          requires:
+            - unit_test
