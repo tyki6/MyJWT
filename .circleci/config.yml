@@ -1,0 +1,27 @@
+orbs:
+  docker: circleci/docker@1.5.0
+  pypi: pennlabs/pypi-tools@0.0.3
+version: 2.1
+workflows:
+  build-and-publish-pypi:
+    jobs:
+      - pypi/test:
+          filters:
+            tags:
+              only: /.*/
+      - pypi/publish:
+          context: myjwt
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: '/[0-9]+(\.[0-9]+)*/'
+          requires:
+            - pypi/test
+  build-and-publish-docker:
+    jobs:
+      - docker/publish:
+          context: myjwt
+          image: mbouamama/myjwt/myjwt
+          tag: latest
+          update-description: true
