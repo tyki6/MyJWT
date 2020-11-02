@@ -8,10 +8,9 @@ import requests
 from MyJWT.modifyJWT import changePayload, addheader, changeAlg, signature, addpayload
 from MyJWT.utils import jwtToJson, encodeJwt, HEADER, isValidJwt, SIGNATURE
 from MyJWT.variables import NOT_VALID_JWT, CHECK_DOCS, NOT_CRAKED, CRACKED, VALID_PAYLOAD, VALID_HEADER, \
-    VALID_PAYLOAD_JSON, NEW_JWT, INVALID_SIGNATURE, VALID_SIGNATURE, VALID_DATA, VALID_COOKIES
+    VALID_PAYLOAD_JSON, NEW_JWT, INVALID_SIGNATURE, VALID_SIGNATURE, VALID_DATA, VALID_COOKIES, VERSION
 from MyJWT.vulnerabilities import injectSqlKid, bruteforceDict, printDecoded, confusionRsaHmac, sendJwtToUrl
 
-VERSION = "1.0.0"
 
 
 @click.command()

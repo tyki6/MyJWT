@@ -1,6 +1,6 @@
 import setuptools
 
-from MyJWT.myjwt_cli import VERSION
+from MyJWT.variables import VERSION
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
