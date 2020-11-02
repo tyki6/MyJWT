@@ -2,10 +2,25 @@ orbs:
   docker: circleci/docker@1.5.0
   pypi: pennlabs/pypi-tools@0.0.3
 version: 2.1
+jobs:
+  unit_test:
+    docker:
+      - image: bitnami/python39
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Docker image prod
+          command: |
+            pip install tox
+            pip install codecov
+            tox
+            codecov -t $TOKEN_CODECOV
 workflows:
-  build-and-publish-pypi:
+  deploy:
     jobs:
-      - pypi/test:
+      - unit_test:
+          context: myjwt
           filters:
             tags:
               only: /.*/
@@ -17,11 +32,24 @@ workflows:
             tags:
               only: '/[0-9]+(\.[0-9]+)*/'
           requires:
-            - pypi/test
-  build-and-publish-docker:
-    jobs:
+            - unit_test
       - docker/publish:
           context: myjwt
           image: mbouamama/myjwt/myjwt
           tag: latest
           registry: docker.pkg.github.com
+          requires:
+            - unit_test
+          branches:
+            only: master
+      - docker/publish:
+          context: myjwt
+          image: mbouamama/myjwt/myjwt
+          tag: $CIRCLE_TAG
+          registry: docker.pkg.github.com
+          requires:
+            - unit_test
+          branches:
+            ignore: /.*/
+          tags:
+            only: '/[0-9]+(\.[0-9]+)*/'
