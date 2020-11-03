@@ -1,4 +1,4 @@
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 
 NOT_VALID_JWT = "Enter a valid JWT!!!"
 CHECK_DOCS = "Check Docs!!Your jwt have not a HS alg."
