@@ -33,7 +33,7 @@ jobs:
             if [ -n "${CIRCLE_TAG}" ]; then
               DOCKER_TAG="$CIRCLE_TAG"
             fi
-            echo "$DOCKER_PASSWORD" | docker login -u mBouamama --password-stdin docker.pkg.github.com
+            docker login -u mBouamama --password $DOCKER_PASSWORD docker.pkg.github.com
             docker build -t docker.pkg.github.com/$IMAGE_NAME:$DOCKER_TAG .
             docker push docker.pkg.github.com/$IMAGE_NAME:$DOCKER_TAG
 workflows:
