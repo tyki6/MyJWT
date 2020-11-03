@@ -1,5 +1,3 @@
-orbs:
-  pypi: pennlabs/pypi-tools@0.0.3
 version: 2.1
 jobs:
   unit_test:
@@ -15,6 +13,37 @@ jobs:
             pip install codecov
             tox
             codecov -t $TOKEN_CODECOV
+  deploy_pypi:
+    docker:
+      - image: circleci/python:3.7
+    description: |
+      Publish the PyPI package
+    steps:
+      - restore_cache:
+        key: v0-{{ .Branch }}-{{ checksum "setup.py" }}
+      - run:
+        command: |
+          sudo pip install setuptools wheel twine
+        name: Install dependencies
+      - save_cache:
+        key: v0-{{ .Branch }}-{{ checksum "setup.py" }}
+        paths:
+        - /usr/local/bin
+        - /usr/local/lib/python3.7/site-packages
+      - run:
+        command: |
+          echo -e "[pypi]" >> ~/.pypirc
+          echo -e "username = $PYPI_USERNAME" >> ~/.pypirc
+          echo -e "password = $PYPI_PASSWORD" >> ~/.pypirc
+        name: Init .pypirc
+      - run:
+        command: |
+          python3 setup.py sdist bdist_wheel
+        name: Create packages
+      - run:
+        command: |
+          twine upload dist/*
+        name: Upload to pypi
   publish_prod:
     environment:
       IMAGE_NAME: mbouamama/myjwt/myjwt
@@ -53,7 +82,7 @@ workflows:
               only: '/[0-9]+(\.[0-9]+)*/'
           requires:
             - unit_test
-      - publish_prod:
+      - deploy_pypi:
           context: myjwt
           filters:
             branches:
