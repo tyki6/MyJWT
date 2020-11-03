@@ -19,31 +19,16 @@ jobs:
     description: |
       Publish the PyPI package
     steps:
-      - restore_cache:
-        key: v0-{{ .Branch }}-{{ checksum "setup.py" }}
+      - checkout
+      - setup_remote_docker
       - run:
         command: |
-          sudo pip install setuptools wheel twine
-        name: Install dependencies
-      - save_cache:
-        key: v0-{{ .Branch }}-{{ checksum "setup.py" }}
-        paths:
-        - /usr/local/bin
-        - /usr/local/lib/python3.7/site-packages
-      - run:
-        command: |
+          pip install setuptools wheel twine
           echo -e "[pypi]" >> ~/.pypirc
           echo -e "username = $PYPI_USERNAME" >> ~/.pypirc
           echo -e "password = $PYPI_PASSWORD" >> ~/.pypirc
-        name: Init .pypirc
-      - run:
-        command: |
           python3 setup.py sdist bdist_wheel
-        name: Create packages
-      - run:
-        command: |
           twine upload dist/*
-        name: Upload to pypi
   publish_prod:
     environment:
       IMAGE_NAME: mbouamama/myjwt/myjwt
