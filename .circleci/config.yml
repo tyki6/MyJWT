@@ -33,7 +33,7 @@ jobs:
             if [ -n "${CIRCLE_TAG}" ]; then
               DOCKER_TAG="$CIRCLE_TAG"
             fi
-            docker login -u mBouamama --password $DOCKER_PASSWORD docker.pkg.github.com
+            echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USER --password-stdin docker.pkg.github.com
             docker build -t docker.pkg.github.com/$IMAGE_NAME:$DOCKER_TAG .
             docker push docker.pkg.github.com/$IMAGE_NAME:$DOCKER_TAG
 workflows:
@@ -54,7 +54,7 @@ workflows:
           requires:
             - unit_test
       - publish_prod:
-          context: api_proxy
+          context: myjwt
           filters:
             branches:
               only: master
