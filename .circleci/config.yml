@@ -58,7 +58,7 @@ workflows:
           filters:
             tags:
               only: /.*/
-      - pypi/publish:
+      - deploy_pypi:
           context: myjwt
           filters:
             branches:
@@ -67,7 +67,7 @@ workflows:
               only: '/[0-9]+(\.[0-9]+)*/'
           requires:
             - unit_test
-      - deploy_pypi:
+      - publish_prod:
           context: myjwt
           filters:
             branches:
