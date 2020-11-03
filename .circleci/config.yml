@@ -19,7 +19,7 @@ jobs:
     environment:
       IMAGE_NAME: mbouamama/myjwt/myjwt
     docker:
-      - image: circleci/buildpack-deps:stretch
+      - image: docker:latest
     steps:
       - checkout
       - setup_remote_docker

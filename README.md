@@ -39,7 +39,7 @@ pip install -r requirements.txt
 python myjwt_cli.py --help
 ```
 # Usage
-![Helper](./docs/helper.png)
+![Usage](./docs/help.png)
 # Examples
 ## Modify your Jwt
 ### CLI
@@ -129,7 +129,7 @@ Full example here: [06-kid-injection](./examples/06-kid-injection/main.py)
 
 ### CLI
 ```
-YOUR_JSON -u YOUR_URL -c "jwt=MY_JWT" --non-vulnerability --add-payload "username=admin"
+myjwt YOUR_JSON -u YOUR_URL -c "jwt=MY_JWT" --non-vulnerability --add-payload "username=admin"
 ```
 # Download
 Check github releases. Latest is available at https://github.com/mBouamama/MyJWT/releases/latest
