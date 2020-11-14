@@ -2,7 +2,6 @@ import json
 import re
 from unittest import TestCase
 
-import requests
 import requests_mock
 from click.testing import CliRunner
 

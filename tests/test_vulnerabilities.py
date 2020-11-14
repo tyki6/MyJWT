@@ -78,9 +78,9 @@ class TestVulnerabilities(TestCase):
         status_code = 200
         m.get("http://localhost:8080", json={}, status_code=status_code)
 
-        response = sendJwtToUrl("http://localhost:8080", "GET", {"data":"data"}, {"cookie":"cookie"}, "test")
+        response = sendJwtToUrl("http://localhost:8080", "GET", {"data": "data"}, {"cookie": "cookie"}, "test")
         self.assertEqual(response.request.method, "GET")
-        self.assertEqual(response.request.json(), {"data":"data"})
+        self.assertEqual(response.request.json(), {"data": "data"})
 
         status_code = 200
         m.post("http://localhost:8080", json={}, status_code=status_code)

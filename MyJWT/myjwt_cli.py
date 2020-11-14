@@ -12,7 +12,6 @@ from MyJWT.variables import NOT_VALID_JWT, CHECK_DOCS, NOT_CRAKED, CRACKED, VALI
 from MyJWT.vulnerabilities import injectSqlKid, bruteforceDict, printDecoded, confusionRsaHmac, sendJwtToUrl
 
 
-
 @click.command()
 @click.version_option(VERSION)
 @click.argument('jwt')
@@ -30,15 +29,20 @@ from MyJWT.vulnerabilities import injectSqlKid, bruteforceDict, printDecoded, co
 # vulnerabilities
 @click.option("--none-vulnerability", '-none', is_flag=True, help="Check None Alg vulnerability.")
 @click.option("--hmac", type=click.Path(exists=True), help="Check RS/HMAC Alg vulnerability.")
-@click.option("--bruteforce", type=click.Path(exists=True), help="Bruteforce to guess th secret used to sign the token.")
+@click.option("--bruteforce", type=click.Path(exists=True),
+              help="Bruteforce to guess th secret used to sign the token.")
 @click.option("--kid", help="Kid Injection sql")
 # print
 @click.option("--print", is_flag=True, help="Print Decoded JWT")
 # url
 @click.option("-u", "--url", help="Url to send your jwt.")
 @click.option("-m", "--method", help="Method use for send request to url.(Default GET).", default="GET")
-@click.option("-d", "--data", help="Data send to your url.Format: key=value. if value = MY_JWT value will be replace by new jwt.", multiple=True)
-@click.option("-c", "--cookies", help="Cookies to send to your url.Format: key=value. if value = MY_JWT value will be replace by new jwt.", multiple=True)
+@click.option("-d", "--data",
+              help="Data send to your url.Format: key=value. if value = MY_JWT value will be replace by new jwt.",
+              multiple=True)
+@click.option("-c", "--cookies",
+              help="Cookies to send to your url.Format: key=value. if value = MY_JWT value will be replace by new jwt.",
+              multiple=True)
 def myjwt_cli(jwt, full_payload, add_header, add_payload, sign, verify, none_vulnerability, hmac, bruteforce, kid,
               print, url, method, data, cookies):
     if not isValidJwt(jwt):

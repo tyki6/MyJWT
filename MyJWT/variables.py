@@ -12,4 +12,3 @@ VALID_PAYLOAD_JSON = "Not a valid format for payload, send a json."
 NEW_JWT = "new JWT: "
 VALID_SIGNATURE = "Valid Signature!!"
 INVALID_SIGNATURE = "Incorrect signature!!"
-
