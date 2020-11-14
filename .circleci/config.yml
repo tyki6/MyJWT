@@ -80,7 +80,7 @@ workflows:
               ignore: /.*/
             tags:
               only: '/[0-9]+(\.[0-9]+)*/'
-          require:
+          requires:
             - lint
             - unit_test
       - deploy_docker:
@@ -88,6 +88,6 @@ workflows:
           filters:
             branches:
               only: master
-          require:
+          requires:
             - lint
             - unit_test
