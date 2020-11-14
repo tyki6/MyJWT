@@ -5,6 +5,7 @@ tox:
 test:
 	coverage run -p -m pytest
 flake8:
+	pip install flake8
 	flake8 tests MyJWT examples
 deploy:
 	pip install setuptools wheel twine
