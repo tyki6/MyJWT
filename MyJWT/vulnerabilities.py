@@ -58,7 +58,7 @@ def bruteforceDict(jwt, fileName):
         raise InvalidJWT("Invalid JWT format")
 
     jwtJson = jwtToJson(jwt)
-    with open(fileName, 'r') as file:
+    with open(fileName, 'r', encoding="latin-1") as file:
         allPassword = [line.rstrip() for line in file]
     file.close()
     for password in allPassword:

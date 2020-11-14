@@ -1,4 +1,4 @@
-
+lol
 123456
 1234567
 12345678
@@ -30,8 +30,7 @@ office
 oracle
 pass
 password
-password!
-password1
+password!password1
 print
 qwerty
 replicate
