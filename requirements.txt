@@ -1,2 +1,2 @@
-click
-requests
+click==7.1.2
+requests==2.25.0
