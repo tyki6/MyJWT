@@ -16,4 +16,6 @@ newJwt = signature(jwtJson, key)
 print(jwt)
 
 # verify your jwt
-print(VALID_SIGNATURE if newJwt.split('.')[2] == jwt.split('.')[2] else INVALID_SIGNATURE)
+print(
+    VALID_SIGNATURE if newJwt.split(".")[2] == jwt.split(".")[2] else INVALID_SIGNATURE
+)

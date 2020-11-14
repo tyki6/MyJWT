@@ -21,7 +21,7 @@ def jwtToJson(jwt):
     if not isValidJwt(jwt):
         raise InvalidJWT("Invalid JWT format")
 
-    jwtSplit = jwt.split('.')
+    jwtSplit = jwt.split(".")
     header = jwtSplit[0]
     payload = jwtSplit[1]
     signature = jwtSplit[2]
@@ -37,7 +37,7 @@ def encodedToJson(encodedString):
     :return: dict.
     :rtype: dict
     """
-    decode = base64.b64decode(encodedString + '=' * (-len(encodedString) % 4))
+    decode = base64.b64decode(encodedString + "=" * (-len(encodedString) % 4))
     return json.loads(decode)
 
 
@@ -51,10 +51,20 @@ def encodeJwt(jwtJson):
     """
     if not isValidJwtJson(jwtJson):
         raise InvalidJwtJson("Invalid JWT json format")
-    headerEncoded = base64.urlsafe_b64encode(
-        json.dumps(jwtJson[HEADER], separators=(',', ':')).encode('UTF-8')).decode('UTF-8').strip('=')
-    payloadEncoded = base64.urlsafe_b64encode(
-        json.dumps(jwtJson[PAYLOAD], separators=(',', ':')).encode('UTF-8')).decode('UTF-8').strip('=')
+    headerEncoded = (
+        base64.urlsafe_b64encode(
+            json.dumps(jwtJson[HEADER], separators=(",", ":")).encode("UTF-8")
+        )
+        .decode("UTF-8")
+        .strip("=")
+    )
+    payloadEncoded = (
+        base64.urlsafe_b64encode(
+            json.dumps(jwtJson[PAYLOAD], separators=(",", ":")).encode("UTF-8")
+        )
+        .decode("UTF-8")
+        .strip("=")
+    )
     return headerEncoded + "." + payloadEncoded
 
 
@@ -66,7 +76,7 @@ def isValidJwt(jwt):
     :return: True if jwt is valid , False else
     :rtype: bool
     """
-    return len(jwt.split('.')) == 3
+    return len(jwt.split(".")) == 3
 
 
 def isValidJwtJson(jwtJson):
@@ -77,6 +87,9 @@ def isValidJwtJson(jwtJson):
     :return: True if jwtJson is valid , False else
     :rtype: bool
     """
-    return HEADER in jwtJson and PAYLOAD in jwtJson and SIGNATURE in jwtJson \
-        and type(jwtJson[HEADER]) is dict and type(jwtJson[PAYLOAD]) is dict \
+    return HEADER in jwtJson \
+        and PAYLOAD in jwtJson \
+        and SIGNATURE in jwtJson \
+        and type(jwtJson[HEADER]) is dict \
+        and type(jwtJson[PAYLOAD]) is dict \
         and type(jwtJson[SIGNATURE]) is str

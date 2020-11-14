@@ -58,13 +58,13 @@ def bruteforceDict(jwt, fileName):
         raise InvalidJWT("Invalid JWT format")
 
     jwtJson = jwtToJson(jwt)
-    with open(fileName, 'r', encoding="latin-1") as file:
+    with open(fileName, "r", encoding="latin-1") as file:
         allPassword = [line.rstrip() for line in file]
     file.close()
     for password in allPassword:
         newJwt = signature(jwtJson, password)
-        newSig = newJwt.split('.')[2]
-        if newSig == jwt.split('.')[2]:
+        newSig = newJwt.split(".")[2]
+        if newSig == jwt.split(".")[2]:
             return password
     return ""
 
@@ -101,7 +101,9 @@ def sendJwtToUrl(url, method, data, cookies, jwt):
     :rtype: requests.Response
     """
     if method == "POST":
-        return requests.post(url, json=data, headers={"Authorization": "Bearer " + jwt}, cookies=cookies)
+        return requests.post(
+            url, json=data, headers={"Authorization": "Bearer " + jwt}, cookies=cookies
+        )
 
     return requests.request(method=method, url=url, json=data, cookies=cookies)
 
@@ -117,6 +119,6 @@ def printDecoded(jwt):
         raise InvalidJWT("Invalid JWT format")
 
     jwtJson = jwtToJson(jwt)
-    click.echo("Header: " + json.dumps(jwtJson['header']))
-    click.echo("Payload: " + json.dumps(jwtJson['payload']))
-    click.echo("Signature: " + json.dumps(jwtJson['signature']))
+    click.echo("Header: " + json.dumps(jwtJson["header"]))
+    click.echo("Payload: " + json.dumps(jwtJson["payload"]))
+    click.echo("Signature: " + json.dumps(jwtJson["signature"]))

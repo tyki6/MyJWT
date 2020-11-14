@@ -5,16 +5,13 @@ from MyJWT.variables import VERSION
 with open("README.md", "r") as fh:
     long_description = fh.read()
 dev_requires = [
-    'coverage',
-    'flake8',
-    'requests-mock',
-    'pytest',
+    "coverage",
+    "flake8",
+    "requests-mock",
+    "pytest",
 ]
 
-install_requires = [
-    "click",
-    "requests"
-]
+install_requires = ["click", "requests"]
 
 setuptools.setup(
     name="myjwt",
@@ -27,12 +24,12 @@ setuptools.setup(
     url="https://github.com/mBouamama/MyJWT",
     install_requires=install_requires,
     entry_points={
-        'console_scripts': [
-            'myjwt = MyJWT.myjwt_cli:myjwt_cli',
+        "console_scripts": [
+            "myjwt = MyJWT.myjwt_cli:myjwt_cli",
         ],
     },
     extras_require={
-        'dev': dev_requires,
+        "dev": dev_requires,
     },
     packages=setuptools.find_packages(),
     classifiers=[
@@ -44,5 +41,5 @@ setuptools.setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
     ],
-    python_requires='>=3.6',
+    python_requires=">=3.6",
 )
