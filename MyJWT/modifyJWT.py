@@ -107,17 +107,17 @@ def signature(jwtJson, key):
     elif jwtJson[HEADER]["alg"] == "HS256":
         jwt = encodeJwt(jwtJson)
         signature = hmac.new(key.encode(), jwt.encode(), hashlib.sha256).digest()
-        newSig = base64.urlsafe_b64encode(signature).decode('UTF-8').strip("=")
+        newSig = base64.urlsafe_b64encode(signature).decode("UTF-8").strip("=")
         return jwt + "." + newSig
     elif jwtJson[HEADER]["alg"] == "HS384":
         jwt = encodeJwt(jwtJson)
         signature = hmac.new(key.encode(), jwt.encode(), hashlib.sha384).digest()
-        newSig = base64.urlsafe_b64encode(signature).decode('UTF-8').strip("=")
+        newSig = base64.urlsafe_b64encode(signature).decode("UTF-8").strip("=")
         return jwt + "." + newSig
     elif jwtJson[HEADER]["alg"] == "HS512":
         jwt = encodeJwt(jwtJson)
         signature = hmac.new(key.encode(), jwt.encode(), hashlib.sha512).digest()
-        newSig = base64.urlsafe_b64encode(signature).decode('UTF-8').strip("=")
+        newSig = base64.urlsafe_b64encode(signature).decode("UTF-8").strip("=")
         return jwt + "." + newSig
 
     raise UnknownAlg("Unknown alg " + jwtJson[HEADER]["alg"] + "send an issue please.")

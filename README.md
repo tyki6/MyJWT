@@ -67,7 +67,7 @@ jwtJson = addheader(jwtJson, {"kid": "001"})
 jwtJson = changePayload(jwtJson, {"username": "admin"})
 jwt = encodeJwt(jwtJson) + "." + jwtJson[SIGNATURE]
 ```
-Full example here: [01-modify-jwt](./examples/01-modify-jwt/main.py)
+Full example here: [01-modify-jwt](https://github.com/mBouamama/MyJWT/blob/master/examples/01-modify-jwt/main.py)
 ## None Vulnerability
 ### CLI
 ```
@@ -80,7 +80,7 @@ from MyJWT.vulnerabilities import noneVulnerability
 jwtJson = jwtToJson(jwt)
 jwt = noneVulnerability(encodeJwt(jwtJson) + "." + jwtJson[SIGNATURE])
 ```
-Full example here: [02-none-vulnerability](./examples/02-none-vulnerability/main.py)
+Full example here: [02-none-vulnerability](https://github.com/mBouamama/MyJWT/blob/master/examples/02-none-vulnerability/main.py)
 ## Sign Key
 ### CLI
 ```
@@ -93,7 +93,7 @@ from MyJWT.utils import jwtToJson
 key = "test"
 jwt = signature(jwtToJson(jwt), key)
 ```
-Full example here: [03-sign-key](./examples/03-sign-key/main.py)
+Full example here: [03-sign-key](https://github.com/mBouamama/MyJWT/blob/master/examples/03-sign-key/main.py)
 ## Brute Force
 ### CLI
 ```
@@ -105,7 +105,7 @@ from MyJWT.vulnerabilities import bruteforceDict
 wordlist = "../../wordlist/common_pass.txt"
 key = bruteforceDict(jwt, wordlist)
 ```
-Full example here: [04-brute-force](./examples/04-brute-force/main.py)
+Full example here: [04-brute-force](https://github.com/mBouamama/MyJWT/blob/master/examples/04-brute-force/main.py)
 ## RSA/HMAC Confusion
 ### CLI
 ```
@@ -117,7 +117,7 @@ from MyJWT.vulnerabilities import confusionRsaHmac
 file = "public.pem"
 jwt = confusionRsaHmac(jwt, file)
 ```
-Full example here: [05-rsa-hmac-confusion](./examples/05-rsa-hmac-confusion/main.py)
+Full example here: [05-rsa-hmac-confusion](https://github.com/mBouamama/MyJWT/blob/master/examples/05-rsa-hmac-confusion/main.py)
 ## Kid Injection
 ### CLI
 ```
@@ -134,7 +134,7 @@ sign = ""
 jwt = injectSqlKid(jwt, injection)
 jwt = signature(jwtToJson(jwt), sign)
 ```
-Full example here: [06-kid-injection](./examples/06-kid-injection/main.py)
+Full example here: [06-kid-injection](https://github.com/mBouamama/MyJWT/blob/master/examples/06-kid-injection/main.py)
 
 ## Send your new Jwt to url
 
@@ -145,6 +145,16 @@ myjwt YOUR_JSON -u YOUR_URL -c "jwt=MY_JWT" --non-vulnerability --add-payload "u
 # Download
 Check github releases. Latest is available at https://github.com/mBouamama/MyJWT/releases/latest
 # Contribute
-```
-#TODO
-```
+- Fork this repository or clone it
+- Create a new branch (feature, hotfix, etc...)
+- Make necessary changes and commit those changes
+- Check lint with `make flake8`
+- Check unit_test with `make test`
+- Send Pull Request
+I will check as Soon as Possible.
+
+# Change log
+
+The log's become rather long. It moved to its own file.
+
+See [CHANGES](https://github.com/mBouamama/MyJWT/blob/master/CHANGELOG.md).

@@ -1,11 +1,19 @@
 from unittest import TestCase
 
 from MyJWT.Exception import InvalidJWT, InvalidJwtJson
-from MyJWT.utils import jwtToJson, encodedToJson, encodeJwt, isValidJwt, isValidJwtJson, HEADER, PAYLOAD, SIGNATURE
+from MyJWT.utils import (
+    jwtToJson,
+    encodedToJson,
+    encodeJwt,
+    isValidJwt,
+    isValidJwtJson,
+    HEADER,
+    PAYLOAD,
+    SIGNATURE,
+)
 
 
 class TestUtils(TestCase):
-
     def setUp(self):
         self.invalidJWT = "test.test"
         self.jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0.eyJsb2dpbiI6ImF6In0."
@@ -16,7 +24,7 @@ class TestUtils(TestCase):
         self.jwtJson = {
             HEADER: self.header,
             PAYLOAD: self.payload,
-            SIGNATURE: self.signature
+            SIGNATURE: self.signature,
         }
 
     def testJwtToJsonInvalidJWT(self):

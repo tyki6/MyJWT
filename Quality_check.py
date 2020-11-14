@@ -21,5 +21,5 @@ def quality_check():
     sys.exit(res)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     quality_check()
