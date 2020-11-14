@@ -46,6 +46,12 @@ python myjwt_cli.py --help
 # Usage
 ![Usage](./docs/help.png)
 # Examples
+- [Modify Your jwt](#modify-your-jwt)
+- [None Vulnerabilty Check](#none-vulnerability)
+- [Brute Force Signature](#brute-force)
+- [RSA/HMAC Confusion](#rsahmac-confusion)
+- [Kid Injection](#kid-injection)
+- [Send your new Jwt to url](#send-your-new-jwt-to-url)
 ## Modify your Jwt
 ### CLI
 ```
