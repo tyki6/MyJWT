@@ -145,6 +145,10 @@ myjwt YOUR_JSON -u YOUR_URL -c "jwt=MY_JWT" --non-vulnerability --add-payload "u
 # Download
 Check github releases. Latest is available at https://github.com/mBouamama/MyJWT/releases/latest
 # Contribute
-```
-#TODO
-```
+- Fork this repository or clone it
+- Create a new branch (feature, hotfix, etc...)
+- Make necessary changes and commit those changes
+- Check lint with `make flake8`
+- Check unit_test with `make test`
+- Send Pull Request
+I will check as Soon as Possible.
