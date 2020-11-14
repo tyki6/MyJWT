@@ -129,3 +129,7 @@ dmypy.json
 .pyre/
 /.pypirc
 /coverage_html_report/
+
+# wordlist
+
+/wordlist/rockyou.txt
