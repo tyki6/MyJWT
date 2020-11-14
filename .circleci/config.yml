@@ -71,13 +71,8 @@ workflows:
               ignore: /.*/
             tags:
               only: '/[0-9]+(\.[0-9]+)*/'
-          requires:
-            - unit_test
       - deploy_docker:
           context: myjwt
           filters:
             branches:
               only: master
-          requires:
-            - unit_test
-            - lint
