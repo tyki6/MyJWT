@@ -11,5 +11,6 @@ RUN pip install --upgrade pip && pip install --user -r requirements.txt
 ADD MyJWT MyJWT
 ADD wordlist wordlist
 ADD setup.py setup.py
+ADD README.md README.md
 RUN python setup.py install
 CMD myjwt

@@ -64,6 +64,15 @@ workflows:
           context: myjwt
   deploy:
     jobs:
+      - lint:
+          filters:
+            branches:
+              only: master
+      - unit_test:
+          context: myjwt
+          filters:
+            branches:
+              only: master
       - deploy_pypi:
           context: myjwt
           filters:
@@ -71,8 +80,14 @@ workflows:
               ignore: /.*/
             tags:
               only: '/[0-9]+(\.[0-9]+)*/'
+          require:
+            - lint
+            - unit_test
       - deploy_docker:
           context: myjwt
           filters:
             branches:
               only: master
+          require:
+            - lint
+            - unit_test
