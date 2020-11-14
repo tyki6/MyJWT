@@ -1,5 +1,15 @@
 version: 2.1
 jobs:
+  lint:
+    docker:
+      - image: bitnami/python:3.8
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Check lint
+          command: |
+            make flake8
   unit_test:
     docker:
       - image: pennlabs/tox:d94aa67bd172351b25b8fd33308478be59f608ac
@@ -9,9 +19,8 @@ jobs:
       - run:
           name: Unit test
           command: |
-            pip install tox
             pip install codecov
-            tox
+            make tox
             codecov -t $TOKEN_CODECOV
   deploy_pypi:
     docker:
@@ -22,13 +31,8 @@ jobs:
       - run:
           name: Publish on Pypi
           command: |
-            pip install setuptools wheel twine
-            echo -e "[pypi]" >> ~/.pypirc
-            echo -e "username = $PYPI_USERNAME" >> ~/.pypirc
-            echo -e "password = $PYPI_PASSWORD" >> ~/.pypirc
-            python3 setup.py sdist bdist_wheel
-            twine upload dist/*
-  publish_prod:
+            make deploy
+  deploy_docker:
     environment:
       IMAGE_NAME: mbouamama/myjwt/myjwt
     docker:
@@ -46,17 +50,17 @@ jobs:
             if [ -n "${CIRCLE_TAG}" ]; then
               DOCKER_TAG="$CIRCLE_TAG"
             fi
-            echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_LOGIN --password-stdin docker.pkg.github.com
-            docker build -t docker.pkg.github.com/$IMAGE_NAME:$DOCKER_TAG .
-            docker push docker.pkg.github.com/$IMAGE_NAME:$DOCKER_TAG
+            make docker
+
 workflows:
   deploy:
     jobs:
+      - lint:
+          filters:
+            branches:
+              only: master
       - unit_test:
           context: myjwt
-          filters:
-            tags:
-              only: /.*/
       - deploy_pypi:
           context: myjwt
           filters:
@@ -66,10 +70,11 @@ workflows:
               only: '/[0-9]+(\.[0-9]+)*/'
           requires:
             - unit_test
-      - publish_prod:
+      - deploy_docker:
           context: myjwt
           filters:
             branches:
               only: master
           requires:
             - unit_test
+            - lint
