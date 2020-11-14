@@ -18,7 +18,7 @@ setuptools.setup(
     version=VERSION,
     author="mBouamama",
     author_email="matthieubouamama@gmail.com",
-    description="Jwt tool",
+    description="Pentesting Tool for JWT(JSON Web Tokens).Modify/Crack/Check Your jwt.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/mBouamama/MyJWT",
