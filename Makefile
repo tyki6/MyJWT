@@ -2,7 +2,7 @@ tox:
 	pip install tox
 	tox --recreate
 test:
-	coverage run -m pytest
+	coverage run -p -m pytest
 coverage:
 	coverage report -m
 flake8:
