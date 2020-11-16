@@ -8,11 +8,11 @@ f.close()
 
 with open('dev-requirements.txt', 'r') as f:
     dev_requires = [line.strip() for line in f]
-f.close()
+    f.close()
 
-with open('dev-requirements.txt', 'r') as f:
+with open('requirements.txt', 'r') as f:
     install_requires = [line.strip() for line in f]
-f.close()
+    f.close()
 
 setuptools.setup(
     name="myjwt",
