@@ -6,6 +6,7 @@ USER 1001
 WORKDIR /home/app
 
 ADD requirements.txt .
+ADD dev-requirements.txt .
 RUN pip install --upgrade pip && pip install --user -r requirements.txt
 
 ADD MyJWT MyJWT
