@@ -7,5 +7,5 @@ requirements:
       pin: True
   - dev-requirements.txt:
       update: all
-        pin: True
+      pin: True
 label_prs: update
