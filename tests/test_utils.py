@@ -1,3 +1,4 @@
+import os
 from unittest import TestCase
 
 from MyJWT.Exception import InvalidJWT, InvalidJwtJson
@@ -10,7 +11,7 @@ from MyJWT.utils import (
     HEADER,
     PAYLOAD,
     SIGNATURE,
-)
+    createCrt)
 
 
 class TestUtils(TestCase):
@@ -59,3 +60,8 @@ class TestUtils(TestCase):
 
     def testIsValidJwtJson(self):
         self.assertTrue(isValidJwtJson(self.jwtJson))
+
+    def testCreatCrt(self):
+        createCrt()
+        self.assertTrue(os.path.exists("selfsigned.crt"))
+        self.assertTrue(os.path.exists("private.pem"))

@@ -1,7 +1,9 @@
 import json
 import re
 from unittest import TestCase
+from unittest.mock import patch
 
+import requests
 import requests_mock
 from click.testing import CliRunner
 
@@ -40,6 +42,22 @@ class TestMain(TestCase):
             ".2B9ZKzJ3FeJ9yoNLDGKgcxOuo05PwDRzFQ_34CrGteQ"
         )
         self.injection = "../../../../../../dev/null"
+
+        self.jwtJku = (
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImprdSI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCJ9.eyJ1c2VyIjoiYSJ9"
+            ".e1oZ73Q95aYPcRfulEY--beuGEV2tE1W_FGHtH1ZlevC76lBVqbdM5PY1v6quuJWRtNLwqDbUdydAH4lubgE0pwix-A7LqcD-b"
+            "-0mNQkt9jXqBYCYBsZtGnvBFB9qHoK_CI39qLku1rOWkcEOcJYMSJFfxipImBb_AwoiXv"
+            "-wmnpchTOAY_PFOtXVXKHkoGQtEaMKfnRBXHAgyEAcqHCqvljWuMmdKVpyGNVaQBnKCEKkGyYLpdpL2UIZ3XNYy96JcGpm6LHvIXm6r"
+            "EOkWoJl2j_07xVsM2S__QzllRw_qezS5rzuYlRz-0j0nP_S5gSRcdrR4yNtSO3ivue5mR-RQ"
+        )
+
+        self.jwtX5u = (
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dSI6Imh0dHA6Ly90ZXN0LmNvbSJ9.eyJ1c2VyIjoiaGFja2VyIn0.Z57BGf-BW"
+            "WGCYGRST3PstC7dqFVxLpYh8D9iy6z8_tpz8vIESa5IdLt3hkM8ysB0IjrkWbgNMYTaP7YiGpHG7MhF_IAc_q8HOilMtvrVTyJ0EpE3uJ"
+            "okXZSh_hhU5ay2K8H743AG_5x7coAf7ZsNe_rnSuDN6iV_oXo31H2ga9VMk2BLgvqFLYgIYVETeQbcSx4M2rxiH20VbqO4dwzYDedYkD"
+            "AHKGHUAI0eXJoJ7Sq3sDrjZ9_THTiHSwQQYFnlIbIcFKuANdExuhG-tmIhfa6-8Zu_RELLL6UzgL2G-yu021B_Hm9YmwuXewtDktXKY"
+            "uWofo-PVFUUWVSEw7gIAw"
+        )
 
     def testErrorCli(self):
         result = self.runner.invoke(myjwt_cli, [])
@@ -216,7 +234,63 @@ class TestMain(TestCase):
         )
         self.assertEqual(result.exit_code, 0)
 
-        # m.side_effect = requests.exceptions.ConnectionError()
-        # result = self.runner.invoke(myjwt_cli, [self.jwt, '-u', "http://localhost:8080"])
-        # self.assertEqual('', result.output)
-        # self.assertEqual(result.exit_code, 1)
+    @patch("MyJWT.vulnerabilities.sendJwtToUrl")
+    def testUrlConnectionError(self, m):
+        m.side_effect = requests.exceptions.ConnectionError
+        result = self.runner.invoke(myjwt_cli, [self.jwt, '-u', "http://www.azdazdazdzadazdazdzad.com"])
+        self.assertIn('Connection Error. Verify your url', result.output)
+        self.assertEqual(result.exit_code, 1)
+
+    @requests_mock.mock()
+    def testJku(self, m):
+        status_code = 200
+        m.get("http://localhost:8080", json={
+            "keys": [
+                {
+                    "kty": "RSA",
+                    "use": "sig",
+                    "kid": "xxxxxxxxx",
+                    "n": "oTtAXRgdJ6Pu0jr3hK3opCF5uqKWKbm4KkqIiDJSEsQ4PnAz14P_aJnfnsQwgchFGN95cfCO7euC8HjT"
+                         "-u5WHHDn08GQ7ot6Gq6j-fbwMdRWjLC74XqQ0JNDHRJoM4bbj4i8FaBdYKvKmnJ8eSeEjA0YrG8KuTOPbLsgl"
+                         "ADUubNw9kggRIvj6au88dnBJ9HeZ27QVVFaIllZpMITtocuPkOKd8bHzkZzKN4HJtM0hgzOjeyCfqZxh1V8LybliWD"
+                         "XYivUqmvrzchzwXTAQPJBBfYo9BO6D4Neui8rGbc49OBCnHLCWtPH7m7xp3cz-PbVnLhRczzsQE_3escvTF0FGw",
+                    "e": "AQAB",
+                    "alg": "RS256"
+                }
+            ]
+        }, status_code=status_code)
+
+        result = self.runner.invoke(
+            myjwt_cli, [self.jwtJku, "--jku", "http://localhost:8080"]
+        )
+        self.assertEqual(result.exit_code, 0)
+
+    def testNothing(self):
+        result = self.runner.invoke(
+            myjwt_cli, [self.jwt]
+        )
+        self.assertEqual(result.exit_code, 0)
+
+    @requests_mock.mock()
+    def testX5c(self, m):
+        status_code = 200
+        m.get("http://test.com", json={
+            "keys": [
+                {
+                    "kty": "RSA",
+                    "use": "sig",
+                    "kid": "xxxxxxxxx",
+                    "n": "oTtAXRgdJ6Pu0jr3hK3opCF5uqKWKbm4KkqIiDJSEsQ4PnAz14P_aJnfnsQwgchFGN95cfCO7euC8HjT"
+                         "-u5WHHDn08GQ7ot6Gq6j-fbwMdRWjLC74XqQ0JNDHRJoM4bbj4i8FaBdYKvKmnJ8eSeEjA0YrG8KuTOPbLsgl"
+                         "ADUubNw9kggRIvj6au88dnBJ9HeZ27QVVFaIllZpMITtocuPkOKd8bHzkZzKN4HJtM0hgzOjeyCfqZxh1V8LybliWD"
+                         "XYivUqmvrzchzwXTAQPJBBfYo9BO6D4Neui8rGbc49OBCnHLCWtPH7m7xp3cz-PbVnLhRczzsQE_3escvTF0FGw",
+                    "e": "AQAB",
+                    "alg": "RS256"
+                }
+            ]
+        }, status_code=status_code)
+
+        result = self.runner.invoke(
+            myjwt_cli, [self.jwtX5u, "--x5u", "http://test.com"]
+        )
+        self.assertEqual(result.exit_code, 0)

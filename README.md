@@ -5,6 +5,7 @@
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/mBouamama/MyJWT)](https://github.com/mBouamama/MyJWT/releases)
 [![codecov](https://codecov.io/gh/mBouamama/MyJWT/branch/master/graph/badge.svg?token=V7yZJ1bZV9)](https://codecov.io/gh/mBouamama/MyJWT)
 [![codebeat badge](https://codebeat.co/badges/1599eda5-d82b-41a1-93a1-dc8c51afc33f)](https://codebeat.co/projects/github-com-mbouamama-myjwt-master)
+[![Updates](https://pyup.io/repos/github/mBouamama/MyJWT/shield.svg)](https://pyup.io/repos/github/mBouamama/MyJWT/)
 [![Known Vulnerabilities](https://snyk.io/test/github/mBouamama/MyJWT/badge.svg?targetFile=requirements.txt)](https://snyk.io/test/github/mBouamama/MyJWT?targetFile=requirements.txt)
 # Introduction
 This cli is for pentesters, CTF players, or dev.<br>
@@ -26,6 +27,8 @@ Enjoy :)
 - Sign a jwt with key
 - Brute Force to guess key
 - kid injection
+- Jku Bypass
+- X5u Bypass
 
 # Installation
 To install myjwt, simply use pip:
@@ -34,7 +37,7 @@ pip install myjwt
 ```
 To run mywt from a docker image, run:
 ```
-docker run -v $(pwd)/wordlist:/wordlist/ -it ghcr.io/mBouamama/MyJWT myjwt
+docker run -v $(pwd)/wordlist:/home/app/wordlist/ -it ghcr.io/mBouamama/MyJWT myjwt
 ```
 To install myjwt, on git:
 ```
@@ -44,7 +47,7 @@ pip install -r requirements.txt
 python myjwt_cli.py --help
 ```
 # Usage
-![Usage](./docs/help.png)
+![Usage](https://github.com/mBouamama/MyJWT/blob/master/docs/help.png)
 # Examples
 - [Modify Your jwt](#modify-your-jwt)
 - [None Vulnerabilty Check](#none-vulnerability)
@@ -52,6 +55,7 @@ python myjwt_cli.py --help
 - [RSA/HMAC Confusion](#rsahmac-confusion)
 - [Kid Injection](#kid-injection)
 - [Send your new Jwt to url](#send-your-new-jwt-to-url)
+- [Jku Vulnerability](#jku-vulnerability)
 ## Modify your Jwt
 ### CLI
 ```
@@ -140,8 +144,34 @@ Full example here: [06-kid-injection](https://github.com/mBouamama/MyJWT/blob/ma
 
 ### CLI
 ```
-myjwt YOUR_JSON -u YOUR_URL -c "jwt=MY_JWT" --non-vulnerability --add-payload "username=admin"
+myjwt YOUR_JWT -u YOUR_URL -c "jwt=MY_JWT" --non-vulnerability --add-payload "username=admin"
 ```
+
+## Jku Vulnerability
+### CLI
+```
+myjwt YOUR_JWT --jku YOUR_URL
+```
+### Code
+```
+from MyJWT.vulnerabilities import jkuVulnerability
+newJwt = jkuVulnerability(jwt=jwt, url="MYPUBLIC_IP")
+print(jwt)
+```
+Full example here: [07-jku-bypass](https://github.com/mBouamama/MyJWT/blob/master/examples/07-jku-bypass/main.py)
+## X5U Vulnerability
+### CLI
+```
+myjwt YOUR_JWT --x5u YOUR_URL
+```
+### Code
+```
+from MyJWT.vulnerabilities import x5uVulnerability
+newJwt = x5uVulnerability(jwt=jwt, url="MYPUBLIC_IP")
+print(jwt)
+```
+Full example here: [08-x5u-bypass](https://github.com/mBouamama/MyJWT/blob/master/examples/08-x5u-bypass/main.py)
+
 # Download
 Check github releases. Latest is available at https://github.com/mBouamama/MyJWT/releases/latest
 # Contribute
