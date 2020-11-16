@@ -2,16 +2,17 @@ import setuptools
 
 from MyJWT.variables import VERSION
 
-with open("README.md", "r") as fh:
-    long_description = fh.read()
-dev_requires = [
-    "coverage",
-    "flake8",
-    "requests-mock",
-    "pytest",
-]
+with open("README.md", "r") as f:
+    long_description = f.read()
+f.close()
 
-install_requires = ["click", "requests"]
+with open('dev-requirements.txt', 'r') as f:
+    dev_requires = [line.strip() for line in f]
+    f.close()
+
+with open('requirements.txt', 'r') as f:
+    install_requires = [line.strip() for line in f]
+    f.close()
 
 setuptools.setup(
     name="myjwt",
@@ -40,7 +41,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3:: Only",
+        "Programming Language :: Python :: 3 :: Only",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",

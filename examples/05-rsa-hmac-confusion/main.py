@@ -7,7 +7,10 @@ jwt = (
     "-HWJp3rJW4EIHzOPfs1GuDuhtIRu0uuRYp4vvzLZcVm0BhlK9e_fmFcbsTz3MwVHIeFEIx2NjQdhE"
     "-CefQ4tNg6Rr6OtgGExToUfD0i0mAoAhTcvmoyO6c2paQ"
 )
+# Header: {"typ": "JWT", "alg": "RS256"}
+# Payload: {"login": "a"}
 file = "public.pem"
-
+# file is a path file of your public key
 jwt = confusionRsaHmac(jwt, file)
+# same jwt will be print except header alg(set to HS256) and signature
 print(jwt)

@@ -1,6 +1,8 @@
 import base64
 import json
 
+from OpenSSL import crypto
+
 from MyJWT.Exception import InvalidJWT, InvalidJwtJson
 
 HEADER = "header"
@@ -54,16 +56,12 @@ def encodeJwt(jwtJson):
     headerEncoded = (
         base64.urlsafe_b64encode(
             json.dumps(jwtJson[HEADER], separators=(",", ":")).encode("UTF-8")
-        )
-        .decode("UTF-8")
-        .strip("=")
+        ).decode("UTF-8").strip("=")
     )
     payloadEncoded = (
         base64.urlsafe_b64encode(
             json.dumps(jwtJson[PAYLOAD], separators=(",", ":")).encode("UTF-8")
-        )
-        .decode("UTF-8")
-        .strip("=")
+        ).decode("UTF-8").strip("=")
     )
     return headerEncoded + "." + payloadEncoded
 
@@ -88,8 +86,39 @@ def isValidJwtJson(jwtJson):
     :rtype: bool
     """
     return HEADER in jwtJson \
-        and PAYLOAD in jwtJson \
-        and SIGNATURE in jwtJson \
-        and type(jwtJson[HEADER]) is dict \
-        and type(jwtJson[PAYLOAD]) is dict \
-        and type(jwtJson[SIGNATURE]) is str
+           and PAYLOAD in jwtJson \
+           and SIGNATURE in jwtJson \
+           and type(jwtJson[HEADER]) is dict \
+           and type(jwtJson[PAYLOAD]) is dict \
+           and type(jwtJson[SIGNATURE]) is str
+
+
+def createCrt():
+    """
+    Create crt + pem
+    :return: crt, pem
+    :rtype: str, str
+    """
+    k = crypto.PKey()
+    k.generate_key(crypto.TYPE_RSA, 2048)
+    # create a self-signed cert
+    cert = crypto.X509()
+    cert.get_subject().C = "AU"
+    cert.get_subject().ST = "Victoria"
+    cert.get_subject().L = "Melbourne"
+    cert.get_subject().O = "MyJWT"
+    cert.get_subject().CN = "hacker"
+    cert.gmtime_adj_notBefore(0)
+    cert.gmtime_adj_notAfter(365 * 24 * 60 * 60)
+    cert.set_issuer(cert.get_subject())
+    cert.set_pubkey(k)
+    cert.sign(k, "sha256")
+    crt = "selfsigned.crt"
+    pem = "private.pem"
+    with open("selfsigned.crt", "wt") as f:
+        f.write(crypto.dump_certificate(crypto.FILETYPE_PEM, cert).decode("utf-8"))
+        f.close()
+    with open("private.pem", "wt") as f:
+        f.write(crypto.dump_privatekey(crypto.FILETYPE_PEM, k).decode("utf-8"))
+        f.close()
+    return crt, pem

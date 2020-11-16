@@ -1,26 +1,27 @@
-.PHONY: docs
 tox:
 	pip install tox
 	tox --recreate
 test:
 	coverage run -p -m pytest
+coverage:
+	coverage report -m
 flake8:
 	pip install flake8
 	flake8 tests MyJWT examples
 deploy:
 	pip install setuptools wheel twine
-	echo -e "[pypi]" >> ~/.pypirc
-	echo -e "username = $PYPI_USERNAME" >> ~/.pypirc
-	echo -e "password = $PYPI_PASSWORD" >> ~/.pypirc
+	echo "[pypi]" >> ~/.pypirc
+	echo "username = ${PYPI_USERNAME}" >> ~/.pypirc
+	echo "password = ${PYPI_PASSWORD}" >> ~/.pypirc
 	python setup.py sdist bdist_wheel
 	twine upload dist/*
 	rm -fr build dist
 
 fake-deploy:
 	pip install setuptools wheel twine
-	echo -e "[pypi]" >> ~/.pypirc
-	echo -e "username = $PYPI_USERNAME" >> ~/.pypirc
-	echo -e "password = $PYPI_PASSWORD" >> ~/.pypirc
+	echo "[pypi]" >> ~/.pypirc
+	echo "username = ${PYPI_USERNAME}" >> ~/.pypirc
+	echo "password = ${PYPI_PASSWORD}" >> ~/.pypirc
 	python setup.py sdist
 	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 	rm -fr build dist
@@ -37,14 +38,18 @@ install-dev:
 
 full-install: install install-dev
 
+clean:
+	rm -rf .tox .pytest_cache build circleci myjwt.egg-info dist coverage_html_report *.json *.pem *.crt dumpSyntax .coverage .coverage.* .rnd
 freeze:
 	pip-compile --output-file requirements.txt setup.py
 help:
 	@echo "make help              Show this help message"
 	@echo "make test              Run Unit test"
+	@echo "make coverage          Show coverage report"
 	@echo "make flake8            Run flake8"
 	@echo "make deploy            Deploy package on pypi"
 	@echo "make fake-deploy       Test Deploy"
 	@echo "make full-install      Install requirements + dev requirements"
 	@echo "make install           Install requirements"
 	@echo "make install-dev       Install dev requirements"
+	@echo "make clean             Clean Your project.Delete useless file."
