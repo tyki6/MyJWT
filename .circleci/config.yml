@@ -57,11 +57,17 @@ jobs:
 workflows:
   check_lint:
     jobs:
-      - lint
+      - lint:
+        filters:
+          branches:
+            ignore: master
   check_unit_test:
     jobs:
       - unit_test:
           context: myjwt
+          filters:
+            branches:
+              ignore: master
   deploy:
     jobs:
       - lint:
