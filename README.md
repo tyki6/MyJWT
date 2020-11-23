@@ -3,6 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/v/myjwt)](https://pypi.org/project/myjwt/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/myjwt)](https://pypi.org/project/myjwt/)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/mBouamama/MyJWT)](https://github.com/mBouamama/MyJWT/releases)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![codecov](https://codecov.io/gh/mBouamama/MyJWT/branch/master/graph/badge.svg?token=V7yZJ1bZV9)](https://codecov.io/gh/mBouamama/MyJWT)
 [![codebeat badge](https://codebeat.co/badges/1599eda5-d82b-41a1-93a1-dc8c51afc33f)](https://codebeat.co/projects/github-com-mbouamama-myjwt-master)
 [![Updates](https://pyup.io/repos/github/mBouamama/MyJWT/shield.svg)](https://pyup.io/repos/github/mBouamama/MyJWT/)
@@ -47,7 +48,7 @@ pip install -r requirements.txt
 python myjwt_cli.py --help
 ```
 # Usage
-![Usage](https://github.com/mBouamama/MyJWT/blob/master/docs/help.png)
+![Usage](https://github.com/mBouamama/MyJWT/blob/master/img/help.png)
 # Examples
 - [Modify Your jwt](#modify-your-jwt)
 - [None Vulnerabilty Check](#none-vulnerability)
