@@ -1,3 +1,5 @@
+orbs:
+  docker: circleci/docker@1.5.0
 version: 2.1
 jobs:
   lint:
@@ -21,7 +23,9 @@ jobs:
           command: |
             pip install codecov
             make tox
-            codecov -t $TOKEN_CODECOV
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              codecov -t $TOKEN_CODECOV
+            fi
   deploy_pypi:
     docker:
       - image: bitnami/python:3.8
@@ -61,6 +65,12 @@ workflows:
           filters:
             branches:
               ignore: master
+      - docker/hadolint:
+          dockerfiles: '.'
+          filters:
+            branches:
+              ignore: master
+
   check_unit_test:
     jobs:
       - unit_test:
@@ -99,7 +109,7 @@ workflows:
             branches:
               only: master
             tags:
-              ignore: '/[0-9]+(\.[0-9]+)*/'
+              only: '/[0-9]+(\.[0-9]+)*/'
           requires:
             - lint
             - unit_test

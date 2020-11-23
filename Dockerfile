@@ -1,17 +1,22 @@
-FROM bitnami/python:3.8
+FROM bitnami/python:3.8 as builder
 
-RUN groupadd -g 1001 app && useradd -r -u 1001 -g app app
-RUN mkdir /home/app && chown 1001 /home/app
-USER 1001
 WORKDIR /home/app
 
-ADD requirements.txt .
-ADD dev-requirements.txt .
-RUN pip install --upgrade pip && pip install --user -r requirements.txt
+COPY requirements.txt .
+COPY dev-requirements.txt .
+RUN pip install --no-cache-dir --requirement requirements.txt
 
-ADD MyJWT MyJWT
-ADD wordlist wordlist
-ADD setup.py setup.py
-ADD README.md README.md
+COPY MyJWT MyJWT
+COPY wordlist wordlist
+COPY setup.py setup.py
+COPY README.md README.md
 RUN python setup.py install
-CMD myjwt
+
+FROM bitnami/python:3.8
+
+COPY --from=builder /opt/bitnami/python/lib/python3.8/site-packages /opt/bitnami/python/lib/python3.8/site-packages
+COPY --from=builder /opt/bitnami/python/bin/myjwt /opt/bitnami/python/bin/myjwt
+
+WORKDIR /home/app
+
+ENTRYPOINT ["myjwt"]
