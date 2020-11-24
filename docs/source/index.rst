@@ -23,6 +23,9 @@ MyJWT: crack Your jwt
 .. image:: https://img.shields.io/pypi/l/myjwt.svg
     :target: https://pypi.org/project/myjwt/
 
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+    :target: https://github.com/psf/black
+
 .. image:: https://codecov.io/gh/mBouamama/MyJWT/branch/master/graph/badge.svg?token=V7yZJ1bZV9
     :target: https://codecov.io/gh/mBouamama/MyJWT
 
