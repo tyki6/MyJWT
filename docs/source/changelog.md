@@ -16,7 +16,7 @@ All notable changes to this project will be documented in this file.
 - Manifest for a better optimization
 - fix examples script
 - new result for facilitate copy / paste
-### [1.0.2] - 14-11-2020
+## [1.0.2] - 14-11-2020
 ### Changed
 - cli
 - unit test

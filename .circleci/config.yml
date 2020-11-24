@@ -66,7 +66,7 @@ workflows:
             branches:
               ignore: master
       - docker/hadolint:
-          dockerfiles: '.'
+          dockerfiles: 'Dockerfile'
           filters:
             branches:
               ignore: master
