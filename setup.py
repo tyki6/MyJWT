@@ -6,6 +6,10 @@ with open("README.md", "r") as f:
     long_description = f.read()
 f.close()
 
+with open('docs/requirements.txt', 'r') as f:
+    doc_requires = [line.strip() for line in f]
+    f.close()
+
 with open('dev-requirements.txt', 'r') as f:
     dev_requires = [line.strip() for line in f]
     f.close()
@@ -31,6 +35,7 @@ setuptools.setup(
     },
     extras_require={
         "dev": dev_requires,
+        "doc": doc_requires
     },
     packages=setuptools.find_packages(),
     classifiers=[
