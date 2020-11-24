@@ -16,7 +16,7 @@ FROM bitnami/python:3.8
 
 COPY --from=builder /opt/bitnami/python/lib/python3.8/site-packages /opt/bitnami/python/lib/python3.8/site-packages
 COPY --from=builder /opt/bitnami/python/bin/myjwt /opt/bitnami/python/bin/myjwt
+WORKDIR /home
 
-WORKDIR /home/app
-
+COPY wordlist wordlist
 ENTRYPOINT ["myjwt"]
