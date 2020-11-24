@@ -8,4 +8,7 @@ requirements:
   - dev-requirements.txt:
       update: all
       pin: True
+  - docs/requirements.txt:
+      update: all
+      pin: True
 label_prs: update
