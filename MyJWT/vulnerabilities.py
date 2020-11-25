@@ -16,6 +16,7 @@ from MyJWT.Exception import InvalidJWT
 from MyJWT.modifyJWT import changeAlg, signature
 from MyJWT.utils import jwtToJson, encodeJwt, isValidJwt, HEADER, createCrt
 
+
 def noneVulnerability(jwt):
     """
     Check none Vulnerability.
@@ -211,9 +212,9 @@ def x5uVulnerability(jwt=None, crt=None, pem=None, url=None):
         f.close()
 
     x5u = requests.get(jwtJson[HEADER]["x5u"]).json()
-    x5u["keys"][0]["x5c"] = content\
+    x5u["keys"][0]["x5c"] = content \
         .replace("-----END CERTIFICATE-----", "") \
-        .replace("-----BEGIN CERTIFICATE-----", "")\
+        .replace("-----BEGIN CERTIFICATE-----", "") \
         .replace("\n", "")
 
     jwtJson[HEADER]["x5u"] = url
