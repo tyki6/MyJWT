@@ -1,6 +1,20 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.1.1] - 25-11-2020
+### Added
+- [documentation](http://myjwt.readthedocs.io)
+- Docker lint
+- pyup 
+- workflow
+- docstr-coverage to 100%
+### Changed
+- fix bugs
+- new help command
+- change Dockerfile
+- new badges
+
+
 ## [1.1.0] - 16-11-2020
 ### Added
 - Pyup CI + badge

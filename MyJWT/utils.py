@@ -1,3 +1,6 @@
+"""
+Utils package
+"""
 import base64
 import json
 

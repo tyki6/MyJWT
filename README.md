@@ -4,6 +4,7 @@
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/myjwt)](https://pypi.org/project/myjwt/)
 [![PyPI - Download](https://pepy.tech/badge/myjwt)](https://pepy.tech/project/myjwt)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/mBouamama/MyJWT)](https://github.com/mBouamama/MyJWT/releases)
+[![Documentation Status](https://readthedocs.org/projects/myjwt/badge/?version=latest)](https://myjwt.readthedocs.io/en/latest/?badge=latest)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![codecov](https://codecov.io/gh/mBouamama/MyJWT/branch/master/graph/badge.svg?token=V7yZJ1bZV9)](https://codecov.io/gh/mBouamama/MyJWT)
 [![codebeat badge](https://codebeat.co/badges/1599eda5-d82b-41a1-93a1-dc8c51afc33f)](https://codebeat.co/projects/github-com-mbouamama-myjwt-master)
@@ -12,7 +13,7 @@
 # Introduction
 This cli is for pentesters, CTF players, or dev.<br>
 You can modify your jwt, sign, inject ,etc...<br>
-Check [Documentation](#usage) for more information.<br>
+Check [Documentation](http://myjwt.readthedocs.io) for more information.<br>
 If you see problems or enhancement send an issue.I will responds as soon as possible.
 Enjoy :)
 

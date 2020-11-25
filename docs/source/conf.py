@@ -22,7 +22,7 @@ copyright = '2020, matthieu Bouamama'
 author = 'matthieu Bouamama'
 
 # The full version, including alpha/beta/rc tags
-release = '1.1.0'
+release = '1.1.1'
 
 
 # -- General configuration ---------------------------------------------------
@@ -30,7 +30,13 @@ release = '1.1.0'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['recommonmark']
+extensions = [ 'recommonmark', 'sphinx_markdown_tables']
+
+source_parsers = {
+    '.md': 'recommonmark.parser.CommonMarkParser',
+}
+
+source_suffix = ['.rst', '.md']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

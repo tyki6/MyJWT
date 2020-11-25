@@ -1,3 +1,6 @@
+"""
+Cli Package
+"""
 import json
 import sys
 from json import JSONDecodeError
@@ -51,6 +54,30 @@ from MyJWT.vulnerabilities import injectSqlKid, bruteforceDict, printDecoded, co
               multiple=True)
 def myjwt_cli(jwt, full_payload, add_header, add_payload, sign, verify, none_vulnerability, hmac, bruteforce, kid,
               jku, x5u, crt, key, file, print, url, method, data, cookies):
+    """
+    Cli method
+    :param str jwt: jwt
+    :param str full_payload: str json
+    :param str add_header: header key=value
+    :param str add_payload: payload key=value
+    :param str sign: secret key
+    :param str verify: secret key
+    :param bool none_vulnerability:
+    :param str hmac: path private key
+    :param str bruteforce: path wordlist
+    :param str kid: injection
+    :param str jku:  publicip
+    :param str x5u:  publicip
+    :param str crt: path crt
+    :param str key: path key file
+    :param str file: jwks name
+    :param bool print:
+    :param str url: url
+    :param str method: methid (default: GET)
+    :param str data: data key=value
+    :param str cookies: cookies key=value
+    :return:
+    """
     if not isValidJwt(jwt):
         sys.exit(NOT_VALID_JWT)
     if bruteforce:

@@ -1,3 +1,6 @@
+"""
+Package for moidy your jwt(header, payload, signature)
+"""
 import base64
 import hashlib
 import hmac

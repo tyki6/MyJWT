@@ -1,4 +1,7 @@
-VERSION = "1.1.0"
+"""
+All Environment variables
+"""
+VERSION = "1.1.1"
 
 NOT_VALID_JWT = "Enter a valid JWT!!!"
 CHECK_DOCS = "Check Docs!!Your jwt have not a HS alg."

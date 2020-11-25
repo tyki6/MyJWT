@@ -1,3 +1,6 @@
+"""
+All methods needed to try vulnerabilities on jwt
+"""
 import base64
 import json
 
@@ -12,7 +15,6 @@ from cryptography.hazmat.primitives.asymmetric import padding
 from MyJWT.Exception import InvalidJWT
 from MyJWT.modifyJWT import changeAlg, signature
 from MyJWT.utils import jwtToJson, encodeJwt, isValidJwt, HEADER, createCrt
-
 
 def noneVulnerability(jwt):
     """
