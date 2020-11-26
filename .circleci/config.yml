@@ -24,7 +24,7 @@ jobs:
             pip install codecov
             make tox
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              codecov -t $TOKEN_CODECOV
+              codecov -t "${TOKEN_CODECOV}"
             fi
   deploy_pypi:
     docker:
