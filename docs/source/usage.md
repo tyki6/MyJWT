@@ -5,14 +5,14 @@
 | --------------------------- |:---------:|:--------:| ---:|
 | --ful-payload               | JSON      | {"user": "admin"} | New payload for your jwt.|
 | -h, --add-header            | key=value |   user=admin | Add a new key, value to your jwt header, if key is present old value will be replaced.|
-| -p, --add-payload           | key=value |   user=admin |  Add a new key, value to your jwt payload, if key is present old value will be|
+| -p, --add-payload           | key=value |   user=admin |  Add a new key, value to your jwt payload, if key is present old value will be replaced.|
                                                         
 ## Check Your JWT (HS alg)
 
 | Option                      | Type      | Example  | help|
 --- | --- | --- | ---
 | --sign                      | text      | mysecretkey | Sign Your jwt with your key
-| --verify                    | text      | mysecretkey |  verify your key.
+| --verify                    | text      | mysecretkey |  Verify your key.
 
 ## Exploit
 
@@ -30,9 +30,9 @@
 | Option                      | Type      | Example  | help|
 --- | --- | --- | ---
 |  -u, --url                  | url       |  http://challenge01.root-me.org/web-serveur/ch59/admin|  Url to send your jwt.
-| -m, --method                | text      | POST  | Method use for send request to url.(Default: GET).
-| -d, --data                  | key=value | secret=MY_JWT  | Data send to your url.Format: key=value. if value = MY_JWT value will be replace by new jwt.
-|  -c, --cookies              | key=value | secret=MY_JWT  | Cookies to send to your url.Format: key=value.if value = MY_JWT value will be replace by new jwt.
+| -m, --method                | text      | POST  | Method use to send request to url.(Default: GET).
+| -d, --data                  | key=value | secret=MY_JWT  | Data send to your url.Format: key=value. if value = MY_JWT value will be replace by your new jwt.
+|  -c, --cookies              | key=value | secret=MY_JWT  | Cookies to send to your url.Format: key=value.if value = MY_JWT value will be replace by your new jwt.
 
 ## Other
 

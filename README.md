@@ -14,7 +14,7 @@
 This cli is for pentesters, CTF players, or dev.<br>
 You can modify your jwt, sign, inject ,etc...<br>
 Check [Documentation](http://myjwt.readthedocs.io) for more information.<br>
-If you see problems or enhancement send an issue.I will responds as soon as possible.
+If you see problems or enhancement send an issue.I will respond as soon as possible.
 Enjoy :)
 
 # Documentation

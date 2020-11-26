@@ -41,7 +41,7 @@ install-dev:
 full-install: install install-dev
 	cd docs && pip install -r requirements.txt && cd ..
 clean:
-	rm -rf .tox .pytest_cache build circleci myjwt.egg-info dist coverage_html_report *.json *.pem *.crt dumpSyntax .coverage .coverage.* .rnd
+	rm -rf docs/build .tox .pytest_cache build circleci myjwt.egg-info dist coverage_html_report *.json *.pem *.crt dumpSyntax .coverage .coverage.* .rnd
 freeze:
 	pip-compile --output-file requirements.txt setup.py
 help:
