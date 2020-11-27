@@ -1,5 +1,5 @@
 """
-Package for moidy your jwt(header, payload, signature)
+Package for modify your jwt(header, payload, signature)
 """
 import base64
 import hashlib
@@ -11,7 +11,7 @@ from MyJWT.utils import encodeJwt, isValidJwtJson, PAYLOAD, HEADER
 
 def addpayload(jwtJson, payload):
     """
-    Add new key:value to jwt payload.
+    Add new key:value to jwt's payload.
 
     :param dict jwtJson: your jwt json (use encodeToJson.Check Doc)
     :param dict payload: add value to your payload
@@ -34,7 +34,7 @@ def addpayload(jwtJson, payload):
 
 def addheader(jwtJson, header):
     """
-    Add new key:value to jwt header.
+    Add new key:value to jwt's header.
 
     :param dict jwtJson: your jwt json (use encodeToJson.Check Doc)
     :param dict header: add value to your header
