@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.1.2] - 28-11-2020
+### Changed
+- fix spelling mistakes in readme
+- fix spelling mistakes in readthedocs.io
+- fix spelling mistakes in cli helper
 ## [1.1.1] - 25-11-2020
 ### Added
 - [documentation](http://myjwt.readthedocs.io)
