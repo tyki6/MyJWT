@@ -35,9 +35,9 @@ MyJWT: crack Your jwt
 
 
 
-This cli is for pentesters, CTF players, or dev.<br>
-You can modify your jwt, sign, inject ,etc...<br>
-Check [Documentation](http://myjwt.readthedocs.io) for more information.<br>
+This cli is for pentesters, CTF players, or dev.
+You can modify your jwt, sign, inject ,etc...
+Check [Documentation](http://myjwt.readthedocs.io) for more information.
 If you see problems or enhancement send an issue.I will respond as soon as possible.
 Enjoy :)
 
