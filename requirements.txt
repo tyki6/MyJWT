@@ -1,4 +1,4 @@
 click==7.1.2
 requests==2.25.0
 cryptography==3.2.1
-pyOpenSSL==19.1.0
+pyOpenSSL==20.0.0
