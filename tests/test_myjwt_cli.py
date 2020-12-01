@@ -1,3 +1,4 @@
+"""Test"""
 import json
 import re
 from unittest import TestCase
@@ -22,7 +23,9 @@ from MyJWT.myjwt_cli import myjwt_cli
 
 
 class TestMain(TestCase):
+    """Test Class for myjwt_cli.py"""
     def setUp(self):
+        """ SetUp """
         self.jwt = (
             "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJsb2dpbiI6ImEifQ.Fjziy6GSQpP9tQRyko5APZjdymkQ8EJGOa"
             "-A2JQ6xcAVucXRhZbdBbAM2DG8io_brP_ROAqYaNlvRVsztXoPHFz_e7D2K0q6f02RXeRwZJGOhy0K"
@@ -60,6 +63,9 @@ class TestMain(TestCase):
         )
 
     def testErrorCli(self):
+        """
+        Test error input during call in myjwt_cli.py
+        """
         result = self.runner.invoke(myjwt_cli, [])
         self.assertEqual(result.exit_code, 2)
 
@@ -71,6 +77,9 @@ class TestMain(TestCase):
         self.assertEqual(result.exit_code, 0)
 
     def testPayload(self):
+        """
+        Test Payload option in myjwt_cli.py
+        """
         result = self.runner.invoke(myjwt_cli, [self.jwt, "--full-payload"])
         self.assertEqual(result.exit_code, 2)
 
@@ -89,6 +98,9 @@ class TestMain(TestCase):
         self.assertEqual(result.exit_code, 0)
 
     def testAddHeader(self):
+        """
+        Test addHeader option in myjwt_cli.py
+        """
         result = self.runner.invoke(myjwt_cli, [self.jwt, "--add-header"])
         self.assertEqual(result.exit_code, 2)
 
@@ -104,6 +116,9 @@ class TestMain(TestCase):
         self.assertEqual(result.exit_code, 0)
 
     def testAddPayload(self):
+        """
+        Test addPayload option in myjwt_cli.py
+        """
         result = self.runner.invoke(myjwt_cli, [self.jwt, "--add-payload"])
         self.assertEqual(result.exit_code, 2)
 
@@ -119,6 +134,9 @@ class TestMain(TestCase):
         self.assertEqual(result.exit_code, 0)
 
     def testSign(self):
+        """
+        Test sign option in myjwt_cli.py
+        """
         result = self.runner.invoke(myjwt_cli, [self.jwt, "--sign"])
         self.assertEqual(result.exit_code, 2)
 
@@ -133,6 +151,9 @@ class TestMain(TestCase):
         self.assertEqual(result.exit_code, 0)
 
     def testVerify(self):
+        """
+        Test verify option in myjwt_cli.py
+        """
         result = self.runner.invoke(myjwt_cli, [self.jwt, "--verify"])
         self.assertEqual(result.exit_code, 2)
 
@@ -146,6 +167,9 @@ class TestMain(TestCase):
         self.assertEqual(result.exit_code, 0)
 
     def testNoneVulnerability(self):
+        """
+        Test none-vulnerability option in myjwt_cli.py
+        """
         result = self.runner.invoke(myjwt_cli, [self.jwt, "--none-vulnerability"])
         jwt = re.search(NEW_JWT + "(.*)", result.output).groups()[0]
         self.assertEqual("none", jwtToJson(jwt)[HEADER]["alg"])
@@ -153,6 +177,9 @@ class TestMain(TestCase):
         self.assertEqual(result.exit_code, 0)
 
     def testHmac(self):
+        """
+        Test hmac option in myjwt_cli.py
+        """
         result = self.runner.invoke(myjwt_cli, [self.jwt, "--hmac"])
         self.assertEqual(result.exit_code, 2)
 
@@ -163,6 +190,9 @@ class TestMain(TestCase):
         self.assertEqual(result.exit_code, 0)
 
     def testBruteForceCli(self):
+        """
+        Test bruteforce option in myjwt_cli.py
+        """
         result = self.runner.invoke(myjwt_cli, [self.jwt, "--bruteforce", "azdzd"])
         self.assertEqual(result.exit_code, 2)
 
@@ -185,6 +215,9 @@ class TestMain(TestCase):
         self.assertEqual(result.exit_code, 0)
 
     def testKid(self):
+        """
+        Test kid option in myjwt_cli.py
+        """
         result = self.runner.invoke(myjwt_cli, [self.jwt, "--kid"])
         self.assertEqual(result.exit_code, 2)
 
@@ -192,11 +225,17 @@ class TestMain(TestCase):
         self.assertEqual(result.exit_code, 0)
 
     def testPrint(self):
+        """
+        Test print option in myjwt_cli.py
+        """
         result = self.runner.invoke(myjwt_cli, [self.jwt, "--print"])
         self.assertEqual(result.exit_code, 0)
 
     @requests_mock.mock()
     def testUrl(self, m):
+        """
+        Test url option in myjwt_cli.py
+        """
         status_code = 200
         m.get("http://localhost:8080", json={}, status_code=status_code)
 
@@ -236,6 +275,9 @@ class TestMain(TestCase):
 
     @patch("MyJWT.vulnerabilities.sendJwtToUrl")
     def testUrlConnectionError(self, m):
+        """
+        Test url error for url option in myjwt_cli.py
+        """
         m.side_effect = requests.exceptions.ConnectionError
         result = self.runner.invoke(myjwt_cli, [self.jwt, '-u', "http://www.azdazdazdzadazdazdzad.com"])
         self.assertIn('Connection Error. Verify your url', result.output)
@@ -243,6 +285,9 @@ class TestMain(TestCase):
 
     @requests_mock.mock()
     def testJku(self, m):
+        """
+        Test jku option in myjwt_cli.py
+        """
         status_code = 200
         m.get("http://localhost:8080", json={
             "keys": [
@@ -266,6 +311,9 @@ class TestMain(TestCase):
         self.assertEqual(result.exit_code, 0)
 
     def testNothing(self):
+        """
+        Test no input in myjwt_cli.py
+        """
         result = self.runner.invoke(
             myjwt_cli, [self.jwt]
         )
@@ -273,6 +321,9 @@ class TestMain(TestCase):
 
     @requests_mock.mock()
     def testX5c(self, m):
+        """
+        Test x5c option in myjwt_cli.py
+        """
         status_code = 200
         m.get("http://test.com", json={
             "keys": [

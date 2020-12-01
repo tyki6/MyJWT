@@ -7,6 +7,7 @@
 [![Documentation Status](https://readthedocs.org/projects/myjwt/badge/?version=latest)](https://myjwt.readthedocs.io/en/latest/?badge=latest)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![codecov](https://codecov.io/gh/mBouamama/MyJWT/branch/master/graph/badge.svg?token=V7yZJ1bZV9)](https://codecov.io/gh/mBouamama/MyJWT)
+[![docstr_coverage](./img/docstr_coverage_badge.svg)](https://github.com/HunterMcGushion/docstr_coverage.git)
 [![codebeat badge](https://codebeat.co/badges/1599eda5-d82b-41a1-93a1-dc8c51afc33f)](https://codebeat.co/projects/github-com-mbouamama-myjwt-master)
 [![Updates](https://pyup.io/repos/github/mBouamama/MyJWT/shield.svg)](https://pyup.io/repos/github/mBouamama/MyJWT/)
 [![Known Vulnerabilities](https://snyk.io/test/github/mBouamama/MyJWT/badge.svg?targetFile=requirements.txt)](https://snyk.io/test/github/mBouamama/MyJWT?targetFile=requirements.txt)

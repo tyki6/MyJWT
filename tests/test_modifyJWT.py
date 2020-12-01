@@ -1,3 +1,4 @@
+"""Test"""
 from unittest import TestCase
 from MyJWT.Exception import InvalidJwtJson, InvalidParam, UnknownAlg
 from MyJWT.modifyJWT import addpayload, addheader, changeAlg, changePayload, signature
@@ -5,7 +6,9 @@ from MyJWT.utils import HEADER, PAYLOAD, SIGNATURE, jwtToJson
 
 
 class TestModifyJWT(TestCase):
+    """Test Class for modifyJWT.py"""
     def setUp(self):
+        """ SetUp """
         self.invalidJWT = "test.test"
         self.jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0.eyJsb2dpbiI6ImF6In0."
         self.jwtRsa = (
@@ -34,6 +37,9 @@ class TestModifyJWT(TestCase):
         self.path = "./examples/05-rsa-hmac-confusion/public.pem"
 
     def testAddPayload(self):
+        """
+        Test addPayload method in modifyJWT.py
+        """
         with self.assertRaises(InvalidJwtJson):
             addpayload({}, {})
 
@@ -49,6 +55,9 @@ class TestModifyJWT(TestCase):
         self.assertEqual(newJwtJson[SIGNATURE], self.jwtJson[SIGNATURE])
 
     def testAddHeader(self):
+        """
+        Test addHeader method in modifyJWT.py
+        """
         with self.assertRaises(InvalidJwtJson):
             addheader({}, {})
 
@@ -65,6 +74,9 @@ class TestModifyJWT(TestCase):
         self.assertEqual(newJwtJson[SIGNATURE], self.jwtJson[SIGNATURE])
 
     def testChangeAlg(self):
+        """
+        Test changeAlg method in modifyJWT.py
+        """
         with self.assertRaises(InvalidJwtJson):
             changeAlg({}, "test")
 
@@ -75,6 +87,9 @@ class TestModifyJWT(TestCase):
         self.assertEqual(newJwtJson[SIGNATURE], self.jwtJson[SIGNATURE])
 
     def testChangePayload(self):
+        """
+        Test changePayload method in modifyJWT.py
+        """
         with self.assertRaises(InvalidJwtJson):
             changePayload({}, {})
 
@@ -86,6 +101,9 @@ class TestModifyJWT(TestCase):
         self.assertEqual(newJwtJson[SIGNATURE], self.jwtJson[SIGNATURE])
 
     def testSignature(self):
+        """
+        Test signature method in modifyJWT.py
+        """
         with self.assertRaises(InvalidJwtJson):
             signature({}, "")
 

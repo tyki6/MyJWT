@@ -23,11 +23,15 @@ MyJWT: crack Your jwt
 .. image:: https://img.shields.io/pypi/l/myjwt.svg
     :target: https://pypi.org/project/myjwt/
 
-.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
-    :target: https://github.com/psf/black
 
 .. image:: https://codecov.io/gh/mBouamama/MyJWT/branch/master/graph/badge.svg?token=V7yZJ1bZV9
     :target: https://codecov.io/gh/mBouamama/MyJWT
+
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+    :target: https://github.com/psf/black
+
+.. image:: /../../img/docstr_coverage_badge.svg
+    :target: https://github.com/psf/black
 
 .. image:: https://codebeat.co/badges/1599eda5-d82b-41a1-93a1-dc8c51afc33f
     :target: https://codebeat.co/projects/github-com-mbouamama-myjwt-master

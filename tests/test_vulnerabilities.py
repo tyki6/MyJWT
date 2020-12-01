@@ -1,3 +1,4 @@
+"""Test"""
 import os
 import OpenSSL
 import requests_mock
@@ -17,7 +18,9 @@ from MyJWT.vulnerabilities import (
 
 
 class TestVulnerabilities(TestCase):
+    """Test Class for vulnerabilities.py"""
     def setUp(self):
+        """ SetUp """
         self.jwt = (
             "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJsb2dpbiI6ImEifQ.Fjziy6GSQpP9tQRyko5APZjdymkQ8EJGOa"
             "-A2JQ6xcAVucXRhZbdBbAM2DG8io_brP_ROAqYaNlvRVsztXoPHFz_e7D2K0q6f02RXeRwZJGOhy0K"
@@ -55,6 +58,9 @@ class TestVulnerabilities(TestCase):
         self.injection = "../../../../../../dev/null"
 
     def testNoneVulnerability(self):
+        """
+        Test NoneVulnerability method in vulnerabilities.py
+        """
         with self.assertRaises(InvalidJWT):
             noneVulnerability("")
 
@@ -67,6 +73,9 @@ class TestVulnerabilities(TestCase):
         self.assertEqual(newJwtJson[SIGNATURE], "")
 
     def testConfusionRsaHmac(self):
+        """
+        Test ConfusionRsaHmac method in vulnerabilities.py
+        """
         with self.assertRaises(InvalidJWT):
             confusionRsaHmac("", self.path)
 
@@ -79,6 +88,9 @@ class TestVulnerabilities(TestCase):
         self.assertEqual(newJwtJson[SIGNATURE], self.signature)
 
     def testBruteForceDict(self):
+        """
+        Test BruteForceDict method in vulnerabilities.py
+        """
         with self.assertRaises(InvalidJWT):
             bruteforceDict("", self.password)
 
@@ -89,6 +101,9 @@ class TestVulnerabilities(TestCase):
         self.assertEqual(key, "")
 
     def testInjectSqlKid(self):
+        """
+        Test InjectSqlKid method in vulnerabilities.py
+        """
         with self.assertRaises(InvalidJWT):
             injectSqlKid("", self.injection)
 
@@ -96,12 +111,18 @@ class TestVulnerabilities(TestCase):
         self.assertEqual(jwtToJson(jwt)[HEADER]["kid"], self.injection)
 
     def testPrintDecoded(self):
+        """
+        Test printDecoded method in vulnerabilities.py
+        """
         with self.assertRaises(InvalidJWT):
             printDecoded("")
         printDecoded(self.jwtBruteForce)
 
     @requests_mock.mock()
     def testSendJwtToUrl(self, m):
+        """
+        Test SendJwtToUrl method in vulnerabilities.py
+        """
         status_code = 200
         m.get("http://localhost:8080", json={}, status_code=status_code)
 
@@ -130,6 +151,9 @@ class TestVulnerabilities(TestCase):
 
     @requests_mock.mock()
     def testJkuVulnerability(self, m):
+        """
+        Test JkuVulnerability method in vulnerabilities.py
+        """
         with self.assertRaises(InvalidJWT):
             jkuVulnerability("", "http://test.com")
 
@@ -175,6 +199,9 @@ class TestVulnerabilities(TestCase):
 
     @requests_mock.mock()
     def testX5uVulnerability(self, m):
+        """
+        Test X5uVulnerability method in vulnerabilities.py
+        """
         with self.assertRaises(InvalidJWT):
             x5uVulnerability("", url="http://test.com")
 

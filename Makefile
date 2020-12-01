@@ -10,6 +10,8 @@ coverage:
 flake8:
 	pip install flake8
 	flake8 tests MyJWT examples
+docstr:
+	docstr-coverage MyJWT tests --skipinit --badge=img
 deploy:
 	pip install setuptools wheel twine
 	echo "[pypi]" >> ~/.pypirc
@@ -43,7 +45,7 @@ full-install: install install-dev
 clean:
 	rm -rf docs/build .tox .pytest_cache build circleci myjwt.egg-info dist coverage_html_report *.json *.pem *.crt dumpSyntax .coverage .coverage.* .rnd
 freeze:
-	pip-compile --output-file requirements.txt setup.py
+	pip freeze > freeze.txt
 help:
 	@echo "make help              Show this help message."
 	@echo "make test              Run Unit test."
