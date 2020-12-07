@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - [documentation](http://myjwt.readthedocs.io)
 - Docker lint
-- pyup 
+- pyup
 - workflow
 - docstr-coverage to 100%
 ### Changed

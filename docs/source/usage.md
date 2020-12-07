@@ -6,7 +6,7 @@
 | --ful-payload               | JSON      | {"user": "admin"} | New payload for your jwt.|
 | -h, --add-header            | key=value |   user=admin | Add a new key, value to your jwt header, if key is present old value will be replaced.|
 | -p, --add-payload           | key=value |   user=admin |  Add a new key, value to your jwt payload, if key is present old value will be replaced.|
-                                                        
+
 ## Check Your JWT (HS alg)
 
 | Option                      | Type      | Example  | help|

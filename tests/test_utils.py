@@ -12,11 +12,13 @@ from MyJWT.utils import (
     HEADER,
     PAYLOAD,
     SIGNATURE,
-    createCrt)
+    createCrt,
+)
 
 
 class TestUtils(TestCase):
     """Test Class for utils.py"""
+
     def setUp(self):
         """ SetUp """
         self.invalidJWT = "test.test"

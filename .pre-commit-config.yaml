@@ -7,3 +7,13 @@
      rev: 3.8.4
      hooks:
        - id: flake8
+         additional_dependencies: [flake8-typing-imports==1.10.0]
+
+   - repo: https://github.com/pre-commit/pre-commit-hooks
+     rev: v2.4.0
+     hooks:
+       - id: trailing-whitespace
+       - id: end-of-file-fixer
+       - id: debug-statements
+       - id: check-docstring-first
+       - id: requirements-txt-fixer

@@ -59,12 +59,16 @@ def encodeJwt(jwtJson):
     headerEncoded = (
         base64.urlsafe_b64encode(
             json.dumps(jwtJson[HEADER], separators=(",", ":")).encode("UTF-8")
-        ).decode("UTF-8").strip("=")
+        )
+        .decode("UTF-8")
+        .strip("=")
     )
     payloadEncoded = (
         base64.urlsafe_b64encode(
             json.dumps(jwtJson[PAYLOAD], separators=(",", ":")).encode("UTF-8")
-        ).decode("UTF-8").strip("=")
+        )
+        .decode("UTF-8")
+        .strip("=")
     )
     return headerEncoded + "." + payloadEncoded
 
@@ -88,12 +92,14 @@ def isValidJwtJson(jwtJson):
     :return: True if jwtJson is valid , False else
     :rtype: bool
     """
-    return HEADER in jwtJson \
-           and PAYLOAD in jwtJson \
-           and SIGNATURE in jwtJson \
-           and type(jwtJson[HEADER]) is dict \
-           and type(jwtJson[PAYLOAD]) is dict \
-           and type(jwtJson[SIGNATURE]) is str
+    return (
+        HEADER in jwtJson
+        and PAYLOAD in jwtJson
+        and SIGNATURE in jwtJson
+        and type(jwtJson[HEADER]) is dict
+        and type(jwtJson[PAYLOAD]) is dict
+        and type(jwtJson[SIGNATURE]) is str
+    )
 
 
 def createCrt():

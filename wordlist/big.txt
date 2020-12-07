@@ -2789,7 +2789,7 @@ training
 transfer
 transit
 transito
-transmissio  
+transmissio
 traspaso
 travel
 treballador

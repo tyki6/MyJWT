@@ -10,31 +10,64 @@ import requests
 
 from MyJWT.modifyJWT import changePayload, addheader, changeAlg, signature, addpayload
 from MyJWT.utils import jwtToJson, encodeJwt, HEADER, isValidJwt, SIGNATURE
-from MyJWT.variables import NOT_VALID_JWT, CHECK_DOCS, NOT_CRAKED, CRACKED, VALID_PAYLOAD, VALID_HEADER, \
-    VALID_PAYLOAD_JSON, NEW_JWT, INVALID_SIGNATURE, VALID_SIGNATURE, VALID_DATA, VALID_COOKIES, VERSION
-from MyJWT.vulnerabilities import injectSqlKid, bruteforceDict, printDecoded, confusionRsaHmac, sendJwtToUrl, \
-    jkuVulnerability, x5uVulnerability
+from MyJWT.variables import (
+    NOT_VALID_JWT,
+    CHECK_DOCS,
+    NOT_CRAKED,
+    CRACKED,
+    VALID_PAYLOAD,
+    VALID_HEADER,
+    VALID_PAYLOAD_JSON,
+    NEW_JWT,
+    INVALID_SIGNATURE,
+    VALID_SIGNATURE,
+    VALID_DATA,
+    VALID_COOKIES,
+    VERSION,
+)
+from MyJWT.vulnerabilities import (
+    injectSqlKid,
+    bruteforceDict,
+    printDecoded,
+    confusionRsaHmac,
+    sendJwtToUrl,
+    jkuVulnerability,
+    x5uVulnerability,
+)
 
 
 @click.command()
 @click.version_option(VERSION)
-@click.argument('jwt')
+@click.argument("jwt")
 # modify your jwt
 @click.option("--full-payload", help="New payload for your jwt.Json format Required.")
-@click.option("--add-header", "-h",
-              help="Add a new key, value to your jwt header, if key is present old value will be replaced.Format: key=value.",
-              multiple=True)
-@click.option("--add-payload", "-p",
-              help="Add a new key, value to your jwt payload, if key is present old value will be replaced.Format: key=value.",
-              multiple=True)
+@click.option(
+    "--add-header",
+    "-h",
+    help="Add a new key, value to your jwt header, if key is present old value will be replaced.Format: key=value.",
+    multiple=True,
+)
+@click.option(
+    "--add-payload",
+    "-p",
+    help="Add a new key, value to your jwt payload, if key is present old value will be replaced.Format: key=value.",
+    multiple=True,
+)
 # signature
 @click.option("--sign", help="Sign Your jwt with key given.")
 @click.option("--verify", help="verify your key.")
 # vulnerabilities
-@click.option("--none-vulnerability", '-none', is_flag=True, help="Check None Alg vulnerability.")
-@click.option("--hmac", type=click.Path(exists=True), help="Check RS/HMAC Alg vulnerability.")
-@click.option("--bruteforce", type=click.Path(exists=True),
-              help="Bruteforce to guess th secret used to sign the token.")
+@click.option(
+    "--none-vulnerability", "-none", is_flag=True, help="Check None Alg vulnerability."
+)
+@click.option(
+    "--hmac", type=click.Path(exists=True), help="Check RS/HMAC Alg vulnerability."
+)
+@click.option(
+    "--bruteforce",
+    type=click.Path(exists=True),
+    help="Bruteforce to guess th secret used to sign the token.",
+)
 @click.option("--kid", help="Kid Injection sql")
 @click.option("--jku", help="Jku Header to bypass authentication")
 @click.option("--x5u", help="X5u Header to bypass authentication")
@@ -45,15 +78,46 @@ from MyJWT.vulnerabilities import injectSqlKid, bruteforceDict, printDecoded, co
 @click.option("--print", is_flag=True, help="Print Decoded JWT")
 # url
 @click.option("-u", "--url", help="Url to send your jwt.")
-@click.option("-m", "--method", help="Method use for send request to url.(Default GET).", default="GET")
-@click.option("-d", "--data",
-              help="Data send to your url.Format: key=value. if value = MY_JWT value will be replace by new jwt.",
-              multiple=True)
-@click.option("-c", "--cookies",
-              help="Cookies to send to your url.Format: key=value. if value = MY_JWT value will be replace by new jwt.",
-              multiple=True)
-def myjwt_cli(jwt, full_payload, add_header, add_payload, sign, verify, none_vulnerability, hmac, bruteforce, kid,
-              jku, x5u, crt, key, file, print, url, method, data, cookies):
+@click.option(
+    "-m",
+    "--method",
+    help="Method use for send request to url.(Default GET).",
+    default="GET",
+)
+@click.option(
+    "-d",
+    "--data",
+    help="Data send to your url.Format: key=value. if value = MY_JWT value will be replace by new jwt.",
+    multiple=True,
+)
+@click.option(
+    "-c",
+    "--cookies",
+    help="Cookies to send to your url.Format: key=value. if value = MY_JWT value will be replace by new jwt.",
+    multiple=True,
+)
+def myjwt_cli(
+    jwt,
+    full_payload,
+    add_header,
+    add_payload,
+    sign,
+    verify,
+    none_vulnerability,
+    hmac,
+    bruteforce,
+    kid,
+    jku,
+    x5u,
+    crt,
+    key,
+    file,
+    print,
+    url,
+    method,
+    data,
+    cookies,
+):
     """
     Cli method
     \f
@@ -126,7 +190,9 @@ def myjwt_cli(jwt, full_payload, add_header, add_payload, sign, verify, none_vul
     if jku:
         jwt = jkuVulnerability(jwt, jku, file, key)
         click.echo(NEW_JWT + jwt)
-        click.echo(f"Please run python -m http.server --bind {jku} .Before send your jwt")
+        click.echo(
+            f"Please run python -m http.server --bind {jku} .Before send your jwt"
+        )
     if kid:
         jwt = injectSqlKid(jwt, kid)
         if not sign:
@@ -150,7 +216,11 @@ def myjwt_cli(jwt, full_payload, add_header, add_payload, sign, verify, none_vul
         if "HS" not in jwtJson[HEADER]["alg"]:
             sys.exit(CHECK_DOCS)
         newJwt = signature(jwtJson, verify)
-        click.echo(VALID_SIGNATURE if newJwt.split('.')[2] == jwt.split('.')[2] else INVALID_SIGNATURE)
+        click.echo(
+            VALID_SIGNATURE
+            if newJwt.split(".")[2] == jwt.split(".")[2]
+            else INVALID_SIGNATURE
+        )
     if url:
         dataDict = dict()
         for d in data:
@@ -179,10 +249,19 @@ def myjwt_cli(jwt, full_payload, add_header, add_payload, sign, verify, none_vul
     if print:
         printDecoded(jwt)
 
-    if not none_vulnerability and not hmac and not bruteforce and not sign and not verify and not jku and not x5u and not print:
+    if (
+        not none_vulnerability
+        and not hmac
+        and not bruteforce
+        and not sign
+        and not verify
+        and not jku
+        and not x5u
+        and not print
+    ):
         click.echo(NEW_JWT + jwt)
     sys.exit()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     myjwt_cli()

@@ -17,5 +17,5 @@ assignees: ''
 [Explain exactly with link or screenshot for you enhancement request]
 ## Examples of command
 [Write command in cli]
-## Result wanted 
+## Result wanted
 [Give an example.]

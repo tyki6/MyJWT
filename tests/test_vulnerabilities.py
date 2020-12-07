@@ -14,11 +14,14 @@ from MyJWT.vulnerabilities import (
     injectSqlKid,
     printDecoded,
     sendJwtToUrl,
-    jkuVulnerability, x5uVulnerability)
+    jkuVulnerability,
+    x5uVulnerability,
+)
 
 
 class TestVulnerabilities(TestCase):
     """Test Class for vulnerabilities.py"""
+
     def setUp(self):
         """ SetUp """
         self.jwt = (
@@ -161,21 +164,25 @@ class TestVulnerabilities(TestCase):
             jkuVulnerability(self.jwtBruteForce, "http://test.com")
 
         status_code = 200
-        m.get("http://localhost:8080", json={
-            "keys": [
-                {
-                    "kty": "RSA",
-                    "use": "sig",
-                    "kid": "xxxxxxxxx",
-                    "n": "oTtAXRgdJ6Pu0jr3hK3opCF5uqKWKbm4KkqIiDJSEsQ4PnAz14P_aJnfnsQwgchFGN95cfCO7euC8HjT"
-                         "-u5WHHDn08GQ7ot6Gq6j-fbwMdRWjLC74XqQ0JNDHRJoM4bbj4i8FaBdYKvKmnJ8eSeEjA0YrG8KuTOPbLsgl"
-                         "ADUubNw9kggRIvj6au88dnBJ9HeZ27QVVFaIllZpMITtocuPkOKd8bHzkZzKN4HJtM0hgzOjeyCfqZxh1V8LybliWD"
-                         "XYivUqmvrzchzwXTAQPJBBfYo9BO6D4Neui8rGbc49OBCnHLCWtPH7m7xp3cz-PbVnLhRczzsQE_3escvTF0FGw",
-                    "e": "AQAB",
-                    "alg": "RS256"
-                }
-            ]
-        }, status_code=status_code)
+        m.get(
+            "http://localhost:8080",
+            json={
+                "keys": [
+                    {
+                        "kty": "RSA",
+                        "use": "sig",
+                        "kid": "xxxxxxxxx",
+                        "n": "oTtAXRgdJ6Pu0jr3hK3opCF5uqKWKbm4KkqIiDJSEsQ4PnAz14P_aJnfnsQwgchFGN95cfCO7euC8HjT"
+                        "-u5WHHDn08GQ7ot6Gq6j-fbwMdRWjLC74XqQ0JNDHRJoM4bbj4i8FaBdYKvKmnJ8eSeEjA0YrG8KuTOPbLsgl"
+                        "ADUubNw9kggRIvj6au88dnBJ9HeZ27QVVFaIllZpMITtocuPkOKd8bHzkZzKN4HJtM0hgzOjeyCfqZxh1V8LybliWD"
+                        "XYivUqmvrzchzwXTAQPJBBfYo9BO6D4Neui8rGbc49OBCnHLCWtPH7m7xp3cz-PbVnLhRczzsQE_3escvTF0FGw",
+                        "e": "AQAB",
+                        "alg": "RS256",
+                    }
+                ]
+            },
+            status_code=status_code,
+        )
         jwt = jkuVulnerability(self.jwtJku, "http://test.com")
         jwtJson = jwtToJson(jwt)
         self.assertIn("jku", jwtJson[HEADER])
@@ -191,8 +198,12 @@ class TestVulnerabilities(TestCase):
         privatekey = OpenSSL.crypto.PKey()
         privatekey.generate_key(OpenSSL.crypto.TYPE_RSA, 4096)
 
-        with open('private.pem', 'w') as f:
-            f.write(OpenSSL.crypto.dump_privatekey(OpenSSL.crypto.FILETYPE_PEM, privatekey).decode())
+        with open("private.pem", "w") as f:
+            f.write(
+                OpenSSL.crypto.dump_privatekey(
+                    OpenSSL.crypto.FILETYPE_PEM, privatekey
+                ).decode()
+            )
 
         jkuVulnerability(self.jwtJku, "http://test.com", file="test", pem="private.pem")
         self.assertTrue(os.path.exists("private.pem"))
@@ -209,21 +220,25 @@ class TestVulnerabilities(TestCase):
             x5uVulnerability(self.jwtBruteForce, url="http://test.com")
 
         status_code = 200
-        m.get("http://test.com", json={
-            "keys": [
-                {
-                    "kty": "RSA",
-                    "use": "sig",
-                    "kid": "xxxxxxxxx",
-                    "n": "oTtAXRgdJ6Pu0jr3hK3opCF5uqKWKbm4KkqIiDJSEsQ4PnAz14P_aJnfnsQwgchFGN95cfCO7euC8HjT"
-                         "-u5WHHDn08GQ7ot6Gq6j-fbwMdRWjLC74XqQ0JNDHRJoM4bbj4i8FaBdYKvKmnJ8eSeEjA0YrG8KuTOPbLsgl"
-                         "ADUubNw9kggRIvj6au88dnBJ9HeZ27QVVFaIllZpMITtocuPkOKd8bHzkZzKN4HJtM0hgzOjeyCfqZxh1V8LybliWD"
-                         "XYivUqmvrzchzwXTAQPJBBfYo9BO6D4Neui8rGbc49OBCnHLCWtPH7m7xp3cz-PbVnLhRczzsQE_3escvTF0FGw",
-                    "e": "AQAB",
-                    "alg": "RS256"
-                }
-            ]
-        }, status_code=status_code)
+        m.get(
+            "http://test.com",
+            json={
+                "keys": [
+                    {
+                        "kty": "RSA",
+                        "use": "sig",
+                        "kid": "xxxxxxxxx",
+                        "n": "oTtAXRgdJ6Pu0jr3hK3opCF5uqKWKbm4KkqIiDJSEsQ4PnAz14P_aJnfnsQwgchFGN95cfCO7euC8HjT"
+                        "-u5WHHDn08GQ7ot6Gq6j-fbwMdRWjLC74XqQ0JNDHRJoM4bbj4i8FaBdYKvKmnJ8eSeEjA0YrG8KuTOPbLsgl"
+                        "ADUubNw9kggRIvj6au88dnBJ9HeZ27QVVFaIllZpMITtocuPkOKd8bHzkZzKN4HJtM0hgzOjeyCfqZxh1V8LybliWD"
+                        "XYivUqmvrzchzwXTAQPJBBfYo9BO6D4Neui8rGbc49OBCnHLCWtPH7m7xp3cz-PbVnLhRczzsQE_3escvTF0FGw",
+                        "e": "AQAB",
+                        "alg": "RS256",
+                    }
+                ]
+            },
+            status_code=status_code,
+        )
         jwt = x5uVulnerability(self.jwtX5u, url="http://test.com/jwks_with_x5c.json")
         jwtJson = jwtToJson(jwt)
         self.assertIn("x5u", jwtJson[HEADER])
@@ -232,6 +247,8 @@ class TestVulnerabilities(TestCase):
 
         createCrt()
 
-        x5uVulnerability(self.jwtX5u, url="http://test.com", crt="selfsigned.crt", pem="private.pem")
+        x5uVulnerability(
+            self.jwtX5u, url="http://test.com", crt="selfsigned.crt", pem="private.pem"
+        )
         self.assertTrue(os.path.exists("private.pem"))
         self.assertTrue(os.path.exists("selfsigned.crt"))

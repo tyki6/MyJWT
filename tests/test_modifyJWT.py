@@ -7,6 +7,7 @@ from MyJWT.utils import HEADER, PAYLOAD, SIGNATURE, jwtToJson
 
 class TestModifyJWT(TestCase):
     """Test Class for modifyJWT.py"""
+
     def setUp(self):
         """ SetUp """
         self.invalidJWT = "test.test"

@@ -24,6 +24,7 @@ from MyJWT.myjwt_cli import myjwt_cli
 
 class TestMain(TestCase):
     """Test Class for myjwt_cli.py"""
+
     def setUp(self):
         """ SetUp """
         self.jwt = (
@@ -279,8 +280,10 @@ class TestMain(TestCase):
         Test url error for url option in myjwt_cli.py
         """
         m.side_effect = requests.exceptions.ConnectionError
-        result = self.runner.invoke(myjwt_cli, [self.jwt, '-u', "http://www.azdazdazdzadazdazdzad.com"])
-        self.assertIn('Connection Error. Verify your url', result.output)
+        result = self.runner.invoke(
+            myjwt_cli, [self.jwt, "-u", "http://www.azdazdazdzadazdazdzad.com"]
+        )
+        self.assertIn("Connection Error. Verify your url", result.output)
         self.assertEqual(result.exit_code, 1)
 
     @requests_mock.mock()
@@ -289,21 +292,25 @@ class TestMain(TestCase):
         Test jku option in myjwt_cli.py
         """
         status_code = 200
-        m.get("http://localhost:8080", json={
-            "keys": [
-                {
-                    "kty": "RSA",
-                    "use": "sig",
-                    "kid": "xxxxxxxxx",
-                    "n": "oTtAXRgdJ6Pu0jr3hK3opCF5uqKWKbm4KkqIiDJSEsQ4PnAz14P_aJnfnsQwgchFGN95cfCO7euC8HjT"
-                         "-u5WHHDn08GQ7ot6Gq6j-fbwMdRWjLC74XqQ0JNDHRJoM4bbj4i8FaBdYKvKmnJ8eSeEjA0YrG8KuTOPbLsgl"
-                         "ADUubNw9kggRIvj6au88dnBJ9HeZ27QVVFaIllZpMITtocuPkOKd8bHzkZzKN4HJtM0hgzOjeyCfqZxh1V8LybliWD"
-                         "XYivUqmvrzchzwXTAQPJBBfYo9BO6D4Neui8rGbc49OBCnHLCWtPH7m7xp3cz-PbVnLhRczzsQE_3escvTF0FGw",
-                    "e": "AQAB",
-                    "alg": "RS256"
-                }
-            ]
-        }, status_code=status_code)
+        m.get(
+            "http://localhost:8080",
+            json={
+                "keys": [
+                    {
+                        "kty": "RSA",
+                        "use": "sig",
+                        "kid": "xxxxxxxxx",
+                        "n": "oTtAXRgdJ6Pu0jr3hK3opCF5uqKWKbm4KkqIiDJSEsQ4PnAz14P_aJnfnsQwgchFGN95cfCO7euC8HjT"
+                        "-u5WHHDn08GQ7ot6Gq6j-fbwMdRWjLC74XqQ0JNDHRJoM4bbj4i8FaBdYKvKmnJ8eSeEjA0YrG8KuTOPbLsgl"
+                        "ADUubNw9kggRIvj6au88dnBJ9HeZ27QVVFaIllZpMITtocuPkOKd8bHzkZzKN4HJtM0hgzOjeyCfqZxh1V8LybliWD"
+                        "XYivUqmvrzchzwXTAQPJBBfYo9BO6D4Neui8rGbc49OBCnHLCWtPH7m7xp3cz-PbVnLhRczzsQE_3escvTF0FGw",
+                        "e": "AQAB",
+                        "alg": "RS256",
+                    }
+                ]
+            },
+            status_code=status_code,
+        )
 
         result = self.runner.invoke(
             myjwt_cli, [self.jwtJku, "--jku", "http://localhost:8080"]
@@ -314,9 +321,7 @@ class TestMain(TestCase):
         """
         Test no input in myjwt_cli.py
         """
-        result = self.runner.invoke(
-            myjwt_cli, [self.jwt]
-        )
+        result = self.runner.invoke(myjwt_cli, [self.jwt])
         self.assertEqual(result.exit_code, 0)
 
     @requests_mock.mock()
@@ -325,21 +330,25 @@ class TestMain(TestCase):
         Test x5c option in myjwt_cli.py
         """
         status_code = 200
-        m.get("http://test.com", json={
-            "keys": [
-                {
-                    "kty": "RSA",
-                    "use": "sig",
-                    "kid": "xxxxxxxxx",
-                    "n": "oTtAXRgdJ6Pu0jr3hK3opCF5uqKWKbm4KkqIiDJSEsQ4PnAz14P_aJnfnsQwgchFGN95cfCO7euC8HjT"
-                         "-u5WHHDn08GQ7ot6Gq6j-fbwMdRWjLC74XqQ0JNDHRJoM4bbj4i8FaBdYKvKmnJ8eSeEjA0YrG8KuTOPbLsgl"
-                         "ADUubNw9kggRIvj6au88dnBJ9HeZ27QVVFaIllZpMITtocuPkOKd8bHzkZzKN4HJtM0hgzOjeyCfqZxh1V8LybliWD"
-                         "XYivUqmvrzchzwXTAQPJBBfYo9BO6D4Neui8rGbc49OBCnHLCWtPH7m7xp3cz-PbVnLhRczzsQE_3escvTF0FGw",
-                    "e": "AQAB",
-                    "alg": "RS256"
-                }
-            ]
-        }, status_code=status_code)
+        m.get(
+            "http://test.com",
+            json={
+                "keys": [
+                    {
+                        "kty": "RSA",
+                        "use": "sig",
+                        "kid": "xxxxxxxxx",
+                        "n": "oTtAXRgdJ6Pu0jr3hK3opCF5uqKWKbm4KkqIiDJSEsQ4PnAz14P_aJnfnsQwgchFGN95cfCO7euC8HjT"
+                        "-u5WHHDn08GQ7ot6Gq6j-fbwMdRWjLC74XqQ0JNDHRJoM4bbj4i8FaBdYKvKmnJ8eSeEjA0YrG8KuTOPbLsgl"
+                        "ADUubNw9kggRIvj6au88dnBJ9HeZ27QVVFaIllZpMITtocuPkOKd8bHzkZzKN4HJtM0hgzOjeyCfqZxh1V8LybliWD"
+                        "XYivUqmvrzchzwXTAQPJBBfYo9BO6D4Neui8rGbc49OBCnHLCWtPH7m7xp3cz-PbVnLhRczzsQE_3escvTF0FGw",
+                        "e": "AQAB",
+                        "alg": "RS256",
+                    }
+                ]
+            },
+            status_code=status_code,
+        )
 
         result = self.runner.invoke(
             myjwt_cli, [self.jwtX5u, "--x5u", "http://test.com"]

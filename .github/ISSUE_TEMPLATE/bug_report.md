@@ -17,7 +17,7 @@ assignees: ''
 
 [ordered list the process to finding and recreating the issue, example below]
 
-1. 
+1.
 2.
 3.
 
