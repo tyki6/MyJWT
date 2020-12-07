@@ -8,6 +8,7 @@ test:
 coverage:
 	coverage report -m --branch
 lint:
+	pip install pre-commit
 	pre-commit run --all-files
 docstr:
 	docstr-coverage MyJWT tests --skipinit --badge=img
