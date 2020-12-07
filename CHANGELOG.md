@@ -1,6 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.1.3] - 07-12-2020
+### Aded
+- codecov
+- pre-commit
+- rawsec inventored
+### Changed
+- fix cli helper
+- fix bugs
+- fix tox env
+- fix black
+- make lint
+
 ## [1.1.2] - 28-11-2020
 ### Changed
 - fix spelling mistakes in readme
