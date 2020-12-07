@@ -56,6 +56,7 @@ def myjwt_cli(jwt, full_payload, add_header, add_payload, sign, verify, none_vul
               jku, x5u, crt, key, file, print, url, method, data, cookies):
     """
     Cli method
+    \f
     :param str jwt: jwt
     :param str full_payload: str json
     :param str add_header: header key=value

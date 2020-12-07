@@ -7,9 +7,8 @@ test:
 	coverage run -p -m pytest
 coverage:
 	coverage report -m
-flake8:
-	pip install flake8
-	flake8 tests MyJWT examples
+lint:
+	pre-commit run --all-files
 docstr:
 	docstr-coverage MyJWT tests --skipinit --badge=img
 deploy:
@@ -51,7 +50,7 @@ help:
 	@echo "make test              Run Unit test."
 	@echo "make html              Generate docs."
 	@echo "make coverage          Show coverage report."
-	@echo "make flake8            Run flake8."
+	@echo "make lint              Run pre-commit."
 	@echo "make deploy            Deploy package on pypi."
 	@echo "make fake-deploy       Test Deploy."
 	@echo "make full-install      Install requirements + dev requirements + docs requirements."
