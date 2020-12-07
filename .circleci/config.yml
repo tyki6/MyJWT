@@ -11,7 +11,7 @@ jobs:
       - run:
           name: Check lint
           command: |
-            make flake8
+            make lint
   unit_test:
     docker:
       - image: pennlabs/tox:d94aa67bd172351b25b8fd33308478be59f608ac

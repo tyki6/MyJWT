@@ -6,7 +6,7 @@ html:
 test:
 	coverage run -p -m pytest
 coverage:
-	coverage report -m
+	coverage report -m --branch
 lint:
 	pre-commit run --all-files
 docstr:
