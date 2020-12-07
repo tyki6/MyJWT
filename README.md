@@ -5,6 +5,7 @@
 [![PyPI - Download](https://pepy.tech/badge/myjwt)](https://pepy.tech/project/myjwt)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/mBouamama/MyJWT)](https://github.com/mBouamama/MyJWT/releases)
 [![Documentation Status](https://readthedocs.org/projects/myjwt/badge/?version=latest)](https://myjwt.readthedocs.io/en/latest/?badge=latest)
+[![Rawsec's CyberSecurity Inventory](https://inventory.raw.pm/img/badges/Rawsec-inventoried-FF5050_flat.svg)](https://inventory.raw.pm/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![codecov](https://codecov.io/gh/mBouamama/MyJWT/branch/master/graph/badge.svg?token=V7yZJ1bZV9)](https://codecov.io/gh/mBouamama/MyJWT)
 [![docstr_coverage](./img/docstr_coverage_badge.svg)](https://github.com/HunterMcGushion/docstr_coverage.git)
@@ -27,6 +28,7 @@ Documentation is available at http://myjwt.readthedocs.io
 - [Examples](#examples)
 - [Download](#download)
 - [Contribute](#contribute)
+- [ChangeLog](#change-log)
 # Features
 - modify jwt (header/Payload)
 - None Vulnerability
@@ -60,6 +62,52 @@ python MyJWT/myjwt_cli.py --help
 ```
 # Usage
 ![Usage](https://github.com/mBouamama/MyJWT/blob/master/img/help.png)
+## Modify JWT
+
+| Option                      | Type      | Example  | help|
+| --------------------------- |:---------:|:--------:| ---:|
+| --ful-payload               | JSON      | {"user": "admin"} | New payload for your jwt.|
+| -h, --add-header            | key=value |   user=admin | Add a new key, value to your jwt header, if key is present old value will be replaced.|
+| -p, --add-payload           | key=value |   user=admin |  Add a new key, value to your jwt payload, if key is present old value will be replaced.|
+
+## Check Your JWT (HS alg)
+
+| Option                      | Type      | Example  | help|
+--- | --- | --- | ---
+| --sign                      | text      | mysecretkey | Sign Your jwt with your key
+| --verify                    | text      | mysecretkey |  Verify your key.
+
+## Exploit
+
+| Option                      | Type      | Example  | help|
+--- | --- | --- | ---
+| -none, --none-vulnerability | Nothing   |  | Check None Alg vulnerability.
+| --hmac                      | PATH      | ./public.pem | Check RS/HMAC Alg vulnerability, and sign your jwt with public key.
+| --bruteforce                | PATH      | ./wordlist/big.txt | Bruteforce to guess th secret used to sign the token. Use txt file with all password stored(1 by line)
+| --kid                       | text      | "00; echo /etc/.passwd" | Kid Injection sql
+| --jku                       | text      | MYPUBLICIP | Jku Header to bypass authentication, use --file if you want to change your jwks file name, and --key if you want to use your own private pem
+| --x5u                       | text      | MYPUBLICIP | For jku or x5c Header, use --file if you want to change your jwks file name, and --key if you want to use your own private pem
+
+## Send your jwt
+
+| Option                      | Type      | Example  | help|
+--- | --- | --- | ---
+|  -u, --url                  | url       |  http://challenge01.root-me.org/web-serveur/ch59/admin|  Url to send your jwt.
+| -m, --method                | text      | POST  | Method use to send request to url.(Default: GET).
+| -d, --data                  | key=value | secret=MY_JWT  | Data send to your url.Format: key=value. if value = MY_JWT value will be replace by your new jwt.
+|  -c, --cookies              | key=value | secret=MY_JWT  | Cookies to send to your url.Format: key=value.if value = MY_JWT value will be replace by your new jwt.
+
+## Other
+
+| Option                      | Type      | Example  | help|
+--- | --- | --- | ---
+|  --crt                      | PATH       |  ./public.crt|  For x5cHeader, force crt file
+|  --key                      | PATH       |  ./private.pem|  For jku or x5c Header, force private key to your key file
+|   --file                    | text       |  myfile|  For jku Header, force file name without .json extension
+|  --print                    | Nothing    |  |  Print Decoded JWT
+|  --help                     | Nothing    |  |   Show Helper message and exit.
+|  --version                  | Nothing    |  |  Show Myjwt version
+
 # Examples
 - [Modify Your jwt](#modify-your-jwt)
 - [None Vulnerabilty Check](#none-vulnerability)

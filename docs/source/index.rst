@@ -17,6 +17,9 @@ MyJWT: crack Your jwt
 .. image:: https://pepy.tech/badge/myjwt
     :target: https://pepy.tech/project/myjwt
 
+.. image:: https://inventory.raw.pm/img/badges/Rawsec-inventoried-FF5050_flat.svg
+    :target: https://inventory.raw.pm/
+
 .. image:: https://pyup.io/repos/github/mBouamama/MyJWT/shield.svg
     :target: https://pyup.io/repos/github/mBouamama/MyJWT/
 
