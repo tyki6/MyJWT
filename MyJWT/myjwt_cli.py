@@ -6,6 +6,7 @@ import sys
 from json import JSONDecodeError
 
 import click
+import exrex
 import requests
 
 from MyJWT.modifyJWT import changePayload, addheader, changeAlg, signature, addpayload
@@ -66,7 +67,12 @@ from MyJWT.vulnerabilities import (
 @click.option(
     "--bruteforce",
     type=click.Path(exists=True),
-    help="Bruteforce to guess th secret used to sign the token.",
+    help="Bruteforce to guess the secret used to sign the token.",
+)
+@click.option(
+    "--crack",
+    "-c",
+    help="regex to iterate all string possibilities to guess the secret used to sign the token.",
 )
 @click.option("--kid", help="Kid Injection sql")
 @click.option("--jku", help="Jku Header to bypass authentication")
@@ -106,6 +112,7 @@ def myjwt_cli(
     none_vulnerability,
     hmac,
     bruteforce,
+    crack,
     kid,
     jku,
     x5u,
@@ -130,6 +137,7 @@ def myjwt_cli(
     :param bool none_vulnerability:
     :param str hmac: path private key
     :param str bruteforce: path wordlist
+    :param str crack: regex
     :param str kid: injection
     :param str jku:  publicip
     :param str x5u:  publicip
@@ -221,6 +229,19 @@ def myjwt_cli(
             if newJwt.split(".")[2] == jwt.split(".")[2]
             else INVALID_SIGNATURE
         )
+    if crack:
+        jwtJson = jwtToJson(jwt)
+        if "HS" not in jwtJson[HEADER]["alg"]:
+            sys.exit(CHECK_DOCS)
+
+        allString = list(exrex.generate(crack))
+        click.echo(crack + " have " + str(len(allString)) + " possibilities")
+        with click.progressbar(allString, label="Keys", length=len(allString)) as bar:
+            for key in bar:
+                newJwt = signature(jwtJson, key)
+                if newJwt.split(".")[2] == jwt.split(".")[2]:
+                    sys.exit("Key found: " + key)
+            sys.exit(INVALID_SIGNATURE)
     if url:
         dataDict = dict()
         for d in data:
