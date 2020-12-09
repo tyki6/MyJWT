@@ -21,6 +21,7 @@
 | -none, --none-vulnerability | Nothing   |  | Check None Alg vulnerability.
 | --hmac                      | PATH      | ./public.pem | Check RS/HMAC Alg vulnerability, and sign your jwt with public key.
 | --bruteforce                | PATH      | ./wordlist/big.txt | Bruteforce to guess th secret used to sign the token. Use txt file with all password stored(1 by line)
+| --crack                     | REGEX     | "[a-z]{4}" | regex to iterate all string possibilities to guess the secret used to sign the token.
 | --kid                       | text      | "00; echo /etc/.passwd" | Kid Injection sql
 | --jku                       | text      | MYPUBLICIP | Jku Header to bypass authentication, use --file if you want to change your jwks file name, and --key if you want to use your own private pem
 | --x5u                       | text      | MYPUBLICIP | For jku or x5c Header, use --file if you want to change your jwks file name, and --key if you want to use your own private pem
