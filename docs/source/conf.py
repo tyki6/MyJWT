@@ -22,7 +22,7 @@ copyright = "2020, matthieu Bouamama"
 author = "matthieu Bouamama"
 
 # The full version, including alpha/beta/rc tags
-release = "1.1.3"
+release = "1.2.0"
 
 
 # -- General configuration ---------------------------------------------------
