@@ -69,7 +69,11 @@ from MyJWT.vulnerabilities import (
     type=click.Path(exists=True),
     help="Bruteforce to guess the secret used to sign the token.",
 )
-@click.option("--crack", "-c", help="regex to iterate all string possibilities to guess the secret used to sign the token.")
+@click.option(
+    "--crack",
+    "-c",
+    help="regex to iterate all string possibilities to guess the secret used to sign the token.",
+)
 @click.option("--kid", help="Kid Injection sql")
 @click.option("--jku", help="Jku Header to bypass authentication")
 @click.option("--x5u", help="X5u Header to bypass authentication")
@@ -232,9 +236,7 @@ def myjwt_cli(
 
         allString = list(exrex.generate(crack))
         click.echo(crack + " have " + str(len(allString)) + " possibilities")
-        with click.progressbar(allString,
-                               label='Keys',
-                               length=len(allString)) as bar:
+        with click.progressbar(allString, label="Keys", length=len(allString)) as bar:
             for key in bar:
                 newJwt = signature(jwtJson, key)
                 if newJwt.split(".")[2] == jwt.split(".")[2]:

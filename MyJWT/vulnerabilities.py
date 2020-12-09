@@ -5,7 +5,6 @@ import base64
 import json
 
 import click
-import exrex
 import requests
 
 from OpenSSL import crypto
@@ -173,13 +172,13 @@ def jkuVulnerability(jwt=None, url=None, file=None, pem=None):
 
     jwks["keys"][0]["e"] = (
         base64.urlsafe_b64encode(e.to_bytes(e.bit_length() // 8 + 1, byteorder="big"))
-            .decode("UTF-8")
-            .rstrip("=")
+        .decode("UTF-8")
+        .rstrip("=")
     )
     jwks["keys"][0]["n"] = (
         base64.urlsafe_b64encode(n.to_bytes(n.bit_length() // 8 + 1, byteorder="big"))
-            .decode("UTF-8")
-            .rstrip("=")
+        .decode("UTF-8")
+        .rstrip("=")
     )
 
     f = open(f"{file}.json", "w")
@@ -223,8 +222,8 @@ def x5uVulnerability(jwt=None, crt=None, pem=None, url=None):
     x5u = requests.get(jwtJson[HEADER]["x5u"]).json()
     x5u["keys"][0]["x5c"] = (
         content.replace("-----END CERTIFICATE-----", "")
-            .replace("-----BEGIN CERTIFICATE-----", "")
-            .replace("\n", "")
+        .replace("-----BEGIN CERTIFICATE-----", "")
+        .replace("\n", "")
     )
 
     jwtJson[HEADER]["x5u"] = url

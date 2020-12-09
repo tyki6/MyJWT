@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [1.2.0] - 09-12-2020
 ### Added
 - crack option
-- beautiful print 
+- beautiful print
 - progress bar
 ### Changed
 - fix cli
