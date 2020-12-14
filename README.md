@@ -1,6 +1,7 @@
 # MyJWT
 [![mBouamama](https://circleci.com/gh/mBouamama/MyJWT.svg?style=shield)](https://circleci.com/gh/mBouamama/MyJWT.svg?style=shield)
 [![PyPI](https://img.shields.io/pypi/v/myjwt)](https://pypi.org/project/myjwt/)
+[![BlackArch package](https://repology.org/badge/version-for-repo/blackarch/myjwt.svg)](https://repology.org/project/myjwt/versions)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/myjwt)](https://pypi.org/project/myjwt/)
 [![PyPI - Download](https://pepy.tech/badge/myjwt)](https://pepy.tech/project/myjwt)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/mBouamama/MyJWT)](https://github.com/mBouamama/MyJWT/releases)
@@ -61,6 +62,15 @@ cd ./MyJWT
 pip install -r requirements.txt
 python MyJWT/myjwt_cli.py --help
 ```
+
+To install myjwt on BlackArch:
+
+```
+pacman -S myjwt
+```
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/myjwt.svg)](https://repology.org/project/myjwt/versions)
+
 # Usage
 ![Usage](https://github.com/mBouamama/MyJWT/blob/master/img/help.png)
 ## Modify JWT

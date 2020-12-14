@@ -14,6 +14,9 @@ MyJWT: crack Your jwt
 .. image:: https://img.shields.io/pypi/pyversions/myjwt.svg
     :target: https://pypi.org/project/myjwt/
 
+.. image:: https://repology.org/badge/version-for-repo/blackarch/myjwt.svg
+    :target: https://repology.org/project/myjwt/versions
+
 .. image:: https://pepy.tech/badge/myjwt
     :target: https://pepy.tech/project/myjwt
 

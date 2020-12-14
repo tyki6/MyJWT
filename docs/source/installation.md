@@ -19,3 +19,11 @@ cd ./MyJWT
 pip install -r requirements.txt
 python MyJWT/myjwt_cli.py --help
 ```
+
+To install myjwt on BlackArch:
+
+```
+pacman -S myjwt
+```
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/myjwt.svg)](https://repology.org/project/myjwt/versions)
