@@ -64,8 +64,8 @@ class TestUtils(TestCase):
 
     def testEncodeJwt(self):
         """
-         Test encodeJwt method in utils.py
-         """
+        Test encodeJwt method in utils.py
+        """
         with self.assertRaises(InvalidJwtJson):
             encodeJwt({})
 
@@ -74,20 +74,20 @@ class TestUtils(TestCase):
 
     def testIsvalidJwt(self):
         """
-         Test isValidJwt method in utils.py
-         """
+        Test isValidJwt method in utils.py
+        """
         self.assertTrue(isValidJwt(self.jwt))
 
     def testIsValidJwtJson(self):
         """
-         Test isValidJwtJson method in utils.py
-         """
+        Test isValidJwtJson method in utils.py
+        """
         self.assertTrue(isValidJwtJson(self.jwtJson))
 
     def testCreatCrt(self):
         """
-         Test createCrt method in utils.py
-         """
+        Test createCrt method in utils.py
+        """
         createCrt()
         self.assertTrue(os.path.exists("selfsigned.crt"))
         self.assertTrue(os.path.exists("private.pem"))
