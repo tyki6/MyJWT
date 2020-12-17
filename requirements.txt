@@ -2,4 +2,4 @@ click==7.1.2
 cryptography==3.3.1
 exrex==0.10.5
 pyOpenSSL==20.0.1
-requests==2.25.0
+requests==2.25.1
