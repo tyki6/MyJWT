@@ -20,7 +20,7 @@ RUN python setup.py install
 
 FROM bitnami/python:3.9
 
-COPY --from=builder /opt/bitnami/python/lib/python3.8/site-packages /opt/bitnami/python/lib/python3.8/site-packages
+COPY --from=builder /opt/bitnami/python/lib/python3.9/site-packages /opt/bitnami/python/lib/python3.9/site-packages
 COPY --from=builder /opt/bitnami/python/bin/myjwt /opt/bitnami/python/bin/myjwt
 WORKDIR /home
 
