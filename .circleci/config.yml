@@ -11,7 +11,19 @@ jobs:
       - run:
           name: Check lint
           command: |
+            pip install pre-commit
             make lint
+  docstr:
+    docker:
+      - image: bitnami/python:3.8
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Check docstr
+          command: |
+            pip install docstr-coverage
+            make docstr
   unit_test:
     docker:
       - image: pennlabs/tox:d94aa67bd172351b25b8fd33308478be59f608ac
@@ -24,6 +36,8 @@ jobs:
             pip install codecov
             make tox
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              make coverage
+              coverage xml
               codecov -t "${TOKEN_CODECOV}"
             fi
   deploy_pypi:

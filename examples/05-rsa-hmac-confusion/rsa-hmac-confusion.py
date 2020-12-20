@@ -1,4 +1,4 @@
-from MyJWT.vulnerabilities import confusionRsaHmac
+from myjwt.vulnerabilities import confusion_rsa_hmac
 
 jwt = (
     "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJsb2dpbiI6ImEifQ.Fjziy6GSQpP9tQRyko5APZjdymkQ8EJGOa"
@@ -11,6 +11,6 @@ jwt = (
 # Payload: {"login": "a"}
 file = "public.pem"
 # file is a path file of your public key
-jwt = confusionRsaHmac(jwt, file)
+jwt = confusion_rsa_hmac(jwt, file)
 # same jwt will be print except header alg(set to HS256) and signature
 print(jwt)

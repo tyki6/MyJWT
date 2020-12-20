@@ -52,25 +52,25 @@ If you see problems or enhancement send an issue.I will respond as soon as possi
 Enjoy :)
 
 
-Contents
+Getting help
+--------
+
+If the Documentation  doesn’t answer your question, you can discuss rawsec-cli or get help using it on `myjwt's repository discussion <https://github.com/mBouamama/MyJWT/discussions>`_.
+Bug reports are gladly accepted at the `GitHub issue tracker <https://github.com/mBouamama/MyJWT/issues>`_. GitHub also hosts the `code repository <https://github.com/mBouamama/MyJWT>`_.
+
+
+More information
 --------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
+
 
    installation
    installation_issues
    exploits
    usage
    examples
+   api
    ctf
    changelog
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

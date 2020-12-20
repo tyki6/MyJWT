@@ -12,6 +12,7 @@ coverage:
         paths:
           - "tests/"
       app:
+        threshold: 5%
         paths:
           - "!tests/"
     patch: false

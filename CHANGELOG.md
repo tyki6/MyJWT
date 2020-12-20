@@ -1,7 +1,20 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-
+## [1.3.0] - 20-12-2020
+### Added
+- version option
+- examples
+- numpy documentation
+- readthedocs
+### Changed
+- ci/cd
+- codecov
+- codecov bot
+- lint
+- unit_test
+- docstring
+- readthedocs theme
 ## [1.2.0] - 09-12-2020
 ### Added
 - crack option

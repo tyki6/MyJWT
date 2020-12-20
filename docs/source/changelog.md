@@ -1,6 +1,63 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - 20-12-2020
+### Added
+- version option
+- examples
+- numpy documentation
+- readthedocs
+### Changed
+- ci/cd
+- codecov
+- codecov bot
+- lint
+- unit_test
+- docstring
+- readthedocs theme
+
+## [1.2.0] - 09-12-2020
+### Added
+- crack option
+- beautiful print
+- progress bar
+### Changed
+- fix cli
+- fix bugs
+- update readme
+- update readthedocs
+
+## [1.1.3] - 07-12-2020
+### Added
+- codecov
+- pre-commit
+- rawsec inventored
+### Changed
+- fix cli helper
+- fix bugs
+- fix tox env
+- fix black
+- make lint
+
+## [1.1.2] - 28-11-2020
+### Changed
+- fix spelling mistakes in readme
+- fix spelling mistakes in readthedocs.io
+- fix spelling mistakes in cli helper
+## [1.1.1] - 25-11-2020
+### Added
+- [documentation](http://myjwt.readthedocs.io)
+- Docker lint
+- pyup
+- workflow
+- docstr-coverage to 100%
+### Changed
+- fix bugs
+- new help command
+- change Dockerfile
+- new badges
+
+
 ## [1.1.0] - 16-11-2020
 ### Added
 - Pyup CI + badge
