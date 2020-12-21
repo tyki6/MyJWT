@@ -35,11 +35,9 @@ jobs:
           command: |
             pip install codecov==2.1.11
             make tox
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              make coverage
-              coverage xml
-              codecov
-            fi
+            make coverage
+            coverage xml
+            codecov
   deploy_pypi:
     docker:
       - image: bitnami/python:3.8
