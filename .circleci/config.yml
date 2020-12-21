@@ -33,12 +33,12 @@ jobs:
       - run:
           name: Unit test
           command: |
-            pip install codecov
+            pip install codecov==2.1.11
             make tox
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               make coverage
               coverage xml
-              codecov -t "${TOKEN_CODECOV}"
+              codecov
             fi
   deploy_pypi:
     docker:
