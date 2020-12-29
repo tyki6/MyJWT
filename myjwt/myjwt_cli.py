@@ -143,7 +143,9 @@ def myjwt_cli(jwt, **kwargs):
     # if no option detected print user_interface
     interface_mode = True
     for option in kwargs.values():
-        if not (option is None or option == () or not option or option == "GET"):
+        if not (
+            option is None or option == () or not option or option == "GET"
+        ):
             interface_mode = False
     if interface_mode:
         user_interface(jwt)

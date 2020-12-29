@@ -29,5 +29,4 @@ comment:
   behavior: default
   require_changes: true
 ignore:
-  - tests/*
   - docs/*

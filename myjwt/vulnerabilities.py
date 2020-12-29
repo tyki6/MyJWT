@@ -199,12 +199,28 @@ def print_decoded(jwt: str):
     jwt_json = jwt_to_json(jwt)
     click.echo("Header: ")
     for key in jwt_json[HEADER].keys():
-        click.echo(key + " = " + (jwt_json[HEADER][key] if jwt_json[HEADER][key] is not None else "null"))
+        click.echo(
+            key
+            + " = "
+            + (
+                jwt_json[HEADER][key]
+                if jwt_json[HEADER][key] is not None
+                else "null"
+            ),
+        )
 
     click.echo("")
     click.echo("Payload: ")
     for key in jwt_json[PAYLOAD].keys():
-        click.echo(key + " = " + (jwt_json[PAYLOAD][key] if jwt_json[PAYLOAD][key] is not None else "null"))
+        click.echo(
+            key
+            + " = "
+            + (
+                jwt_json[PAYLOAD][key]
+                if jwt_json[PAYLOAD][key] is not None
+                else "null"
+            ),
+        )
     click.echo("")
     click.echo("Signature: \n" + json.dumps(jwt_json[SIGNATURE]))
 

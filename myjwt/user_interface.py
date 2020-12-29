@@ -4,18 +4,50 @@ from typing import Dict
 
 import click
 import questionary
+
 from myjwt.modify_jwt import signature
-from myjwt.utils import jwt_to_json, HEADER, PAYLOAD, encode_jwt, SIGNATURE
-from myjwt.variables import MAIN_SUMMARY_CHOICES_QUIT, MAIN_SUMMARY_QUESTION, MAIN_SUMMARY_CHOICES, \
-    MAIN_SUMMARY_CHOICES_MODIFY, MODIFY_SUMMARY_CHOICES_RETURN, MODIFY_SUMMARY_QUESTION, SEPARATOR_HEADER, \
-    MODIFY_SUMMARY_CHOICES_ADD_HEADER, SEPARATOR_PAYLOAD, MODIFY_SUMMARY_CHOICES_ADD_PAYLOAD, \
-    MODIFY_SUMMARY_PROMPT_VALUE, MODIFY_SUMMARY_PROMPT_KEY, MAIN_SUMMARY_CHOICES_NONE_ALG, NEW_JWT, \
-    MAIN_SUMMARY_CHOICES_X5U, MAIN_SUMMARY_CHOICES_JKU, MAIN_SUMMARY_CHOICES_KID, MAIN_SUMMARY_CHOICES_VERIFY, \
-    MAIN_SUMMARY_CHOICES_SIGN, MAIN_SUMMARY_PROMPT_WORDLIST, MAIN_SUMMARY_CHOICES_BRUTE_FORCE, \
-    MAIN_SUMMARY_CHOICES_RSA_CONFUSION, MAIN_SUMMARY_PROMPT_PEM, CHECK_DOCS, NOT_CRAKED, CRACKED, VALID_SIGNATURE, \
-    INVALID_SIGNATURE, MAIN_SUMMARY_PROMPT_KEY, MAIN_SUMMARY_PROMPT_INJECTION, MAIN_SUMMARY_PROMPT_JWKS
-from myjwt.vulnerabilities import print_decoded, none_vulnerability, confusion_rsa_hmac, bruteforce_wordlist, \
-    jku_vulnerability, inject_sql_kid
+from myjwt.utils import encode_jwt
+from myjwt.utils import HEADER
+from myjwt.utils import jwt_to_json
+from myjwt.utils import PAYLOAD
+from myjwt.utils import SIGNATURE
+from myjwt.variables import CHECK_DOCS
+from myjwt.variables import CRACKED
+from myjwt.variables import INVALID_SIGNATURE
+from myjwt.variables import MAIN_SUMMARY_CHOICES
+from myjwt.variables import MAIN_SUMMARY_CHOICES_BRUTE_FORCE
+from myjwt.variables import MAIN_SUMMARY_CHOICES_JKU
+from myjwt.variables import MAIN_SUMMARY_CHOICES_KID
+from myjwt.variables import MAIN_SUMMARY_CHOICES_MODIFY
+from myjwt.variables import MAIN_SUMMARY_CHOICES_NONE_ALG
+from myjwt.variables import MAIN_SUMMARY_CHOICES_QUIT
+from myjwt.variables import MAIN_SUMMARY_CHOICES_RSA_CONFUSION
+from myjwt.variables import MAIN_SUMMARY_CHOICES_SIGN
+from myjwt.variables import MAIN_SUMMARY_CHOICES_VERIFY
+from myjwt.variables import MAIN_SUMMARY_CHOICES_X5U
+from myjwt.variables import MAIN_SUMMARY_PROMPT_INJECTION
+from myjwt.variables import MAIN_SUMMARY_PROMPT_JWKS
+from myjwt.variables import MAIN_SUMMARY_PROMPT_KEY
+from myjwt.variables import MAIN_SUMMARY_PROMPT_PEM
+from myjwt.variables import MAIN_SUMMARY_PROMPT_WORDLIST
+from myjwt.variables import MAIN_SUMMARY_QUESTION
+from myjwt.variables import MODIFY_SUMMARY_CHOICES_ADD_HEADER
+from myjwt.variables import MODIFY_SUMMARY_CHOICES_ADD_PAYLOAD
+from myjwt.variables import MODIFY_SUMMARY_CHOICES_RETURN
+from myjwt.variables import MODIFY_SUMMARY_PROMPT_KEY
+from myjwt.variables import MODIFY_SUMMARY_PROMPT_VALUE
+from myjwt.variables import MODIFY_SUMMARY_QUESTION
+from myjwt.variables import NEW_JWT
+from myjwt.variables import NOT_CRAKED
+from myjwt.variables import SEPARATOR_HEADER
+from myjwt.variables import SEPARATOR_PAYLOAD
+from myjwt.variables import VALID_SIGNATURE
+from myjwt.vulnerabilities import bruteforce_wordlist
+from myjwt.vulnerabilities import confusion_rsa_hmac
+from myjwt.vulnerabilities import inject_sql_kid
+from myjwt.vulnerabilities import jku_vulnerability
+from myjwt.vulnerabilities import none_vulnerability
+from myjwt.vulnerabilities import print_decoded
 
 
 def user_interface(jwt: str) -> None:
@@ -37,33 +69,56 @@ def user_interface(jwt: str) -> None:
     jwt_json = jwt_to_json(jwt)
     summary = ""
     while summary != MAIN_SUMMARY_CHOICES_QUIT and summary is not None:
-        summary = questionary.select(MAIN_SUMMARY_QUESTION, choices=MAIN_SUMMARY_CHOICES).ask()
+        summary = questionary.select(
+            MAIN_SUMMARY_QUESTION,
+            choices=MAIN_SUMMARY_CHOICES,
+        ).ask()
         if summary == MAIN_SUMMARY_CHOICES_MODIFY:
             item = ""
             while item != MODIFY_SUMMARY_CHOICES_RETURN and item is not None:
                 header_list = list()
                 for key in jwt_json[HEADER].keys():
                     header_list.append(
-                        key + " = " + (jwt_json[HEADER][key] if jwt_json[HEADER][key] is not None else "null"))
+                        key
+                        + " = "
+                        + (
+                            jwt_json[HEADER][key]
+                            if jwt_json[HEADER][key] is not None
+                            else "null"
+                        ),
+                    )
 
                 payload_list = list()
                 for key in jwt_json[PAYLOAD].keys():
                     payload_list.append(
-                        key + " = " + (jwt_json[PAYLOAD][key] if jwt_json[PAYLOAD][key] is not None else "null"))
-                item = questionary.select(MODIFY_SUMMARY_QUESTION,
-                                          choices=[SEPARATOR_HEADER] + header_list + [
-                                              MODIFY_SUMMARY_CHOICES_ADD_HEADER] + [
-                                                      SEPARATOR_PAYLOAD] + payload_list + [
-                                                      MODIFY_SUMMARY_CHOICES_ADD_PAYLOAD, MODIFY_SUMMARY_CHOICES_RETURN]
-                                          ).ask()
+                        key
+                        + " = "
+                        + (
+                            jwt_json[PAYLOAD][key]
+                            if jwt_json[PAYLOAD][key] is not None
+                            else "null"
+                        ),
+                    )
+                item = questionary.select(
+                    MODIFY_SUMMARY_QUESTION,
+                    choices=[SEPARATOR_HEADER]
+                    + header_list
+                    + [MODIFY_SUMMARY_CHOICES_ADD_HEADER]
+                    + [SEPARATOR_PAYLOAD]
+                    + payload_list
+                    + [
+                        MODIFY_SUMMARY_CHOICES_ADD_PAYLOAD,
+                        MODIFY_SUMMARY_CHOICES_RETURN,
+                    ],
+                ).ask()
                 if item in header_list:
                     m = re.match("(.*) = .*", item)
-                    key = m.groups()[0]
+                    key = m.groups()[0]  # type: ignore
                     value = click.prompt(MODIFY_SUMMARY_PROMPT_VALUE, type=str)
                     jwt_json[HEADER][key] = value
                 elif item in payload_list:
                     m = re.match("(.*) = .*", item)
-                    key = m.groups()[0]
+                    key = m.groups()[0]  # type: ignore
                     value = click.prompt(MODIFY_SUMMARY_PROMPT_VALUE, type=str)
                     jwt_json[PAYLOAD][key] = value
                 elif item == MODIFY_SUMMARY_CHOICES_ADD_HEADER:
@@ -78,11 +133,17 @@ def user_interface(jwt: str) -> None:
             user_none_vulnerability(jwt_json)
             summary = MAIN_SUMMARY_CHOICES_QUIT
         elif summary == MAIN_SUMMARY_CHOICES_RSA_CONFUSION:
-            hmac = click.prompt(MAIN_SUMMARY_PROMPT_PEM, type=click.Path(exists=True))
+            hmac = click.prompt(
+                MAIN_SUMMARY_PROMPT_PEM,
+                type=click.Path(exists=True),
+            )
             user_confusion_rsa_hmac(jwt_json, hmac)
             summary = MAIN_SUMMARY_CHOICES_QUIT
         elif summary == MAIN_SUMMARY_CHOICES_BRUTE_FORCE:
-            wordlist = click.prompt(MAIN_SUMMARY_PROMPT_WORDLIST, type=click.Path(exists=True))
+            wordlist = click.prompt(
+                MAIN_SUMMARY_PROMPT_WORDLIST,
+                type=click.Path(exists=True),
+            )
             user_bruteforce_wordlist(jwt_json, wordlist)
             summary = MAIN_SUMMARY_CHOICES_QUIT
         elif summary == MAIN_SUMMARY_CHOICES_SIGN:
@@ -133,7 +194,10 @@ def user_confusion_rsa_hmac(jwt_json: Dict, hmac: str) -> None:
     hmac: str
         path of your public key.
     """
-    jwt = confusion_rsa_hmac(encode_jwt(jwt_json) + "." + jwt_json[SIGNATURE], hmac)
+    jwt = confusion_rsa_hmac(
+        encode_jwt(jwt_json) + "." + jwt_json[SIGNATURE],
+        hmac,
+    )
     click.echo(NEW_JWT + jwt)
 
 
@@ -150,7 +214,10 @@ def user_bruteforce_wordlist(jwt_json: Dict, wordlist: str) -> None:
     """
     if "HS" not in jwt_json[HEADER]["alg"]:
         click.echo(CHECK_DOCS)
-    key = bruteforce_wordlist(encode_jwt(jwt_json) + "." + jwt_json[SIGNATURE], wordlist)
+    key = bruteforce_wordlist(
+        encode_jwt(jwt_json) + "." + jwt_json[SIGNATURE],
+        wordlist,
+    )
     if key == "":
         click.echo(NOT_CRAKED)
     else:
@@ -211,7 +278,10 @@ def user_kid_injection(jwt_json: Dict, injection: str) -> str:
     str
         Your jwt.
     """
-    return inject_sql_kid(jwt=encode_jwt(jwt_json) + "." + jwt_json[SIGNATURE], injection=injection)
+    return inject_sql_kid(
+        jwt=encode_jwt(jwt_json) + "." + jwt_json[SIGNATURE],
+        injection=injection,
+    )
 
 
 def user_jku_by_pass(jwt_json: Dict, url: str) -> None:
@@ -225,9 +295,14 @@ def user_jku_by_pass(jwt_json: Dict, url: str) -> None:
     url: str
         your url
     """
-    new_jwt = jku_vulnerability(jwt=encode_jwt(jwt_json) + "." + jwt_json[SIGNATURE], url=url)
+    new_jwt = jku_vulnerability(
+        jwt=encode_jwt(jwt_json) + "." + jwt_json[SIGNATURE],
+        url=url,
+    )
     click.echo(NEW_JWT + new_jwt)
-    click.echo(f"Please run python -m http.server --bind {url} .Before send your jwt")
+    click.echo(
+        f"Please run python -m http.server --bind {url} .Before send your jwt",
+    )
 
 
 def user_x5u_by_pass(jwt_json: Dict, url: str) -> None:
@@ -241,6 +316,11 @@ def user_x5u_by_pass(jwt_json: Dict, url: str) -> None:
     url: str
         your url
     """
-    new_jwt = jku_vulnerability(jwt=encode_jwt(jwt_json) + "." + jwt_json[SIGNATURE], url=url)
+    new_jwt = jku_vulnerability(
+        jwt=encode_jwt(jwt_json) + "." + jwt_json[SIGNATURE],
+        url=url,
+    )
     click.echo(NEW_JWT + new_jwt)
-    click.echo(f"Please run python -m http.server --bind {url} .Before send your jwt")
+    click.echo(
+        f"Please run python -m http.server --bind {url} .Before send your jwt",
+    )

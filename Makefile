@@ -42,7 +42,7 @@ docker:
 	docker build -t docker.pkg.github.com/$IMAGE_NAME:$DOCKER_TAG .
 	docker push docker.pkg.github.com/$IMAGE_NAME:$DOCKER_TAG
 clean:
-	rm -rf docs/build .tox .pytest_cache build circleci myjwt.egg-info dist coverage_html_report *.json *.pem *.crt dumpSyntax .coverage .coverage.* .rnd
+	rm -rf docs/build .tox .pytest_cache build circleci myjwt.egg-info dist coverage_html_report *.json *.pem *.crt dumpSyntax .coverage .coverage.* .rnd .mypy_cache
 freeze:
 	pip freeze > freeze.txt
 help:
