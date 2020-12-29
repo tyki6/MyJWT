@@ -199,7 +199,7 @@ def print_decoded(jwt: str):
     jwt_json = jwt_to_json(jwt)
     click.echo("Header: ")
     for key in jwt_json[HEADER].keys():
-        click.echo(key + " = " + jwt_json[HEADER][key])
+        click.echo(key + " = " + (jwt_json[HEADER][key] if jwt_json[HEADER][key] is not None else "null"))
 
     click.echo("")
     click.echo("Payload: ")

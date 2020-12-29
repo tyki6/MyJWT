@@ -124,12 +124,6 @@ CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
     help="Cookies to send to your url.Format: key=value. if value = MY_JWT value will be replace by new jwt.",
     multiple=True,
 )
-@click.option(
-    "-i",
-    "--interface",
-    help="will be replace by new jwt.",
-    is_flag=True,
-)
 def myjwt_cli(jwt, **kwargs):
     """
     Cli method
@@ -144,7 +138,14 @@ def myjwt_cli(jwt, **kwargs):
     """
     if not is_valid_jwt(jwt):
         sys.exit(NOT_VALID_JWT)
-    if kwargs["interface"]:
+
+    # detect if some options are here
+    # if no option detected print user_interface
+    interface_mode = True
+    for option in kwargs.values():
+        if not (option is None or option == () or not option or option == "GET"):
+            interface_mode = False
+    if interface_mode:
         user_interface(jwt)
         sys.exit()
 

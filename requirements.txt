@@ -1,3 +1,4 @@
+questionary==1.9.0
 click==7.1.2
 cryptography==3.3.1
 exrex==0.10.5
