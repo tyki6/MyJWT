@@ -1,6 +1,7 @@
 """Test"""
 import json
 import re
+from io import UnsupportedOperation
 
 import requests
 from click.testing import CliRunner
@@ -65,9 +66,6 @@ def test_error_cli():
     result = CliRunner().invoke(myjwt_cli, ["Peter"])
     assert NOT_VALID_JWT in result.output
     assert result.exit_code == 1
-
-    result = CliRunner().invoke(myjwt_cli, [test_jwt])
-    assert result.exit_code == 0
 
 
 def test_payload():
@@ -367,12 +365,13 @@ def test_jku(requests_mock):
     assert result.exit_code == 0
 
 
-def test_nothing():
+def test_user_interface():
     """
-    Test no input in myjwt_cli.py
+    Test user_interface in myjwt_cli.py
     """
     result = CliRunner().invoke(myjwt_cli, [test_jwt])
-    assert result.exit_code == 0
+    # raise UnsupportedOperation(stdin is not a terminal)
+    assert type(result.exception) == UnsupportedOperation
 
 
 def test_x5c(requests_mock):

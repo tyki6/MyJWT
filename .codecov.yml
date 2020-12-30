@@ -29,5 +29,5 @@ comment:
   behavior: default
   require_changes: true
 ignore:
-  - tests/*
   - docs/*
+  - myjwt/user_interface.py
