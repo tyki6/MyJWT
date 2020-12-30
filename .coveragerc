@@ -6,6 +6,7 @@ omit =
         *__init__*
         *setup*
         *.tox/*
+        ./myjwt/user_interface.py
 [report]
 # Regexes for lines to exclude from consideration
 exclude_lines =

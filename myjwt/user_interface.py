@@ -74,61 +74,7 @@ def user_interface(jwt: str) -> None:
             choices=MAIN_SUMMARY_CHOICES,
         ).ask()
         if summary == MAIN_SUMMARY_CHOICES_MODIFY:
-            item = ""
-            while item != MODIFY_SUMMARY_CHOICES_RETURN and item is not None:
-                header_list = list()
-                for key in jwt_json[HEADER].keys():
-                    header_list.append(
-                        key
-                        + " = "
-                        + (
-                            jwt_json[HEADER][key]
-                            if jwt_json[HEADER][key] is not None
-                            else "null"
-                        ),
-                    )
-
-                payload_list = list()
-                for key in jwt_json[PAYLOAD].keys():
-                    payload_list.append(
-                        key
-                        + " = "
-                        + (
-                            jwt_json[PAYLOAD][key]
-                            if jwt_json[PAYLOAD][key] is not None
-                            else "null"
-                        ),
-                    )
-                item = questionary.select(
-                    MODIFY_SUMMARY_QUESTION,
-                    choices=[SEPARATOR_HEADER]
-                    + header_list
-                    + [MODIFY_SUMMARY_CHOICES_ADD_HEADER]
-                    + [SEPARATOR_PAYLOAD]
-                    + payload_list
-                    + [
-                        MODIFY_SUMMARY_CHOICES_ADD_PAYLOAD,
-                        MODIFY_SUMMARY_CHOICES_RETURN,
-                    ],
-                ).ask()
-                if item in header_list:
-                    m = re.match("(.*) = .*", item)
-                    key = m.groups()[0]  # type: ignore
-                    value = click.prompt(MODIFY_SUMMARY_PROMPT_VALUE, type=str)
-                    jwt_json[HEADER][key] = value
-                elif item in payload_list:
-                    m = re.match("(.*) = .*", item)
-                    key = m.groups()[0]  # type: ignore
-                    value = click.prompt(MODIFY_SUMMARY_PROMPT_VALUE, type=str)
-                    jwt_json[PAYLOAD][key] = value
-                elif item == MODIFY_SUMMARY_CHOICES_ADD_HEADER:
-                    key = click.prompt(MODIFY_SUMMARY_PROMPT_KEY, type=str)
-                    value = click.prompt(MODIFY_SUMMARY_PROMPT_VALUE, type=str)
-                    jwt_json[HEADER][key] = value
-                elif item == MODIFY_SUMMARY_CHOICES_ADD_PAYLOAD:
-                    key = click.prompt(MODIFY_SUMMARY_PROMPT_KEY, type=str)
-                    value = click.prompt(MODIFY_SUMMARY_PROMPT_VALUE, type=str)
-                    jwt_json[PAYLOAD][key] = value
+            jwt_json = user_modify_jwt(jwt_json)
         elif summary == MAIN_SUMMARY_CHOICES_NONE_ALG:
             user_none_vulnerability(jwt_json)
             summary = MAIN_SUMMARY_CHOICES_QUIT
@@ -168,6 +114,78 @@ def user_interface(jwt: str) -> None:
             url = click.prompt(MAIN_SUMMARY_PROMPT_JWKS, type=str)
             user_x5u_by_pass(jwt_json, url)
             summary = MAIN_SUMMARY_CHOICES_QUIT
+
+
+def user_modify_jwt(jwt_json: Dict) -> Dict:
+    """
+    Print for modify interface
+
+    Parameters
+    ----------
+    jwt_json: Dict
+        your jwt json (use encode_to_json.Check Doc).
+
+    Returns
+    -------
+    Dict
+        jwt Dict
+    """
+    item = ""
+    while item != MODIFY_SUMMARY_CHOICES_RETURN and item is not None:
+        header_list = list()
+        for key in jwt_json[HEADER].keys():
+            header_list.append(
+                key
+                + " = "
+                + (
+                    jwt_json[HEADER][key]
+                    if jwt_json[HEADER][key] is not None
+                    else "null"
+                ),
+            )
+
+        payload_list = list()
+        for key in jwt_json[PAYLOAD].keys():
+            payload_list.append(
+                key
+                + " = "
+                + (
+                    jwt_json[PAYLOAD][key]
+                    if jwt_json[PAYLOAD][key] is not None
+                    else "null"
+                ),
+            )
+        item = questionary.select(
+            MODIFY_SUMMARY_QUESTION,
+            choices=[SEPARATOR_HEADER]
+            + header_list
+            + [MODIFY_SUMMARY_CHOICES_ADD_HEADER]
+            + [SEPARATOR_PAYLOAD]
+            + payload_list
+            + [
+                MODIFY_SUMMARY_CHOICES_ADD_PAYLOAD,
+                MODIFY_SUMMARY_CHOICES_RETURN,
+            ],
+        ).ask()
+        if item in header_list:
+            m = re.match("(.*) = .*", item)
+            key = m.groups()[0]  # type: ignore
+            value = click.prompt(MODIFY_SUMMARY_PROMPT_VALUE, type=str)
+            jwt_json[HEADER][key] = value
+        elif item in payload_list:
+            m = re.match("(.*) = .*", item)
+            key = m.groups()[0]  # type: ignore
+            value = click.prompt(MODIFY_SUMMARY_PROMPT_VALUE, type=str)
+            jwt_json[PAYLOAD][key] = value
+        elif item == MODIFY_SUMMARY_CHOICES_ADD_HEADER:
+            key = click.prompt(MODIFY_SUMMARY_PROMPT_KEY, type=str)
+            value = click.prompt(MODIFY_SUMMARY_PROMPT_VALUE, type=str)
+            jwt_json[HEADER][key] = value
+        elif item == MODIFY_SUMMARY_CHOICES_ADD_PAYLOAD:
+            key = click.prompt(MODIFY_SUMMARY_PROMPT_KEY, type=str)
+            value = click.prompt(MODIFY_SUMMARY_PROMPT_VALUE, type=str)
+            jwt_json[PAYLOAD][key] = value
+    return jwt_json
 
 
 def user_none_vulnerability(jwt_json: Dict) -> None:

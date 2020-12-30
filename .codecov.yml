@@ -30,3 +30,4 @@ comment:
   require_changes: true
 ignore:
   - docs/*
+  - myjwt/user_interface.py
