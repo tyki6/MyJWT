@@ -16,6 +16,7 @@ from myjwt.modify_jwt import add_payload
 from myjwt.modify_jwt import change_alg
 from myjwt.modify_jwt import change_payload
 from myjwt.modify_jwt import signature
+from myjwt.user_interface import user_interface
 from myjwt.utils import encode_jwt
 from myjwt.utils import HEADER
 from myjwt.utils import is_valid_jwt
@@ -137,6 +138,19 @@ def myjwt_cli(jwt, **kwargs):
     """
     if not is_valid_jwt(jwt):
         sys.exit(NOT_VALID_JWT)
+
+    # detect if some options are here
+    # if no option detected print user_interface
+    interface_mode = True
+    for option in kwargs.values():
+        if not (
+            option is None or option == () or not option or option == "GET"
+        ):
+            interface_mode = False
+    if interface_mode:
+        user_interface(jwt)
+        sys.exit()
+
     if kwargs["bruteforce"]:
         jwt_json = jwt_to_json(jwt)
         if "HS" not in jwt_json[HEADER]["alg"]:
