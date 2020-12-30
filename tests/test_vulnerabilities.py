@@ -255,7 +255,7 @@ def test_x5u_vulnerability(requests_mock):
     )
     jwt = x5u_vulnerability(
         jwt_x5u,
-        url="http://test.com/jwks_with_x5c.json",
+        url="http://test.com",
     )
     jwt_json = jwt_to_json(jwt)
     assert "x5u" in jwt_json[HEADER]
@@ -271,3 +271,16 @@ def test_x5u_vulnerability(requests_mock):
     )
     assert os.path.exists("private.pem")
     assert os.path.exists("selfsigned.crt")
+
+    jwt = x5u_vulnerability(
+        jwt_x5u,
+        url="http://test.com",
+        file="test_x5u_vulnerability",
+    )
+    jwt_json = jwt_to_json(jwt)
+    assert "x5u" in jwt_json[HEADER]
+    assert os.path.exists("test_x5u_vulnerability.json")
+    assert (
+        jwt_json[HEADER]["x5u"]
+        == "http://test.com/test_x5u_vulnerability.json"
+    )

