@@ -100,7 +100,7 @@ CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
     "--key",
     help="For jku or x5c Header, force private key to your key file",
 )
-@click.option("--file", help="For jku Header, force file name")
+@click.option("--file", help="For jku Header and x5u Header, force file name")
 # print
 @click.option("--print", is_flag=True, help="Print Decoded JWT")
 # url
@@ -188,6 +188,7 @@ def myjwt_cli(jwt, **kwargs):
             url=kwargs["x5u"],
             pem=kwargs["key"],
             crt=kwargs["crt"],
+            file=kwargs["file"],
         )
         click.echo(NEW_JWT + jwt)
     if kwargs["jku"]:
