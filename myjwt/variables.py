@@ -1,6 +1,7 @@
 """
 All Environment variables
 """
+import click
 from questionary import Separator
 
 NOT_VALID_JWT = "Enter a valid JWT!!!"
@@ -12,7 +13,7 @@ VALID_COOKIES = "Enter a Valid cookie, Format: username=admin"
 VALID_DATA = "Enter a Valid data, Format: username=admin"
 VALID_HEADER = "Enter a Valid header, Format: username=admin"
 VALID_PAYLOAD_JSON = "Not a valid format for payload, send a json."
-NEW_JWT = "new JWT: "
+NEW_JWT = click.style("new JWT: ", fg='green')
 VALID_SIGNATURE = "Valid Signature!!"
 INVALID_SIGNATURE = "Incorrect signature!!"
 # User interface
