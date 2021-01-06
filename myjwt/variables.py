@@ -4,18 +4,18 @@ All Environment variables
 import click
 from questionary import Separator
 
-NOT_VALID_JWT = "Enter a valid JWT!!!"
-CHECK_DOCS = "Check Docs!!Your jwt have not a HS alg."
-NOT_CRAKED = "JWT not cracked sorry. :'("
-CRACKED = "JWT cracked, key is: "
-VALID_PAYLOAD = "Enter a Valid payload, Format: username=admin"
-VALID_COOKIES = "Enter a Valid cookie, Format: username=admin"
-VALID_DATA = "Enter a Valid data, Format: username=admin"
-VALID_HEADER = "Enter a Valid header, Format: username=admin"
-VALID_PAYLOAD_JSON = "Not a valid format for payload, send a json."
+NOT_VALID_JWT = click.style("Enter a valid JWT!!!", fg='red', bold=True)
+CHECK_DOCS = click.style("Check Docs!!Your jwt have not a HS alg.", fg='red', bold=True)
+NOT_CRAKED = click.style("JWT not cracked sorry. :'(", fg='red', bold=False)
+CRACKED = click.style("JWT cracked, key is: ", fg='green', bold=False)
+VALID_PAYLOAD = click.style("Enter a Valid payload, Format: username=admin", fg='red', bold=False)
+VALID_COOKIES = click.style("Enter a Valid cookie, Format: username=admin", fg='red', bold=False)
+VALID_DATA = click.style("Enter a Valid data, Format: username=admin", fg='red', bold=False)
+VALID_HEADER = click.style("Enter a Valid header, Format: username=admin", fg='red', bold=False)
+VALID_PAYLOAD_JSON = click.style("Not a valid format for payload, send a json.", fg='red', bold=False)
 NEW_JWT = click.style("new JWT: ", fg='green', bold=True)
-VALID_SIGNATURE = "Valid Signature!!"
-INVALID_SIGNATURE = "Incorrect signature!!"
+VALID_SIGNATURE = click.style("Valid Signature!!", fg='green', bold=True)
+INVALID_SIGNATURE = click.style("Incorrect signature!!", fg='red', bold=True)
 # User interface
 # Summary
 MAIN_SUMMARY_QUESTION = "What do you want to do?"
