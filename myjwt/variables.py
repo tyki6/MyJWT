@@ -2,7 +2,7 @@
 All Environment variables
 """
 import click
-from questionary import Separator
+from questionary import Separator, Style
 
 NOT_VALID_JWT = click.style("Enter a valid JWT!!!", fg='red', bold=True)
 CHECK_DOCS = click.style("Check Docs!!Your jwt have not a HS alg.", fg='red', bold=True)
@@ -17,6 +17,18 @@ NEW_JWT = click.style("new JWT: ", fg='green', bold=True)
 VALID_SIGNATURE = click.style("Valid Signature!!", fg='green', bold=True)
 INVALID_SIGNATURE = click.style("Incorrect signature!!", fg='red', bold=True)
 # User interface
+custom_style_fancy = Style([
+    ('qmark', 'fg:#673ab7 bold'),       # token in front of the question
+    ('question', 'bold'),               # question text
+    ('answer', 'fg:#f44336 bold'),      # submitted answer text behind the question
+    ('pointer', 'fg:#673ab7 bold'),     # pointer used in select and checkbox prompts
+    ('highlighted', 'fg:#673ab7 bold'), # pointed-at choice in select and checkbox prompts
+    ('selected', 'fg:#cc5454'),         # style for a selected item of a checkbox
+    ('separator', 'fg:#cc5454'),        # separator in lists
+    ('instruction', ''),                # user instructions for select, rawselect, checkbox
+    ('text', ''),                       # plain text
+    ('disabled', 'fg:#858585 italic')   # disabled choices for select and checkbox prompts
+])
 # Summary
 MAIN_SUMMARY_QUESTION = "What do you want to do?"
 MAIN_SUMMARY_CHOICES_MODIFY = "Modify your jwt"

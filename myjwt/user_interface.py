@@ -11,7 +11,7 @@ from myjwt.utils import HEADER
 from myjwt.utils import jwt_to_json
 from myjwt.utils import PAYLOAD
 from myjwt.utils import SIGNATURE
-from myjwt.variables import CHECK_DOCS
+from myjwt.variables import CHECK_DOCS, custom_style_fancy
 from myjwt.variables import CRACKED
 from myjwt.variables import INVALID_SIGNATURE
 from myjwt.variables import MAIN_SUMMARY_CHOICES
@@ -73,6 +73,7 @@ def user_interface(jwt: str) -> None:
         summary = questionary.select(
             MAIN_SUMMARY_QUESTION,
             choices=MAIN_SUMMARY_CHOICES,
+            style=custom_style_fancy
         ).ask()
         if summary == MAIN_SUMMARY_CHOICES_MODIFY:
             jwt_json = user_modify_jwt(jwt_json)
@@ -167,6 +168,7 @@ def user_modify_jwt(jwt_json: Dict) -> Dict:
                         MODIFY_SUMMARY_CHOICES_ADD_PAYLOAD,
                         MODIFY_SUMMARY_CHOICES_RETURN,
                     ],
+            style=custom_style_fancy
         ).ask()
         if item in header_list:
             m = re.match("(.*) = .*", item)
