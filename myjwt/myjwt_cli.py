@@ -127,7 +127,12 @@ CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 )
 def myjwt_cli(jwt, **kwargs):
     """
-    Cli method
+    \b
+    This cli is for pentesters, CTF players, or dev.
+    You can modify your jwt, sign, inject ,etc...
+    Full documentation is at http://myjwt.readthedocs.io.
+    If you see problems or enhancement send an issue.I will respond as soon as possible.
+    Enjoy :)
     \f
 
     Parameters
