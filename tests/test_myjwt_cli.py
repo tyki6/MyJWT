@@ -13,12 +13,8 @@ from myjwt.utils import jwt_to_json
 from myjwt.utils import PAYLOAD
 from myjwt.utils import SIGNATURE
 from myjwt.variables import CHECK_DOCS
-from myjwt.variables import CRACKED
-from myjwt.variables import NEW_JWT
-from myjwt.variables import NOT_CRAKED
 from myjwt.variables import NOT_VALID_JWT
 from myjwt.variables import VALID_PAYLOAD_JSON
-from myjwt.variables import VALID_SIGNATURE
 
 test_jwt = (
     "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJsb2dpbiI6ImEifQ.Fjziy6GSQpP9tQRyko5APZjdymkQ8EJGOa"
@@ -93,7 +89,7 @@ def test_payload():
         jwt_to_json(test_jwt),
         json.loads('{"username": "test", "password": "test"}'),
     )
-    jwt = re.search(NEW_JWT + "(.*)", result.output).groups()[0]
+    jwt = re.search("new JWT: " + "(.*)", result.output).groups()[0]
     assert jwt_to_json(jwt) == jwtVerify
     assert result.exit_code == 0
 
@@ -115,7 +111,7 @@ def test_add_header():
         myjwt_cli,
         [test_jwt, "--add-header", "username=admin"],
     )
-    jwt = re.search(NEW_JWT + "(.*)", result.output).groups()[0]
+    jwt = re.search("new JWT: " + "(.*)", result.output).groups()[0]
     jwt_json = jwt_to_json(jwt)
     assert jwt_json[HEADER]["username"] == "admin"
     assert result.exit_code == 0
@@ -138,7 +134,7 @@ def test_add_payload():
         myjwt_cli,
         [test_jwt, "--add-payload", "username=admin"],
     )
-    jwt = re.search(NEW_JWT + "(.*)", result.output).groups()[0]
+    jwt = re.search("new JWT: " + "(.*)", result.output).groups()[0]
     jwt_json = jwt_to_json(jwt)
     assert jwt_json[PAYLOAD]["username"] == "admin"
     assert result.exit_code == 0
@@ -158,7 +154,7 @@ def test_sign():
         myjwt_cli,
         [jwt_bruteforce, "--sign", "pentesterlab"],
     )
-    jwt = re.search(NEW_JWT + "(.*)", result.output).groups()[0]
+    jwt = re.search("new JWT: " + "(.*)", result.output).groups()[0]
     assert jwt_bruteforce == jwt
     assert result.exit_code == 0
 
@@ -177,7 +173,7 @@ def test_verify():
         myjwt_cli,
         [jwt_bruteforce, "--verify", "pentesterlab"],
     )
-    assert VALID_SIGNATURE in result.output
+    assert "Valid Signature!!" in result.output
     assert result.exit_code == 0
 
 
@@ -189,7 +185,7 @@ def test_none_vulnerability():
         myjwt_cli,
         [test_jwt, "--none-vulnerability"],
     )
-    jwt = re.search(NEW_JWT + "(.*)", result.output).groups()[0]
+    jwt = re.search("new JWT: " + "(.*)", result.output).groups()[0]
     assert "none" == jwt_to_json(jwt)[HEADER]["alg"]
     assert "" == jwt_to_json(jwt)[SIGNATURE]
     assert result.exit_code == 0
@@ -234,14 +230,14 @@ def test_bruteforce():
         myjwt_cli,
         [jwt_bruteforce, "--bruteforce", "./wordlist/empty.txt"],
     )
-    assert NOT_CRAKED in result.output
+    assert "JWT not cracked sorry. " in result.output
     assert result.exit_code == 1
 
     result = CliRunner().invoke(
         myjwt_cli,
         [jwt_bruteforce, "--bruteforce", password_path],
     )
-    assert CRACKED + "pentesterlab" in result.output
+    assert "JWT cracked, key is: " + "pentesterlab" in result.output
     assert result.exit_code == 0
 
 

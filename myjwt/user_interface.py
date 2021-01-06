@@ -3,6 +3,7 @@ import re
 from typing import Dict
 
 import click
+import pyperclip
 import questionary
 
 from myjwt.modify_jwt import signature
@@ -11,8 +12,9 @@ from myjwt.utils import HEADER
 from myjwt.utils import jwt_to_json
 from myjwt.utils import PAYLOAD
 from myjwt.utils import SIGNATURE
-from myjwt.variables import CHECK_DOCS, custom_style_fancy
+from myjwt.variables import CHECK_DOCS
 from myjwt.variables import CRACKED
+from myjwt.variables import custom_style_fancy
 from myjwt.variables import INVALID_SIGNATURE
 from myjwt.variables import MAIN_SUMMARY_CHOICES
 from myjwt.variables import MAIN_SUMMARY_CHOICES_BRUTE_FORCE
@@ -48,7 +50,6 @@ from myjwt.vulnerabilities import inject_sql_kid
 from myjwt.vulnerabilities import jku_vulnerability
 from myjwt.vulnerabilities import none_vulnerability
 from myjwt.vulnerabilities import print_decoded
-import pyperclip
 
 
 def user_interface(jwt: str) -> None:
@@ -73,7 +74,7 @@ def user_interface(jwt: str) -> None:
         summary = questionary.select(
             MAIN_SUMMARY_QUESTION,
             choices=MAIN_SUMMARY_CHOICES,
-            style=custom_style_fancy
+            style=custom_style_fancy,
         ).ask()
         if summary == MAIN_SUMMARY_CHOICES_MODIFY:
             jwt_json = user_modify_jwt(jwt_json)
@@ -160,15 +161,15 @@ def user_modify_jwt(jwt_json: Dict) -> Dict:
         item = questionary.select(
             MODIFY_SUMMARY_QUESTION,
             choices=[SEPARATOR_HEADER]
-                    + header_list
-                    + [MODIFY_SUMMARY_CHOICES_ADD_HEADER]
-                    + [SEPARATOR_PAYLOAD]
-                    + payload_list
-                    + [
-                        MODIFY_SUMMARY_CHOICES_ADD_PAYLOAD,
-                        MODIFY_SUMMARY_CHOICES_RETURN,
-                    ],
-            style=custom_style_fancy
+            + header_list
+            + [MODIFY_SUMMARY_CHOICES_ADD_HEADER]
+            + [SEPARATOR_PAYLOAD]
+            + payload_list
+            + [
+                MODIFY_SUMMARY_CHOICES_ADD_PAYLOAD,
+                MODIFY_SUMMARY_CHOICES_RETURN,
+            ],
+            style=custom_style_fancy,
         ).ask()
         if item in header_list:
             m = re.match("(.*) = .*", item)

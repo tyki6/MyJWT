@@ -7,8 +7,8 @@ from json import JSONDecodeError
 
 import click
 import exrex
-import requests
 import pyperclip
+import requests
 
 from myjwt import __commit__
 from myjwt import __version__
@@ -133,6 +133,7 @@ def myjwt_cli(jwt, **kwargs):
     Full documentation is at http://myjwt.readthedocs.io.
     If you see problems or enhancement send an issue.I will respond as soon as possible.
     Enjoy :)
+    All new jwt will be copy to the clipboard.
     \f
 
     Parameters
