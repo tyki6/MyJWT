@@ -8,6 +8,7 @@ from json import JSONDecodeError
 import click
 import exrex
 import requests
+import pyperclip
 
 from myjwt import __commit__
 from myjwt import __version__
@@ -159,6 +160,7 @@ def myjwt_cli(jwt, **kwargs):
         if key == "":
             sys.exit(NOT_CRAKED)
         else:
+            pyperclip.copy(key)
             click.echo(CRACKED + key)
             if (
                 not kwargs["add_header"]
@@ -204,6 +206,7 @@ def myjwt_cli(jwt, **kwargs):
             crt=kwargs["crt"],
             file=kwargs["file"],
         )
+        pyperclip.copy(jwt)
         click.echo(NEW_JWT + jwt)
     if kwargs["jku"]:
         jwt = jku_vulnerability(
@@ -212,6 +215,7 @@ def myjwt_cli(jwt, **kwargs):
             kwargs["file"],
             kwargs["key"],
         )
+        pyperclip.copy(jwt)
         click.echo(NEW_JWT + jwt)
         click.echo(
             f"Please run python -m http.server --bind {kwargs['jku']} .Before send your jwt",
@@ -219,20 +223,24 @@ def myjwt_cli(jwt, **kwargs):
     if kwargs["kid"]:
         jwt = inject_sql_kid(jwt, kwargs["kid"])
         if not kwargs["sign"]:
+            pyperclip.copy(jwt)
             click.echo(NEW_JWT + jwt)
     if kwargs["hmac"]:
         jwt = confusion_rsa_hmac(jwt, kwargs["hmac"])
+        pyperclip.copy(jwt)
         click.echo(NEW_JWT + jwt)
 
     if kwargs["none_vulnerability"]:
         jwt_json = change_alg(jwt_to_json(jwt), "none")
         jwt = encode_jwt(jwt_json) + "."
+        pyperclip.copy(jwt)
         click.echo(NEW_JWT + jwt)
     if kwargs["sign"]:
         jwt_json = jwt_to_json(jwt)
         if "HS" not in jwt_json[HEADER]["alg"]:
             sys.exit(CHECK_DOCS)
         jwt = signature(jwt_json, kwargs["sign"])
+        pyperclip.copy(jwt)
         click.echo(NEW_JWT + jwt)
     if kwargs["verify"]:
         jwt_json = jwt_to_json(jwt)
@@ -264,6 +272,7 @@ def myjwt_cli(jwt, **kwargs):
             for key in bar:
                 new_jwt = signature(jwt_json, key)
                 if new_jwt.split(".")[2] == jwt.split(".")[2]:
+                    pyperclip.copy(key)
                     sys.exit("Key found: " + key)
             sys.exit(INVALID_SIGNATURE)
     if kwargs["url"]:
@@ -298,6 +307,7 @@ def myjwt_cli(jwt, **kwargs):
         except requests.exceptions.ConnectionError:
             sys.exit("Connection Error. Verify your url.")
     if kwargs["print"]:
+        pyperclip.copy(jwt)
         print_decoded(jwt)
 
     if (
@@ -310,6 +320,7 @@ def myjwt_cli(jwt, **kwargs):
         and not kwargs["x5u"]
         and not kwargs["print"]
     ):
+        pyperclip.copy(jwt)
         click.echo(NEW_JWT + jwt)
     sys.exit()
 

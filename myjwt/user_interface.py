@@ -48,6 +48,7 @@ from myjwt.vulnerabilities import inject_sql_kid
 from myjwt.vulnerabilities import jku_vulnerability
 from myjwt.vulnerabilities import none_vulnerability
 from myjwt.vulnerabilities import print_decoded
+import pyperclip
 
 
 def user_interface(jwt: str) -> None:
@@ -135,10 +136,10 @@ def user_modify_jwt(jwt_json: Dict) -> Dict:
         header_list = list()
         for key in jwt_json[HEADER].keys():
             header_list.append(
-                key
+                str(key)
                 + " = "
                 + (
-                    jwt_json[HEADER][key]
+                    str(jwt_json[HEADER][key])
                     if jwt_json[HEADER][key] is not None
                     else "null"
                 ),
@@ -147,10 +148,10 @@ def user_modify_jwt(jwt_json: Dict) -> Dict:
         payload_list = list()
         for key in jwt_json[PAYLOAD].keys():
             payload_list.append(
-                key
+                str(key)
                 + " = "
                 + (
-                    jwt_json[PAYLOAD][key]
+                    str(jwt_json[PAYLOAD][key])
                     if jwt_json[PAYLOAD][key] is not None
                     else "null"
                 ),
@@ -158,14 +159,14 @@ def user_modify_jwt(jwt_json: Dict) -> Dict:
         item = questionary.select(
             MODIFY_SUMMARY_QUESTION,
             choices=[SEPARATOR_HEADER]
-            + header_list
-            + [MODIFY_SUMMARY_CHOICES_ADD_HEADER]
-            + [SEPARATOR_PAYLOAD]
-            + payload_list
-            + [
-                MODIFY_SUMMARY_CHOICES_ADD_PAYLOAD,
-                MODIFY_SUMMARY_CHOICES_RETURN,
-            ],
+                    + header_list
+                    + [MODIFY_SUMMARY_CHOICES_ADD_HEADER]
+                    + [SEPARATOR_PAYLOAD]
+                    + payload_list
+                    + [
+                        MODIFY_SUMMARY_CHOICES_ADD_PAYLOAD,
+                        MODIFY_SUMMARY_CHOICES_RETURN,
+                    ],
         ).ask()
         if item in header_list:
             m = re.match("(.*) = .*", item)
@@ -198,6 +199,7 @@ def user_none_vulnerability(jwt_json: Dict) -> None:
         your jwt json (use encode_to_json.Check Doc).
     """
     jwt = none_vulnerability(encode_jwt(jwt_json) + "." + jwt_json[SIGNATURE])
+    pyperclip.copy(jwt)
     click.echo(NEW_JWT + jwt)
 
 
@@ -216,6 +218,7 @@ def user_confusion_rsa_hmac(jwt_json: Dict, hmac: str) -> None:
         encode_jwt(jwt_json) + "." + jwt_json[SIGNATURE],
         hmac,
     )
+    pyperclip.copy(jwt)
     click.echo(NEW_JWT + jwt)
 
 
@@ -239,6 +242,7 @@ def user_bruteforce_wordlist(jwt_json: Dict, wordlist: str) -> None:
     if key == "":
         click.echo(NOT_CRAKED)
     else:
+        pyperclip.copy(key)
         click.echo(CRACKED + key)
 
 
@@ -277,6 +281,7 @@ def user_sign_jwt(jwt_json: Dict, key: str) -> None:
     if "HS" not in jwt_json[HEADER]["alg"]:
         click.echo(CHECK_DOCS)
     jwt = signature(jwt_json, key)
+    pyperclip.copy(jwt)
     click.echo(NEW_JWT + jwt)
 
 
@@ -318,6 +323,7 @@ def user_jku_by_pass(jwt_json: Dict, url: str) -> None:
         url=url,
     )
     click.echo(NEW_JWT + new_jwt)
+    pyperclip.copy(new_jwt)
     click.echo(
         f"Please run python -m http.server --bind {url} .Before send your jwt",
     )
@@ -339,6 +345,7 @@ def user_x5u_by_pass(jwt_json: Dict, url: str) -> None:
         url=url,
     )
     click.echo(NEW_JWT + new_jwt)
+    pyperclip.copy(new_jwt)
     click.echo(
         f"Please run python -m http.server --bind {url} .Before send your jwt",
     )
