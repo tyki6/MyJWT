@@ -8,6 +8,7 @@ from typing import Dict
 import click
 import pyperclip
 from OpenSSL import crypto
+from myjwt.variables import CLIPBOARD
 
 from myjwt.Exception import InvalidJWT
 from myjwt.Exception import InvalidJwtJson
@@ -188,7 +189,7 @@ def copy_to_clipboard(jwt: str) -> None:
     """
     try:
         pyperclip.copy(jwt)
-        click.echo("New jwt Copied to clipboard")
+        click.echo(CLIPBOARD)
     except pyperclip.PyperclipException:
         click.echo(
             """Pyperclip could not find a copy/paste mechanism for your system.
