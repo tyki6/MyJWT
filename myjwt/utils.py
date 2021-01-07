@@ -8,10 +8,10 @@ from typing import Dict
 import click
 import pyperclip
 from OpenSSL import crypto
-from myjwt.variables import CLIPBOARD
 
 from myjwt.Exception import InvalidJWT
 from myjwt.Exception import InvalidJwtJson
+from myjwt.variables import CLIPBOARD
 
 HEADER = "header"
 PAYLOAD = "payload"
@@ -193,5 +193,5 @@ def copy_to_clipboard(jwt: str) -> None:
     except pyperclip.PyperclipException:
         click.echo(
             """Pyperclip could not find a copy/paste mechanism for your system.
-        For more information, please visit https://pyperclip.readthedocs.io/en/latest/index.html#not-implemented-error"""
+        For more information, please visit https://pyperclip.readthedocs.io/en/latest/index.html#not-implemented-error""",
         )
