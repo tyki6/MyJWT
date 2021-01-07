@@ -41,6 +41,7 @@ VALID_PAYLOAD_JSON = click.style(
 NEW_JWT = click.style("new JWT: ", fg="green", bold=True)
 VALID_SIGNATURE = click.style("Valid Signature!!", fg="green", bold=True)
 INVALID_SIGNATURE = click.style("Incorrect signature!!", fg="red", bold=True)
+CLIPBOARD = click.style("New jwt Copied to clipboard", fg="green", bold=False)
 # User interface
 custom_style_fancy = Style(
     [

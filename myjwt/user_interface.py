@@ -3,10 +3,10 @@ import re
 from typing import Dict
 
 import click
-import pyperclip
 import questionary
 
 from myjwt.modify_jwt import signature
+from myjwt.utils import copy_to_clipboard
 from myjwt.utils import encode_jwt
 from myjwt.utils import HEADER
 from myjwt.utils import jwt_to_json
@@ -108,6 +108,7 @@ def user_interface(jwt: str) -> None:
             new_jwt = user_kid_injection(jwt_json, injection)
             jwt_json = jwt_to_json(new_jwt)
             click.echo(NEW_JWT + new_jwt)
+            copy_to_clipboard(new_jwt)
             summary = MAIN_SUMMARY_CHOICES_QUIT
         elif summary == MAIN_SUMMARY_CHOICES_JKU:
             url = click.prompt(MAIN_SUMMARY_PROMPT_JWKS, type=str)
@@ -202,7 +203,7 @@ def user_none_vulnerability(jwt_json: Dict) -> None:
         your jwt json (use encode_to_json.Check Doc).
     """
     jwt = none_vulnerability(encode_jwt(jwt_json) + "." + jwt_json[SIGNATURE])
-    pyperclip.copy(jwt)
+    copy_to_clipboard(jwt)
     click.echo(NEW_JWT + jwt)
 
 
@@ -221,7 +222,7 @@ def user_confusion_rsa_hmac(jwt_json: Dict, hmac: str) -> None:
         encode_jwt(jwt_json) + "." + jwt_json[SIGNATURE],
         hmac,
     )
-    pyperclip.copy(jwt)
+    copy_to_clipboard(jwt)
     click.echo(NEW_JWT + jwt)
 
 
@@ -245,7 +246,7 @@ def user_bruteforce_wordlist(jwt_json: Dict, wordlist: str) -> None:
     if key == "":
         click.echo(NOT_CRAKED)
     else:
-        pyperclip.copy(key)
+        copy_to_clipboard(key)
         click.echo(CRACKED + key)
 
 
@@ -284,7 +285,7 @@ def user_sign_jwt(jwt_json: Dict, key: str) -> None:
     if "HS" not in jwt_json[HEADER]["alg"]:
         click.echo(CHECK_DOCS)
     jwt = signature(jwt_json, key)
-    pyperclip.copy(jwt)
+    copy_to_clipboard(jwt)
     click.echo(NEW_JWT + jwt)
 
 
@@ -326,7 +327,7 @@ def user_jku_by_pass(jwt_json: Dict, url: str) -> None:
         url=url,
     )
     click.echo(NEW_JWT + new_jwt)
-    pyperclip.copy(new_jwt)
+    copy_to_clipboard(new_jwt)
     click.echo(
         f"Please run python -m http.server --bind {url} .Before send your jwt",
     )
@@ -348,7 +349,7 @@ def user_x5u_by_pass(jwt_json: Dict, url: str) -> None:
         url=url,
     )
     click.echo(NEW_JWT + new_jwt)
-    pyperclip.copy(new_jwt)
+    copy_to_clipboard(new_jwt)
     click.echo(
         f"Please run python -m http.server --bind {url} .Before send your jwt",
     )

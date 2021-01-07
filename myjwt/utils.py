@@ -5,6 +5,8 @@ import base64
 import json
 from typing import Dict
 
+import click
+import pyperclip
 from OpenSSL import crypto
 
 from myjwt.Exception import InvalidJWT
@@ -173,3 +175,22 @@ def create_crt():
         f.write(crypto.dump_privatekey(crypto.FILETYPE_PEM, k).decode("utf-8"))
         f.close()
     return crt, pem
+
+
+def copy_to_clipboard(jwt: str) -> None:
+    """
+    Copy txt to clipboard.
+
+    Parameters
+    ----------
+    jwt: str
+        your jwt.
+    """
+    try:
+        pyperclip.copy(jwt)
+        click.echo("New jwt Copied to clipboard")
+    except pyperclip.PyperclipException:
+        click.echo(
+            """Pyperclip could not find a copy/paste mechanism for your system.
+        For more information, please visit https://pyperclip.readthedocs.io/en/latest/index.html#not-implemented-error"""
+        )
