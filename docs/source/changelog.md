@@ -1,6 +1,21 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.4.0] - 09-01-2021
+### Added
+- user interface for beginner
+- color output
+- new jwt copied to clipboard
+- github page
+### Changed
+- codecov config
+- pyup config
+- issue and pull requests templates
+- requirements.txt
+- fix #40 ( add --file option for --x5u option)
+- help txt when help command is invoked
+- update docs
+
 ## [1.3.0] - 20-12-2020
 ### Added
 - version option

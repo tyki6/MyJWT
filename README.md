@@ -75,7 +75,61 @@ pacman -S myjwt
 [![Packaging status](https://repology.org/badge/vertical-allrepos/myjwt.svg)](https://repology.org/project/myjwt/versions)
 
 # Usage
-![Usage](https://github.com/mBouamama/MyJWT/blob/master/img/help.png)
+```shell
+$ myjwt --help
+Usage: myjwt [OPTIONS] JWT
+
+  This cli is for pentesters, CTF players, or dev.
+  You can modify your jwt, sign, inject ,etc...
+  Full documentation is at http://myjwt.readthedocs.io.
+  If you see problems or enhancement send an issue.I will respond as soon as possible.
+  Enjoy :)
+  All new jwt will be copy to the clipboard.
+
+Options:
+  --version                    Show the version and exit.
+  --full-payload TEXT          New payload for your jwt.Json format Required.
+  -h, --add-header TEXT        Add a new key, value to your jwt header, if key
+                               is present old value will be replaced.Format:
+                               key=value.
+
+  -p, --add-payload TEXT       Add a new key, value to your jwt payload, if
+                               key is present old value will be
+                               replaced.Format: key=value.
+
+  --sign TEXT                  Sign Your jwt with key given.
+  --verify TEXT                verify your key.
+  -none, --none-vulnerability  Check None Alg vulnerability.
+  --hmac PATH                  Check RS/HMAC Alg vulnerability.
+  --bruteforce PATH            Bruteforce to guess the secret used to sign the
+                               token.
+
+  -c, --crack TEXT             regex to iterate all string possibilities to
+                               guess the secret used to sign the token.
+
+  --kid TEXT                   Kid Injection sql
+  --jku TEXT                   Jku Header to bypass authentication
+  --x5u TEXT                   X5u Header to bypass authentication
+  --crt TEXT                   For x5cHeader, force crt file
+  --key TEXT                   For jku or x5c Header, force private key to
+                               your key file
+
+  --file TEXT                  For jku Header and x5u Header, force file name
+  --print                      Print Decoded JWT
+  -u, --url TEXT               Url to send your jwt.
+  -m, --method TEXT            Method use for send request to url.(Default
+                               GET).
+
+  -d, --data TEXT              Data send to your url.Format: key=value. if
+                               value = MY_JWT value will be replace by new
+                               jwt.
+
+  -c, --cookies TEXT           Cookies to send to your url.Format: key=value.
+                               if value = MY_JWT value will be replace by new
+                               jwt.
+
+  --help                       Show this message and exit.
+```
 ## Modify JWT
 
 | Option                      | Type      | Example  | help|
