@@ -6,6 +6,7 @@ import click
 import questionary
 
 from myjwt.modify_jwt import signature
+from myjwt.utils import copy_to_clipboard
 from myjwt.utils import encode_jwt
 from myjwt.utils import HEADER
 from myjwt.utils import jwt_to_json
@@ -13,6 +14,7 @@ from myjwt.utils import PAYLOAD
 from myjwt.utils import SIGNATURE
 from myjwt.variables import CHECK_DOCS
 from myjwt.variables import CRACKED
+from myjwt.variables import custom_style_fancy
 from myjwt.variables import INVALID_SIGNATURE
 from myjwt.variables import MAIN_SUMMARY_CHOICES
 from myjwt.variables import MAIN_SUMMARY_CHOICES_BRUTE_FORCE
@@ -72,6 +74,7 @@ def user_interface(jwt: str) -> None:
         summary = questionary.select(
             MAIN_SUMMARY_QUESTION,
             choices=MAIN_SUMMARY_CHOICES,
+            style=custom_style_fancy,
         ).ask()
         if summary == MAIN_SUMMARY_CHOICES_MODIFY:
             jwt_json = user_modify_jwt(jwt_json)
@@ -105,6 +108,7 @@ def user_interface(jwt: str) -> None:
             new_jwt = user_kid_injection(jwt_json, injection)
             jwt_json = jwt_to_json(new_jwt)
             click.echo(NEW_JWT + new_jwt)
+            copy_to_clipboard(new_jwt)
             summary = MAIN_SUMMARY_CHOICES_QUIT
         elif summary == MAIN_SUMMARY_CHOICES_JKU:
             url = click.prompt(MAIN_SUMMARY_PROMPT_JWKS, type=str)
@@ -135,10 +139,10 @@ def user_modify_jwt(jwt_json: Dict) -> Dict:
         header_list = list()
         for key in jwt_json[HEADER].keys():
             header_list.append(
-                key
+                str(key)
                 + " = "
                 + (
-                    jwt_json[HEADER][key]
+                    str(jwt_json[HEADER][key])
                     if jwt_json[HEADER][key] is not None
                     else "null"
                 ),
@@ -147,10 +151,10 @@ def user_modify_jwt(jwt_json: Dict) -> Dict:
         payload_list = list()
         for key in jwt_json[PAYLOAD].keys():
             payload_list.append(
-                key
+                str(key)
                 + " = "
                 + (
-                    jwt_json[PAYLOAD][key]
+                    str(jwt_json[PAYLOAD][key])
                     if jwt_json[PAYLOAD][key] is not None
                     else "null"
                 ),
@@ -166,6 +170,7 @@ def user_modify_jwt(jwt_json: Dict) -> Dict:
                 MODIFY_SUMMARY_CHOICES_ADD_PAYLOAD,
                 MODIFY_SUMMARY_CHOICES_RETURN,
             ],
+            style=custom_style_fancy,
         ).ask()
         if item in header_list:
             m = re.match("(.*) = .*", item)
@@ -198,6 +203,7 @@ def user_none_vulnerability(jwt_json: Dict) -> None:
         your jwt json (use encode_to_json.Check Doc).
     """
     jwt = none_vulnerability(encode_jwt(jwt_json) + "." + jwt_json[SIGNATURE])
+    copy_to_clipboard(jwt)
     click.echo(NEW_JWT + jwt)
 
 
@@ -216,6 +222,7 @@ def user_confusion_rsa_hmac(jwt_json: Dict, hmac: str) -> None:
         encode_jwt(jwt_json) + "." + jwt_json[SIGNATURE],
         hmac,
     )
+    copy_to_clipboard(jwt)
     click.echo(NEW_JWT + jwt)
 
 
@@ -239,6 +246,7 @@ def user_bruteforce_wordlist(jwt_json: Dict, wordlist: str) -> None:
     if key == "":
         click.echo(NOT_CRAKED)
     else:
+        copy_to_clipboard(key)
         click.echo(CRACKED + key)
 
 
@@ -277,6 +285,7 @@ def user_sign_jwt(jwt_json: Dict, key: str) -> None:
     if "HS" not in jwt_json[HEADER]["alg"]:
         click.echo(CHECK_DOCS)
     jwt = signature(jwt_json, key)
+    copy_to_clipboard(jwt)
     click.echo(NEW_JWT + jwt)
 
 
@@ -318,6 +327,7 @@ def user_jku_by_pass(jwt_json: Dict, url: str) -> None:
         url=url,
     )
     click.echo(NEW_JWT + new_jwt)
+    copy_to_clipboard(new_jwt)
     click.echo(
         f"Please run python -m http.server --bind {url} .Before send your jwt",
     )
@@ -339,6 +349,7 @@ def user_x5u_by_pass(jwt_json: Dict, url: str) -> None:
         url=url,
     )
     click.echo(NEW_JWT + new_jwt)
+    copy_to_clipboard(new_jwt)
     click.echo(
         f"Please run python -m http.server --bind {url} .Before send your jwt",
     )

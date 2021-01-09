@@ -31,6 +31,9 @@ Documentation is available at http://myjwt.readthedocs.io
 - [Contribute](#contribute)
 - [ChangeLog](#change-log)
 # Features
+- copy new jwt to clipboard
+- user Interface (thanks [questionary](https://github.com/tmbo/questionary))
+- color output
 - modify jwt (header/Payload)
 - None Vulnerability
 - RSA/HMAC confusion
