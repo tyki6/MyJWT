@@ -17,6 +17,7 @@ from myjwt.modify_jwt import change_alg
 from myjwt.modify_jwt import change_payload
 from myjwt.modify_jwt import signature
 from myjwt.user_interface import user_interface
+from myjwt.utils import copy_to_clipboard
 from myjwt.utils import encode_jwt
 from myjwt.utils import HEADER
 from myjwt.utils import is_valid_jwt
@@ -126,7 +127,13 @@ CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 )
 def myjwt_cli(jwt, **kwargs):
     """
-    Cli method
+    \b
+    This cli is for pentesters, CTF players, or dev.
+    You can modify your jwt, sign, inject ,etc...
+    Full documentation is at http://myjwt.readthedocs.io.
+    If you see problems or enhancement send an issue.I will respond as soon as possible.
+    Enjoy :)
+    All new jwt will be copy to the clipboard.
     \f
 
     Parameters
@@ -159,6 +166,7 @@ def myjwt_cli(jwt, **kwargs):
         if key == "":
             sys.exit(NOT_CRAKED)
         else:
+            copy_to_clipboard(key)
             click.echo(CRACKED + key)
             if (
                 not kwargs["add_header"]
@@ -204,6 +212,7 @@ def myjwt_cli(jwt, **kwargs):
             crt=kwargs["crt"],
             file=kwargs["file"],
         )
+        copy_to_clipboard(jwt)
         click.echo(NEW_JWT + jwt)
     if kwargs["jku"]:
         jwt = jku_vulnerability(
@@ -212,6 +221,7 @@ def myjwt_cli(jwt, **kwargs):
             kwargs["file"],
             kwargs["key"],
         )
+        copy_to_clipboard(jwt)
         click.echo(NEW_JWT + jwt)
         click.echo(
             f"Please run python -m http.server --bind {kwargs['jku']} .Before send your jwt",
@@ -219,20 +229,24 @@ def myjwt_cli(jwt, **kwargs):
     if kwargs["kid"]:
         jwt = inject_sql_kid(jwt, kwargs["kid"])
         if not kwargs["sign"]:
+            copy_to_clipboard(jwt)
             click.echo(NEW_JWT + jwt)
     if kwargs["hmac"]:
         jwt = confusion_rsa_hmac(jwt, kwargs["hmac"])
+        copy_to_clipboard(jwt)
         click.echo(NEW_JWT + jwt)
 
     if kwargs["none_vulnerability"]:
         jwt_json = change_alg(jwt_to_json(jwt), "none")
         jwt = encode_jwt(jwt_json) + "."
+        copy_to_clipboard(jwt)
         click.echo(NEW_JWT + jwt)
     if kwargs["sign"]:
         jwt_json = jwt_to_json(jwt)
         if "HS" not in jwt_json[HEADER]["alg"]:
             sys.exit(CHECK_DOCS)
         jwt = signature(jwt_json, kwargs["sign"])
+        copy_to_clipboard(jwt)
         click.echo(NEW_JWT + jwt)
     if kwargs["verify"]:
         jwt_json = jwt_to_json(jwt)
@@ -264,6 +278,7 @@ def myjwt_cli(jwt, **kwargs):
             for key in bar:
                 new_jwt = signature(jwt_json, key)
                 if new_jwt.split(".")[2] == jwt.split(".")[2]:
+                    copy_to_clipboard(key)
                     sys.exit("Key found: " + key)
             sys.exit(INVALID_SIGNATURE)
     if kwargs["url"]:
@@ -298,6 +313,7 @@ def myjwt_cli(jwt, **kwargs):
         except requests.exceptions.ConnectionError:
             sys.exit("Connection Error. Verify your url.")
     if kwargs["print"]:
+        copy_to_clipboard(jwt)
         print_decoded(jwt)
 
     if (
@@ -310,6 +326,7 @@ def myjwt_cli(jwt, **kwargs):
         and not kwargs["x5u"]
         and not kwargs["print"]
     ):
+        copy_to_clipboard(jwt)
         click.echo(NEW_JWT + jwt)
     sys.exit()
 
