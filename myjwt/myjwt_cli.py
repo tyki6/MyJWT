@@ -16,7 +16,7 @@ from myjwt.modify_jwt import add_payload
 from myjwt.modify_jwt import change_alg
 from myjwt.modify_jwt import change_payload
 from myjwt.modify_jwt import signature
-from myjwt.user_interface import user_interface
+from myjwt.user_interface import user_interface  # type: ignore
 from myjwt.utils import copy_to_clipboard
 from myjwt.utils import encode_jwt
 from myjwt.utils import HEADER
