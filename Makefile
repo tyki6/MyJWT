@@ -4,15 +4,21 @@ install:
 install-dev:
 	pip install -r dev-requirements.txt
 
-full-install: install install-dev
+install-lint:
+	pip install -r lint-requirements.txt
+
+install-docs:
 	cd docs && pip install -r requirements.txt && cd ..
+
+full-install: install install-dev install-lint install-docs
+
 lint:
 	pre-commit run --all-files
 tox:
 	pip install tox
 	tox
 docstr:
-	docstr-coverage myjwt tests --skipinit --failunder 95
+	docstr-coverage
 test:
 	coverage run --branch -p -m pytest --capture=sys
 coverage:
@@ -48,7 +54,9 @@ freeze:
 help:
 	@echo "make install           Install requirements."
 	@echo "make install-dev       Install dev requirements."
-	@echo "make full-install      Install requirements + dev requirements + docs requirements."
+	@echo "make install-lint      Install lint requirements."
+	@echo "make install-docs      Install docs requirements."
+	@echo "make full-install      Install requirements + dev requirements + lint requirements + docs requirements."
 	@echo "make lint              Run Lint."
 	@echo "make docstr            Run docstr report."
 	@echo "make tox               Run Unit test tox."
@@ -57,7 +65,7 @@ help:
 	@echo "make html              Generate docs."
 	@echo "make deploy            Deploy package on pypi."
 	@echo "make fake-deploy       Test Deploy."
-	@echo "make docker            Build docker and pushblish on github registry."
+	@echo "make docker            Build docker and publish on github registry."
 	@echo "make freeze            Run pip freeze."
 	@echo "make clean             Clean Your project.Delete useless file."
 	@echo "make help              Show this help message."

@@ -1,3 +1,4 @@
+# type: ignore
 """User interface file"""
 import re
 from typing import Dict

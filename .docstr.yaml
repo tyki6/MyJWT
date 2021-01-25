@@ -1,0 +1,5 @@
+paths:
+  -  myjwt
+  - tests
+skip_init: True
+fail_under: 95
