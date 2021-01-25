@@ -4,7 +4,10 @@ install:
 install-dev:
 	pip install -r dev-requirements.txt
 
-full-install: install install-dev
+install-lint:
+	pip install -r lint-requirements.txt
+
+full-install: install install-dev install-lint
 	cd docs && pip install -r requirements.txt && cd ..
 lint:
 	pre-commit run --all-files
@@ -48,6 +51,7 @@ freeze:
 help:
 	@echo "make install           Install requirements."
 	@echo "make install-dev       Install dev requirements."
+	@echo "make install-lint      Install lint requirements."
 	@echo "make full-install      Install requirements + dev requirements + docs requirements."
 	@echo "make lint              Run Lint."
 	@echo "make docstr            Run docstr report."
