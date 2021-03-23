@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.5.0] - 23-03-2021
+### Changed
+- user interface for beginner
+- color output
+- bug during jku vulnerabilities
+- fix typo
+- change documentation
+
 ## [1.4.0] - 09-01-2021
 ### Added
 - user interface for beginner
