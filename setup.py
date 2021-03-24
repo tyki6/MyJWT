@@ -1,8 +1,9 @@
 # type: ignore
 import re
-import subprocess
 
 import setuptools
+
+# import subprocess
 
 version = re.search(
     r'^__version__\s*=\s*"(.*)"',
