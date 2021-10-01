@@ -2,7 +2,7 @@ click==8.0.1
 colorama==0.4.4
 cryptography==35.0.0
 exrex==0.10.5
-pyOpenSSL==20.0.1
+pyOpenSSL==21.0.0
 pyperclip==1.8.2
 questionary==1.9.0
 requests==2.25.1
