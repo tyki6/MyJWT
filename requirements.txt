@@ -5,4 +5,4 @@ exrex==0.10.5
 pyOpenSSL==21.0.0
 pyperclip==1.8.2
 questionary==1.10.0
-requests==2.25.1
+requests==2.26.0
