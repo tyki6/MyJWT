@@ -1,6 +1,6 @@
 click==8.0.3
 colorama==0.4.4
-cryptography==3.4.7
+cryptography==36.0.0
 exrex==0.10.5
 pyOpenSSL==20.0.1
 pyperclip==1.8.2
