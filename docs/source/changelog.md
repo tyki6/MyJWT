@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.6.0] - 06-04-2022
+### Added
+- python 3.10 compliance
+
 ## [1.5.0] - 23-03-2021
 ### Changed
 - user interface for beginner
