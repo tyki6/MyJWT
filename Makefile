@@ -15,7 +15,7 @@ full-install: install install-dev install-lint install-docs
 lint:
 	pre-commit run --all-files
 tox:
-	pip install tox
+	pip install tox tox-gh-actions
 	tox
 docstr:
 	docstr-coverage
