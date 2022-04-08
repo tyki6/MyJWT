@@ -28,8 +28,8 @@ jobs:
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       run: |
         python setup.py sdist bdist_wheel
-        twine upload dist/*
-
+        twine upload dist/* -u $TWINE_USERNAME -p $TWINE_PASSWORD 
+*
   deploy-docker:
     runs-on: ubuntu-latest
     steps:
