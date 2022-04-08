@@ -5,7 +5,7 @@ on:
     types: [created]
 
 env:
-  IMAGE_NAME: MyJWT
+  IMAGE_NAME: myjwt
 
 jobs:
   deploy-pypi:
