@@ -5,8 +5,8 @@
 
 MyJWT: crack Your jwt
 =================================
-.. image:: https://circleci.com/gh/mBouamama/MyJWT.svg?style=shield
-    :target: https://circleci.com/gh/mBouamama/MyJWT.svg?style=shield
+.. image:: https://github.com/mBouamama/MyJWT/workflows/Unit%20Test/badge.svg
+    :target: https://github.com/mBouamama/MyJWT
 
 .. image:: https://img.shields.io/pypi/v/myjwt
     :target: https://pypi.org/project/myjwt/

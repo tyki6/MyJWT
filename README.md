@@ -1,5 +1,5 @@
 # MyJWT
-[![mBouamama](https://circleci.com/gh/mBouamama/MyJWT.svg?style=shield)](https://circleci.com/gh/mBouamama/MyJWT.svg?style=shield)
+[![mBouamama](https://github.com/mBouamama/MyJWT/workflows/Unit%20Test/badge.svg)](https://github.com/mBouamama/MyJWT)
 [![PyPI](https://img.shields.io/pypi/v/myjwt)](https://pypi.org/project/myjwt/)
 [![BlackArch package](https://repology.org/badge/version-for-repo/blackarch/myjwt.svg)](https://repology.org/project/myjwt/versions)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/myjwt)](https://pypi.org/project/myjwt/)
