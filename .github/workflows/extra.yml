@@ -1,0 +1,14 @@
+name: Extra
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+jobs:
+  snyk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/python@master
+        env:
+          SNYK_TOKEN: "${{ secrets.SNYK_TOKEN }}"

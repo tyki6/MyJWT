@@ -2,40 +2,28 @@
 name: Bug report
 about: Create a report to help us improve
 title: ''
-labels: bug
-assignees: 'mBouamama'
+labels: 'bug'
+assignees: ''
 
 ---
 
-[provide general introduction to the issue logging and why it is relevant to this repository]
+**Describe the bug**
+A clear and concise description of what the bug is.
 
-## Context
+**To Reproduce**
+command line for reproduce the bug:
+`rawsec-cli XXXXXXXX`
 
-[provide more detailed introduction to the issue itself and why it is relevant]
+**Expected behavior**
+A clear and concise description of what you expected to happen.
 
-## Process
+**Screenshots**
+If applicable, add screenshots to help explain your problem.
 
-[ordered list the process to finding and recreating the issue, example below]
-
-1.
-2.
-3.
-
-## Expected result
-
-[describe what you would expect to have resulted from this process]
-
-## Current result
-
-[describe what you you currently experience from this process, and thereby explain the bug]
-
-## Possible Fix
-
-[not obligatory, but suggest fixes or reasons for the bug]
-
-* Modal tells the user what dataset is being deleted, like “You are about to delete this dataset: car_crashes_2014.”
-* A temporary "Trashcan" where you can recover a just deleted dataset if you mess up (maybe it's only good for a few hours, and then it cleans the cache assuming you made the right decision).
-
-## `name of issue` screenshot
-
-[if relevant, include a screenshot]
+**Environment (please complete the following information):**
+ - OS: [e.g. Windows]
+ - Python Version [e.g. 3.8]
+ <!--- run rawsec-cli --version -->
+ - Rawsec-cli Version [e.g. version: 1.0.0, commit: 5d20ad4ddec075911cd5024e1bc5ff39a0504065]
+**Additional context**
+Add any other context about the problem here.

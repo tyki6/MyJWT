@@ -1,0 +1,36 @@
+name: Unit Test
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+jobs:
+  tests:
+    runs-on: "ubuntu-latest"
+    name: "Unit test for Python ${{ matrix.python-version }}"
+    env:
+      USING_COVERAGE: '3.10'
+
+    strategy:
+      matrix:
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
+
+    steps:
+      - uses: "actions/checkout@v2"
+      - uses: "actions/setup-python@v2"
+        with:
+          python-version: "${{ matrix.python-version }}"
+      - name: "Run tox targets for ${{ matrix.python-version }}"
+        run: "make tox"
+
+      - name: "Get coverage"
+        run: |
+          set -xe
+          pip install -r dev-requirements.txt
+          coverage combine
+          coverage xml
+        if: "contains(env.USING_COVERAGE, matrix.python-version)"
+      - name: Upload coverage to Codecov
+        if: "contains(env.USING_COVERAGE, matrix.python-version)"
+        uses: "codecov/codecov-action@v1"
