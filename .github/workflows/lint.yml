@@ -1,0 +1,50 @@
+name: Lint
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+jobs:
+  lint:
+    runs-on: "ubuntu-latest"
+    name: "Run pre-commit"
+    steps:
+      - uses: "actions/checkout@v2"
+      - uses: "actions/setup-python@v2"
+        with:
+          python-version: "3.10"
+      - name: "Install dependencies"
+        run: |
+          pip install pre-commit
+      - name: "Run pre-commit"
+        run: "make lint"
+  hadolint:
+    runs-on: "ubuntu-latest"
+    name: "Hadolint Action"
+    steps:
+      - uses: actions/checkout@master
+      - name: Hadolint Action
+        uses: brpaz/hadolint-action@v1.2.1
+        with:
+          dockerfile: Dockerfile
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: ammaraskar/sphinx-action@master
+        with:
+          docs-folder: "docs/"
+  docstr:
+    runs-on: "ubuntu-latest"
+    name: "Run docstr"
+    steps:
+      - uses: "actions/checkout@v2"
+      - uses: "actions/setup-python@v2"
+        with:
+          python-version: "3.10"
+      - name: "Install dependencies"
+        run: |
+          pip install docstr-coverage
+      - name: "Run pre-commit"
+        run: "make docstr"
