@@ -1,17 +1,7 @@
 install:
-	pip install -r requirements.txt
-
-install-dev:
-	pip install -r dev-requirements.txt
-
-install-lint:
-	pip install -r lint-requirements.txt
-
+	poetry install
 install-docs:
 	cd docs && pip install -r requirements.txt && cd ..
-
-full-install: install install-dev install-lint install-docs
-
 lint:
 	pre-commit run --all-files
 tox:
@@ -53,10 +43,7 @@ freeze:
 	pip freeze > freeze.txt
 help:
 	@echo "make install           Install requirements."
-	@echo "make install-dev       Install dev requirements."
-	@echo "make install-lint      Install lint requirements."
 	@echo "make install-docs      Install docs requirements."
-	@echo "make full-install      Install requirements + dev requirements + lint requirements + docs requirements."
 	@echo "make lint              Run Lint."
 	@echo "make docstr            Run docstr report."
 	@echo "make tox               Run Unit test tox."
