@@ -1,4 +1,4 @@
-FROM bitnami/python:3.10 as builder
+FROM bitnami/python:3.11 as builder
 # hadolint ignore=DL3008
 RUN apt-get update \
  && apt-get install --no-install-recommends -y git
@@ -18,9 +18,9 @@ COPY README.md README.md
 ENV PYTHONPATH=${PYTHONPATH}:/home/app/myjwt
 RUN python setup.py install
 
-FROM bitnami/python:3.10
+FROM bitnami/python:3.11
 
-COPY --from=builder /opt/bitnami/python/lib/python3.10/site-packages /opt/bitnami/python/lib/python3.10/site-packages
+COPY --from=builder /opt/bitnami/python/lib/python3.11/site-packages /opt/bitnami/python/lib/python3.11/site-packages
 COPY --from=builder /opt/bitnami/python/bin/myjwt /opt/bitnami/python/bin/myjwt
 WORKDIR /home
 
