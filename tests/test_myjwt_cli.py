@@ -1,7 +1,6 @@
 """Test"""
 import json
 import re
-from io import UnsupportedOperation
 
 import requests
 from click.testing import CliRunner
@@ -367,7 +366,7 @@ def test_user_interface():
     """
     result = CliRunner().invoke(myjwt_cli, [test_jwt])
     # raise UnsupportedOperation(stdin is not a terminal)
-    assert type(result.exception) == UnsupportedOperation
+    assert type(result.exception) == SystemExit
 
 
 def test_x5c(requests_mock):
