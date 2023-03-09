@@ -1,13 +1,24 @@
-FROM bitnami/python:3.11 as builder
-# hadolint ignore=DL3008
-RUN apt-get update \
- && apt-get install --no-install-recommends -y git
-WORKDIR /home/app
+FROM bitnami/python:3.11 as base
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1
+WORKDIR /app
 
-COPY requirements.txt .
-COPY dev-requirements.txt .
-RUN pip install --no-cache-dir --requirement requirements.txt
+FROM base as poetry
+RUN pip install poetry
+COPY poetry.lock pyproject.toml /app/
+RUN poetry export -o requirements.txt
 
+FROM base as build
+COPY --from=poetry /app/requirements.txt /tmp/requirements.txt
+RUN python -m venv .venv && \
+    .venv/bin/pip install -r /tmp/requirements.txt
+
+FROM base as builder
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1
+RUN apt-get update && apt-get install make
+WORKDIR /app
+ENV PATH=/app/.venv/bin:$PATH
+ENV PYTHONPATH=${PYTHONPATH}:/app/myjwt
+COPY --from=build /app/.venv /app/.venv
 COPY .git .git
 # for docs/requirements
 COPY docs/ docs/
@@ -15,14 +26,5 @@ COPY myjwt myjwt
 COPY wordlist wordlist
 COPY setup.py setup.py
 COPY README.md README.md
-ENV PYTHONPATH=${PYTHONPATH}:/home/app/myjwt
-RUN python setup.py install
-
-FROM bitnami/python:3.11
-
-COPY --from=builder /opt/bitnami/python/lib/python3.11/site-packages /opt/bitnami/python/lib/python3.11/site-packages
-COPY --from=builder /opt/bitnami/python/bin/myjwt /opt/bitnami/python/bin/myjwt
-WORKDIR /home
-
 COPY wordlist wordlist
-ENTRYPOINT ["myjwt"]
+ENTRYPOINT ["python", "myjwt/myjwt_cli.py"]
