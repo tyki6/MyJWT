@@ -28,13 +28,6 @@ jobs:
         uses: brpaz/hadolint-action@v1.2.1
         with:
           dockerfile: Dockerfile
-  docs:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: ammaraskar/sphinx-action@master
-        with:
-          docs-folder: "docs/"
   docstr:
     runs-on: "ubuntu-latest"
     name: "Run docstr"

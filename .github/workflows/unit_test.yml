@@ -31,6 +31,7 @@ jobs:
       - name: "Get coverage"
         run: |
           set -xe
+          pip install coverage
           coverage combine
           coverage xml
         if: "contains(env.USING_COVERAGE, matrix.python-version)"

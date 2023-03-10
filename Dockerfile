@@ -3,7 +3,7 @@ ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 WORKDIR /app
 
 FROM base as poetry
-RUN pip install poetry
+RUN pip install poetry==1.4.0 --no-cache-dir
 COPY poetry.lock pyproject.toml /app/
 RUN poetry export -o requirements.txt
 
@@ -14,7 +14,11 @@ RUN python -m venv .venv && \
 
 FROM base as builder
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
-RUN apt-get update && apt-get install make
+# hadolint ignore=DL3008
+RUN apt-get update  \
+&& apt-get install make --no-install-recommends -y  \
+&& apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 ENV PATH=/app/.venv/bin:$PATH
 ENV PYTHONPATH=${PYTHONPATH}:/app/myjwt
