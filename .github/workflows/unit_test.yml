@@ -10,24 +10,28 @@ jobs:
     runs-on: "ubuntu-latest"
     name: "Unit test for Python ${{ matrix.python-version }}"
     env:
-      USING_COVERAGE: '3.10'
+      USING_COVERAGE: '3.11'
 
     strategy:
       matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10"]
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
 
     steps:
       - uses: "actions/checkout@v2"
       - uses: "actions/setup-python@v2"
         with:
           python-version: "${{ matrix.python-version }}"
+      - name: "Install dependencies"
+        run: |
+          pip install poetry
+          poetry install
       - name: "Run tox targets for ${{ matrix.python-version }}"
         run: "make tox"
 
       - name: "Get coverage"
         run: |
           set -xe
-          pip install -r dev-requirements.txt
+          pip install coverage
           coverage combine
           coverage xml
         if: "contains(env.USING_COVERAGE, matrix.python-version)"

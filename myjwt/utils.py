@@ -167,12 +167,12 @@ def create_crt():
     cert.sign(k, "sha256")
     crt = "selfsigned.crt"
     pem = "private.pem"
-    with open("selfsigned.crt", "wt") as f:
+    with open("selfsigned.crt", "w") as f:
         f.write(
             crypto.dump_certificate(crypto.FILETYPE_PEM, cert).decode("utf-8"),
         )
         f.close()
-    with open("private.pem", "wt") as f:
+    with open("private.pem", "w") as f:
         f.write(crypto.dump_privatekey(crypto.FILETYPE_PEM, k).decode("utf-8"))
         f.close()
     return crt, pem

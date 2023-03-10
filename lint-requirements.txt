@@ -1,3 +1,0 @@
-docstr-coverage==2.2.0
-flake8==6.0.0
-pre-commit==2.21.0
