@@ -266,9 +266,11 @@ def user_verify_key(jwt_json: Dict, key: str) -> None:
         click.echo(CHECK_DOCS)
     new_jwt = signature(jwt_json, key)
     click.echo(
-        VALID_SIGNATURE
-        if new_jwt.split(".")[2] == jwt_json[SIGNATURE]
-        else INVALID_SIGNATURE,
+        (
+            VALID_SIGNATURE
+            if new_jwt.split(".")[2] == jwt_json[SIGNATURE]
+            else INVALID_SIGNATURE
+        ),
     )
 
 
