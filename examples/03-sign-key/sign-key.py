@@ -19,7 +19,9 @@ print(jwt)
 
 # verify your jwt
 print(
-    VALID_SIGNATURE
-    if new_jwt.split(".")[2] == jwt.split(".")[2]
-    else INVALID_SIGNATURE,
+    (
+        VALID_SIGNATURE
+        if new_jwt.split(".")[2] == jwt.split(".")[2]
+        else INVALID_SIGNATURE
+    ),
 )
