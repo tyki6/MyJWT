@@ -254,9 +254,11 @@ def myjwt_cli(jwt, **kwargs):
             sys.exit(CHECK_DOCS)
         new_jwt = signature(jwt_json, kwargs["verify"])
         click.echo(
-            VALID_SIGNATURE
-            if new_jwt.split(".")[2] == jwt.split(".")[2]
-            else INVALID_SIGNATURE,
+            (
+                VALID_SIGNATURE
+                if new_jwt.split(".")[2] == jwt.split(".")[2]
+                else INVALID_SIGNATURE
+            ),
         )
     if kwargs["crack"]:
         jwt_json = jwt_to_json(jwt)
