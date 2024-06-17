@@ -1,6 +1,6 @@
 repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.6.0
     hooks:
     -   id: end-of-file-fixer
     -   id: check-docstring-first
@@ -11,30 +11,30 @@ repos:
         args: ['--django']
     -   id: requirements-txt-fixer
 -   repo: https://github.com/PyCQA/flake8
-    rev: 6.0.0
+    rev: 7.1.0
     hooks:
     -   id: flake8
         additional_dependencies: [flake8-typing-imports==1.14.0]
 -   repo: https://github.com/psf/black
-    rev: 23.1.0
+    rev: 24.4.2
     hooks:
     - id: black
--   repo: https://github.com/pre-commit/mirrors-autopep8
-    rev: v2.0.2
+-   repo: https://github.com/hhatto/autopep8
+    rev: v2.3.0
     hooks:
     -   id: autopep8
 -   repo: https://github.com/asottile/pyupgrade
-    rev: v3.3.1
+    rev: v3.16.0
     hooks:
     -   id: pyupgrade
         args: [--py36-plus]
--   repo: https://github.com/asottile/reorder_python_imports
-    rev: v3.9.0
+-   repo: https://github.com/asottile/reorder-python-imports
+    rev: v3.13.0
     hooks:
     -   id: reorder-python-imports
         args: [--py3-plus]
 -   repo: https://github.com/asottile/add-trailing-comma
-    rev: v2.4.0
+    rev: v3.1.0
     hooks:
     -   id: add-trailing-comma
         args: [--py36-plus]
