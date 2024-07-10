@@ -28,7 +28,7 @@ readme = "README.md"
 packages = [{include = "myjwt"}]
 
 [tool.poetry.dependencies]
-python = "^3.8.1"
+python = "^3.10.0"
 click = "^8.1.7"
 colorama = "^0.4.6"
 cryptography = "^42.0.8"
