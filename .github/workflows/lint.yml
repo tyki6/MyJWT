@@ -18,7 +18,7 @@ jobs:
         run: |
           pip install poetry
           poetry install
-          mypy --install-types --non-interactive
+          poetry run mypy --install-types --non-interactive
       - name: "Run ruff"
         run: "make lint"
   hadolint:
