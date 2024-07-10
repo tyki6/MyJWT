@@ -16,8 +16,8 @@ jobs:
           python-version: "3.11"
       - name: "Install dependencies"
         run: |
-          mypy --install-types --non-interactive
           poetry install
+          mypy --install-types --non-interactive
       - name: "Run ruff"
         run: "make lint"
   hadolint:
