@@ -3,7 +3,9 @@ install:
 install-docs:
 	cd docs && pip install -r requirements.txt && cd ..
 lint:
-	pre-commit run --all-files
+	poetry run ruff check  --fix . && poetry run ruff format .
+type:
+	poetry run mypy .
 tox:
 	pip install tox tox-gh-actions
 	tox
@@ -45,6 +47,7 @@ help:
 	@echo "make install           Install requirements."
 	@echo "make install-docs      Install docs requirements."
 	@echo "make lint              Run Lint."
+	@echo "make type              Run mypy."
 	@echo "make docstr            Run docstr report."
 	@echo "make tox               Run Unit test tox."
 	@echo "make test              Run Unit test."

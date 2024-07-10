@@ -8,7 +8,7 @@ on:
 jobs:
   lint:
     runs-on: "ubuntu-latest"
-    name: "Run pre-commit"
+    name: "Run ruff"
     steps:
       - uses: "actions/checkout@v2"
       - uses: "actions/setup-python@v2"
@@ -16,8 +16,9 @@ jobs:
           python-version: "3.11"
       - name: "Install dependencies"
         run: |
-          pip install pre-commit
-      - name: "Run pre-commit"
+          mypy --install-types --non-interactive
+          poetry install
+      - name: "Run ruff"
         run: "make lint"
   hadolint:
     runs-on: "ubuntu-latest"
@@ -39,5 +40,5 @@ jobs:
       - name: "Install dependencies"
         run: |
           pip install docstr-coverage
-      - name: "Run pre-commit"
+      - name: "Run docstr"
         run: "make docstr"

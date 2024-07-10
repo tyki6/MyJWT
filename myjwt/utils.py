@@ -1,16 +1,16 @@
 """
 Utils package
 """
+
 import base64
 import json
-from typing import Dict
+from typing import Any, cast
 
 import click
 import pyperclip
 from OpenSSL import crypto
 
-from myjwt.Exception import InvalidJWT
-from myjwt.Exception import InvalidJwtJson
+from myjwt.Exception import InvalidJWT, InvalidJwtJson
 from myjwt.variables import CLIPBOARD
 
 HEADER = "header"
@@ -18,7 +18,7 @@ PAYLOAD = "payload"
 SIGNATURE = "signature"
 
 
-def jwt_to_json(jwt: str) -> Dict:
+def jwt_to_json(jwt: str) -> dict[str, Any]:
     """
     Transform your jwt's string to a dict.
 
@@ -44,7 +44,7 @@ def jwt_to_json(jwt: str) -> Dict:
     return {HEADER: header_json, PAYLOAD: payload_json, SIGNATURE: signature}
 
 
-def encoded_to_json(encoded_string: str) -> Dict:
+def encoded_to_json(encoded_string: str) -> dict[str, Any]:
     """
     Transform your encoded string to dict.
 
@@ -61,10 +61,10 @@ def encoded_to_json(encoded_string: str) -> Dict:
     decode = base64.b64decode(
         encoded_string + "=" * (-len(encoded_string) % 4),
     )
-    return json.loads(decode)
+    return cast(dict[str, Any], json.loads(decode))
 
 
-def encode_jwt(jwt_json: Dict) -> str:
+def encode_jwt(jwt_json: dict[str, Any]) -> str:
     """
     Transform your jwt dict to a jwt string without "." + signature.
 
@@ -118,7 +118,7 @@ def is_valid_jwt(jwt: str) -> bool:
     return len(jwt.split(".")) == 3
 
 
-def is_valid_jwt_json(jwt_json: Dict) -> bool:
+def is_valid_jwt_json(jwt_json: dict[str, Any]) -> bool:
     """
     Check your jwt dict.
 
@@ -142,7 +142,7 @@ def is_valid_jwt_json(jwt_json: Dict) -> bool:
     )
 
 
-def create_crt():
+def create_crt() -> tuple[str, str]:
     """
     Create crt + pem
 

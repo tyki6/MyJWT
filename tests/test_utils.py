@@ -1,19 +1,21 @@
 """Test"""
+
 import os
 
 import pytest as pytest
 
-from myjwt.Exception import InvalidJWT
-from myjwt.Exception import InvalidJwtJson
-from myjwt.utils import create_crt
-from myjwt.utils import encode_jwt
-from myjwt.utils import encoded_to_json
-from myjwt.utils import HEADER
-from myjwt.utils import is_valid_jwt
-from myjwt.utils import is_valid_jwt_json
-from myjwt.utils import jwt_to_json
-from myjwt.utils import PAYLOAD
-from myjwt.utils import SIGNATURE
+from myjwt.Exception import InvalidJWT, InvalidJwtJson
+from myjwt.utils import (
+    HEADER,
+    PAYLOAD,
+    SIGNATURE,
+    create_crt,
+    encode_jwt,
+    encoded_to_json,
+    is_valid_jwt,
+    is_valid_jwt_json,
+    jwt_to_json,
+)
 
 invalid_jwt = "test.test"
 jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0.eyJsb2dpbiI6ImF6In0."
@@ -28,7 +30,7 @@ jwt_json = {
 }
 
 
-def test_jwt_to_json_InvalidJWT():
+def test_jwt_to_json_InvalidJWT() -> None:
     """
     Test jwt_to_json method when jwt is invalid in utils.py
     """
@@ -36,12 +38,12 @@ def test_jwt_to_json_InvalidJWT():
         jwt_to_json(invalid_jwt)
 
 
-def test_jwt_to_json():
+def test_jwt_to_json() -> None:
     """
     Test jwt_to_json method in utils.py
     """
     jwt_json = jwt_to_json(jwt)
-    assert type(jwt_json) == dict
+    assert isinstance(jwt_json, dict)
 
     assert list(jwt_json.keys()) == [HEADER, PAYLOAD, SIGNATURE]
 
@@ -50,17 +52,17 @@ def test_jwt_to_json():
     assert jwt_json[SIGNATURE] == ""
 
 
-def test_encoded_to_json():
+def test_encoded_to_json() -> None:
     """
     Test encoded_to_json method in utils.py
     """
-    jsonDecoded = encoded_to_json(encoded_string)
+    json_decoded = encoded_to_json(encoded_string)
 
-    assert type(jsonDecoded) == dict
-    assert jsonDecoded == header
+    assert isinstance(json_decoded, dict)
+    assert json_decoded == header
 
 
-def test_encode_jwt():
+def test_encode_jwt() -> None:
     """
     Test encode_jwt method in utils.py
     """
@@ -71,21 +73,21 @@ def test_encode_jwt():
     assert new_jwt + "." == jwt
 
 
-def test_is_valid_jwt():
+def test_is_valid_jwt() -> None:
     """
     Test is_valid_jwt method in utils.py
     """
     assert is_valid_jwt(jwt)
 
 
-def test_is_valid_jwt_json():
+def test_is_valid_jwt_json() -> None:
     """
     Test is_valid_jwt_json method in utils.py
     """
     assert is_valid_jwt_json(jwt_json)
 
 
-def test_create_crt():
+def test_create_crt() -> None:
     """
     Test create_crt method in utils.py
     """

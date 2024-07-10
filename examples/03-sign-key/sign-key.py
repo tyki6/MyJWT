@@ -1,8 +1,6 @@
-from myjwt.modify_jwt import change_payload
-from myjwt.modify_jwt import signature
+from myjwt.modify_jwt import change_payload, signature
 from myjwt.utils import jwt_to_json
-from myjwt.variables import INVALID_SIGNATURE
-from myjwt.variables import VALID_SIGNATURE
+from myjwt.variables import INVALID_SIGNATURE, VALID_SIGNATURE
 
 jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjpudWxsfQ.Tr0VvdP6rVBGBGuI_luxGCOaz6BbhC6IxRTlKOW8UjM"
 key = "pentesterlab"
@@ -19,7 +17,5 @@ print(jwt)
 
 # verify your jwt
 print(
-    VALID_SIGNATURE
-    if new_jwt.split(".")[2] == jwt.split(".")[2]
-    else INVALID_SIGNATURE,
+    VALID_SIGNATURE if new_jwt.split(".")[2] == jwt.split(".")[2] else INVALID_SIGNATURE,
 )

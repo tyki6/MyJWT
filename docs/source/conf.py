@@ -13,12 +13,14 @@
 # sys.path.insert(0, os.path.abspath('.'))
 # -- Project information -----------------------------------------------------
 
+from typing import Any
+
 project = "myjwt"
 copyright = "2020, matthieu Bouamama"
 author = "matthieu Bouamama"
 
 # The full version, including alpha/beta/rc tags
-release = "1.2.0"
+release = "2.0.0"
 
 
 # -- General configuration ---------------------------------------------------
@@ -90,7 +92,7 @@ htmlhelp_basename = "myjwt-doc"
 ##################################################
 # Options for LaTeX Output
 ##################################################
-latex_elements = {
+latex_elements: Any = {
     # 'papersize': 'letterpaper',  # The paper size ('letterpaper' or 'a4paper')
     # 'pointsize': '10pt',  # The font size ('10pt', '11pt' or '12pt')
     # 'preamble': '',  # Additional stuff for the LaTeX preamble

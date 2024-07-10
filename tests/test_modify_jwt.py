@@ -1,18 +1,10 @@
 """Test"""
+
 import pytest
 
-from myjwt.Exception import InvalidJwtJson
-from myjwt.Exception import InvalidParam
-from myjwt.Exception import UnknownAlg
-from myjwt.modify_jwt import add_header
-from myjwt.modify_jwt import add_payload
-from myjwt.modify_jwt import change_alg
-from myjwt.modify_jwt import change_payload
-from myjwt.modify_jwt import signature
-from myjwt.utils import HEADER
-from myjwt.utils import jwt_to_json
-from myjwt.utils import PAYLOAD
-from myjwt.utils import SIGNATURE
+from myjwt.Exception import InvalidJwtJson, InvalidParam, UnknownAlg
+from myjwt.modify_jwt import add_header, add_payload, change_alg, change_payload, signature
+from myjwt.utils import HEADER, PAYLOAD, SIGNATURE, jwt_to_json
 
 invalid_jwt = "test.test"
 jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0.eyJsb2dpbiI6ImF6In0."
@@ -24,10 +16,7 @@ jwt_rsa = (
     "-HWJp3rJW4EIHzOPfs1GuDuhtIRu0uuRYp4vvzLZcVm0BhlK9e_fmFcbsTz3MwVHIeFEIx2NjQdhE"
     "-CefQ4tNg6Rr6OtgGExToUfD0i0mAoAhTcvmoyO6c2paQ"
 )
-jwt_hs256 = (
-    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpbiI6ImEifQ.KJDuTWSj9wa3NL3j1u2HOijvgu"
-    "-oO9tBjKGxjo_qdXQ"
-)
+jwt_hs256 = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpbiI6ImEifQ.KJDuTWSj9wa3NL3j1u2HOijvgu" "-oO9tBjKGxjo_qdXQ"
 encoded_string = "eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0"
 header = {"typ": "JWT", "alg": "none"}
 add_header_value = {"kid": "1"}
@@ -42,7 +31,7 @@ jwt_json = {
 path = "./examples/05-rsa-hmac-confusion/public.pem"
 
 
-def test_add_payload():
+def test_add_payload() -> None:
     """
     Test add_payload method in modify_jwt.py
     """
@@ -50,7 +39,7 @@ def test_add_payload():
         add_payload({}, {})
 
     with pytest.raises(InvalidParam):
-        add_payload(jwt_json, "")
+        add_payload(jwt_json, "")  # type: ignore
 
     new_jwt_json = add_payload(jwt_json, add_payload_value)
     assert list(new_jwt_json[PAYLOAD].keys()) == ["login", "username"]
@@ -61,7 +50,7 @@ def test_add_payload():
     assert new_jwt_json[SIGNATURE] == jwt_json[SIGNATURE]
 
 
-def test_add_header():
+def test_add_header() -> None:
     """
     Test add_header method in modify_jwt.py
     """
@@ -69,7 +58,7 @@ def test_add_header():
         add_header({}, {})
 
     with pytest.raises(InvalidParam):
-        add_header(jwt_json, "{}")
+        add_header(jwt_json, "{}")  # type: ignore
 
     new_jwt_json = add_header(jwt_json, add_header_value)
     assert list(new_jwt_json[HEADER].keys()), ["typ", "alg", "kid"]
@@ -81,7 +70,7 @@ def test_add_header():
     assert new_jwt_json[SIGNATURE] == jwt_json[SIGNATURE]
 
 
-def test_change_alg():
+def test_change_alg() -> None:
     """
     Test changeAlg method in modify_jwt.py
     """
@@ -95,7 +84,7 @@ def test_change_alg():
     assert new_jwt_json[SIGNATURE] == jwt_json[SIGNATURE]
 
 
-def test_change_payload():
+def test_change_payload() -> None:
     """
     Test changePayload method in modify_jwt.py
     """
@@ -110,7 +99,7 @@ def test_change_payload():
     assert new_jwt_json[SIGNATURE] == jwt_json[SIGNATURE]
 
 
-def test_signature():
+def test_signature() -> None:
     """
     Test signature method in modify_jwt.py
     """
@@ -131,6 +120,6 @@ def test_signature():
     assert new_jwt == jwt_hs256
 
     new_jwt_json = jwt_json
-    new_jwt_json[HEADER]["alg"] = "unknowAlg"
+    new_jwt_json[HEADER]["alg"] = "unknowAlg"  # type: ignore
     with pytest.raises(UnknownAlg):
         signature(new_jwt_json, "")

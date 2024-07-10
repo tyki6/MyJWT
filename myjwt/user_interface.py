@@ -1,5 +1,6 @@
 # type: ignore
 """User interface file"""
+
 import re
 from typing import Dict
 
@@ -7,50 +8,49 @@ import click
 import questionary
 
 from myjwt.modify_jwt import signature
-from myjwt.utils import copy_to_clipboard
-from myjwt.utils import encode_jwt
-from myjwt.utils import HEADER
-from myjwt.utils import jwt_to_json
-from myjwt.utils import PAYLOAD
-from myjwt.utils import SIGNATURE
-from myjwt.variables import CHECK_DOCS
-from myjwt.variables import CRACKED
-from myjwt.variables import custom_style_fancy
-from myjwt.variables import INVALID_SIGNATURE
-from myjwt.variables import MAIN_SUMMARY_CHOICES
-from myjwt.variables import MAIN_SUMMARY_CHOICES_BRUTE_FORCE
-from myjwt.variables import MAIN_SUMMARY_CHOICES_JKU
-from myjwt.variables import MAIN_SUMMARY_CHOICES_KID
-from myjwt.variables import MAIN_SUMMARY_CHOICES_MODIFY
-from myjwt.variables import MAIN_SUMMARY_CHOICES_NONE_ALG
-from myjwt.variables import MAIN_SUMMARY_CHOICES_QUIT
-from myjwt.variables import MAIN_SUMMARY_CHOICES_RSA_CONFUSION
-from myjwt.variables import MAIN_SUMMARY_CHOICES_SIGN
-from myjwt.variables import MAIN_SUMMARY_CHOICES_VERIFY
-from myjwt.variables import MAIN_SUMMARY_CHOICES_X5U
-from myjwt.variables import MAIN_SUMMARY_PROMPT_INJECTION
-from myjwt.variables import MAIN_SUMMARY_PROMPT_JWKS
-from myjwt.variables import MAIN_SUMMARY_PROMPT_KEY
-from myjwt.variables import MAIN_SUMMARY_PROMPT_PEM
-from myjwt.variables import MAIN_SUMMARY_PROMPT_WORDLIST
-from myjwt.variables import MAIN_SUMMARY_QUESTION
-from myjwt.variables import MODIFY_SUMMARY_CHOICES_ADD_HEADER
-from myjwt.variables import MODIFY_SUMMARY_CHOICES_ADD_PAYLOAD
-from myjwt.variables import MODIFY_SUMMARY_CHOICES_RETURN
-from myjwt.variables import MODIFY_SUMMARY_PROMPT_KEY
-from myjwt.variables import MODIFY_SUMMARY_PROMPT_VALUE
-from myjwt.variables import MODIFY_SUMMARY_QUESTION
-from myjwt.variables import NEW_JWT
-from myjwt.variables import NOT_CRAKED
-from myjwt.variables import SEPARATOR_HEADER
-from myjwt.variables import SEPARATOR_PAYLOAD
-from myjwt.variables import VALID_SIGNATURE
-from myjwt.vulnerabilities import bruteforce_wordlist
-from myjwt.vulnerabilities import confusion_rsa_hmac
-from myjwt.vulnerabilities import inject_sql_kid
-from myjwt.vulnerabilities import jku_vulnerability
-from myjwt.vulnerabilities import none_vulnerability
-from myjwt.vulnerabilities import print_decoded
+from myjwt.utils import HEADER, PAYLOAD, SIGNATURE, copy_to_clipboard, encode_jwt, jwt_to_json
+from myjwt.variables import (
+    CHECK_DOCS,
+    CRACKED,
+    INVALID_SIGNATURE,
+    MAIN_SUMMARY_CHOICES,
+    MAIN_SUMMARY_CHOICES_BRUTE_FORCE,
+    MAIN_SUMMARY_CHOICES_JKU,
+    MAIN_SUMMARY_CHOICES_KID,
+    MAIN_SUMMARY_CHOICES_MODIFY,
+    MAIN_SUMMARY_CHOICES_NONE_ALG,
+    MAIN_SUMMARY_CHOICES_QUIT,
+    MAIN_SUMMARY_CHOICES_RSA_CONFUSION,
+    MAIN_SUMMARY_CHOICES_SIGN,
+    MAIN_SUMMARY_CHOICES_VERIFY,
+    MAIN_SUMMARY_CHOICES_X5U,
+    MAIN_SUMMARY_PROMPT_INJECTION,
+    MAIN_SUMMARY_PROMPT_JWKS,
+    MAIN_SUMMARY_PROMPT_KEY,
+    MAIN_SUMMARY_PROMPT_PEM,
+    MAIN_SUMMARY_PROMPT_WORDLIST,
+    MAIN_SUMMARY_QUESTION,
+    MODIFY_SUMMARY_CHOICES_ADD_HEADER,
+    MODIFY_SUMMARY_CHOICES_ADD_PAYLOAD,
+    MODIFY_SUMMARY_CHOICES_RETURN,
+    MODIFY_SUMMARY_PROMPT_KEY,
+    MODIFY_SUMMARY_PROMPT_VALUE,
+    MODIFY_SUMMARY_QUESTION,
+    NEW_JWT,
+    NOT_CRAKED,
+    SEPARATOR_HEADER,
+    SEPARATOR_PAYLOAD,
+    VALID_SIGNATURE,
+    custom_style_fancy,
+)
+from myjwt.vulnerabilities import (
+    bruteforce_wordlist,
+    confusion_rsa_hmac,
+    inject_sql_kid,
+    jku_vulnerability,
+    none_vulnerability,
+    print_decoded,
+)
 
 
 def user_interface(jwt: str) -> None:
@@ -137,28 +137,16 @@ def user_modify_jwt(jwt_json: Dict) -> Dict:
     """
     item = ""
     while item != MODIFY_SUMMARY_CHOICES_RETURN and item is not None:
-        header_list = list()
+        header_list = []
         for key in jwt_json[HEADER].keys():
             header_list.append(
-                str(key)
-                + " = "
-                + (
-                    str(jwt_json[HEADER][key])
-                    if jwt_json[HEADER][key] is not None
-                    else "null"
-                ),
+                str(key) + " = " + (str(jwt_json[HEADER][key]) if jwt_json[HEADER][key] is not None else "null"),
             )
 
-        payload_list = list()
+        payload_list = []
         for key in jwt_json[PAYLOAD].keys():
             payload_list.append(
-                str(key)
-                + " = "
-                + (
-                    str(jwt_json[PAYLOAD][key])
-                    if jwt_json[PAYLOAD][key] is not None
-                    else "null"
-                ),
+                str(key) + " = " + (str(jwt_json[PAYLOAD][key]) if jwt_json[PAYLOAD][key] is not None else "null"),
             )
         item = questionary.select(
             MODIFY_SUMMARY_QUESTION,
@@ -266,9 +254,7 @@ def user_verify_key(jwt_json: Dict, key: str) -> None:
         click.echo(CHECK_DOCS)
     new_jwt = signature(jwt_json, key)
     click.echo(
-        VALID_SIGNATURE
-        if new_jwt.split(".")[2] == jwt_json[SIGNATURE]
-        else INVALID_SIGNATURE,
+        VALID_SIGNATURE if new_jwt.split(".")[2] == jwt_json[SIGNATURE] else INVALID_SIGNATURE,
     )
 
 

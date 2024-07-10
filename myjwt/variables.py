@@ -1,9 +1,9 @@
 """
 All Environment variables
 """
+
 import click
-from questionary import Separator
-from questionary import Style
+from questionary import Separator, Style
 
 NOT_VALID_JWT = click.style("Enter a valid JWT!!!", fg="red", bold=True)
 CHECK_DOCS = click.style(
@@ -77,9 +77,7 @@ MAIN_SUMMARY_QUESTION = "What do you want to do?"
 MAIN_SUMMARY_CHOICES_MODIFY = "Modify your jwt"
 MAIN_SUMMARY_CHOICES_NONE_ALG = "Check None algorithm"
 MAIN_SUMMARY_CHOICES_RSA_CONFUSION = "Check Rsa/Hmac confusion"
-MAIN_SUMMARY_CHOICES_BRUTE_FORCE = (
-    "Brute-force your jwt to guess key(wordlist needed)"
-)
+MAIN_SUMMARY_CHOICES_BRUTE_FORCE = "Brute-force your jwt to guess key(wordlist needed)"
 MAIN_SUMMARY_CHOICES_SIGN = "Sign your jwt"
 MAIN_SUMMARY_CHOICES_VERIFY = "Verify your key"
 MAIN_SUMMARY_CHOICES_KID = "Kid injection"
