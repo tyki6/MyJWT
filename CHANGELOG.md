@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
-
+## [2.0.0] - 10-07-2024
+### Added
+- python 3.12 compliance
+- ruff linter
+- adding mypy for typing
+- poetry update
+- fix pypi authentification
 ## [1.6.1] - 10-03-2022
 ### Added
 - python 3.11 compliance

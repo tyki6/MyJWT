@@ -1,23 +1,23 @@
 """Test"""
+
 import os
+from typing import Any
 
 import OpenSSL
 import pytest
 
 from myjwt.Exception import InvalidJWT
-from myjwt.utils import create_crt
-from myjwt.utils import HEADER
-from myjwt.utils import jwt_to_json
-from myjwt.utils import PAYLOAD
-from myjwt.utils import SIGNATURE
-from myjwt.vulnerabilities import bruteforce_wordlist
-from myjwt.vulnerabilities import confusion_rsa_hmac
-from myjwt.vulnerabilities import inject_sql_kid
-from myjwt.vulnerabilities import jku_vulnerability
-from myjwt.vulnerabilities import none_vulnerability
-from myjwt.vulnerabilities import print_decoded
-from myjwt.vulnerabilities import send_jwt_to_url
-from myjwt.vulnerabilities import x5u_vulnerability
+from myjwt.utils import HEADER, PAYLOAD, SIGNATURE, create_crt, jwt_to_json
+from myjwt.vulnerabilities import (
+    bruteforce_wordlist,
+    confusion_rsa_hmac,
+    inject_sql_kid,
+    jku_vulnerability,
+    none_vulnerability,
+    print_decoded,
+    send_jwt_to_url,
+    x5u_vulnerability,
+)
 
 jwt = (
     "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJsb2dpbiI6ImEifQ.Fjziy6GSQpP9tQRyko5APZjdymkQ8EJGOa"
@@ -28,8 +28,7 @@ jwt = (
     "-CefQ4tNg6Rr6OtgGExToUfD0i0mAoAhTcvmoyO6c2paQ"
 )
 jwt_bruteforce = (
-    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjpudWxsfQ"
-    ".Tr0VvdP6rVBGBGuI_luxGCOaz6BbhC6IxRTlKOW8UjM"
+    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjpudWxsfQ" ".Tr0VvdP6rVBGBGuI_luxGCOaz6BbhC6IxRTlKOW8UjM"
 )
 jwt_kid = (
     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6ImtleTEifQ.eyJ1c2VyIjpudWxsfQ"
@@ -56,7 +55,7 @@ signature = "KJDuTWSj9wa3NL3j1u2HOijvgu-oO9tBjKGxjo_qdXQ"
 kid_injection = "../../../../../../dev/null"
 
 
-def test_none_vulnerability():
+def test_none_vulnerability() -> None:
     """
     Test none_vulnerability method in vulnerabilities.py
     """
@@ -72,7 +71,7 @@ def test_none_vulnerability():
     assert new_jwt_json[SIGNATURE] == ""
 
 
-def test_confusion_rsa_hmac():
+def test_confusion_rsa_hmac() -> None:
     """
     Test confusion_rsa_hmac method in vulnerabilities.py
     """
@@ -88,7 +87,7 @@ def test_confusion_rsa_hmac():
     assert new_jwt_json[SIGNATURE] == signature
 
 
-def test_bruteforce_wordlist():
+def test_bruteforce_wordlist() -> None:
     """
     Test bruteforce_wordlist method in vulnerabilities.py
     """
@@ -102,7 +101,7 @@ def test_bruteforce_wordlist():
     assert new_key == ""
 
 
-def test_inject_sql_kid():
+def test_inject_sql_kid() -> None:
     """
     Test inject_sql_kid method in vulnerabilities.py
     """
@@ -113,7 +112,7 @@ def test_inject_sql_kid():
     assert jwt_to_json(jwt)[HEADER]["kid"] == kid_injection
 
 
-def test_print_decoded():
+def test_print_decoded() -> None:
     """
     Test print_decoded method in vulnerabilities.py
     """
@@ -122,7 +121,7 @@ def test_print_decoded():
     print_decoded(jwt_bruteforce)
 
 
-def test_send_jwt_to_url(requests_mock):
+def test_send_jwt_to_url(requests_mock: Any) -> None:
     """
     Test send_jwt_to_url method in vulnerabilities.py
     """
@@ -141,7 +140,7 @@ def test_send_jwt_to_url(requests_mock):
         "test",
     )
     assert response.request.method == "GET"
-    assert response.request.json() == {"data": "data"}
+    assert response.request.json() == {"data": "data"}  # type: ignore
 
     status_code = 200
     requests_mock.post(
@@ -157,11 +156,11 @@ def test_send_jwt_to_url(requests_mock):
         "test",
     )
     assert response.request.method == "POST"
-    assert response.request.json() == {"data": "data"}
+    assert response.request.json() == {"data": "data"}  # type: ignore
     assert response.request.headers["Authorization"] == "Bearer test"
 
 
-def test_jku_vulnerability(requests_mock):
+def test_jku_vulnerability(requests_mock: Any) -> None:
     """
     Test jku_vulnerability method in vulnerabilities.py
     """
@@ -223,7 +222,7 @@ def test_jku_vulnerability(requests_mock):
     assert os.path.exists("private.pem")
 
 
-def test_x5u_vulnerability(requests_mock):
+def test_x5u_vulnerability(requests_mock: Any) -> None:
     """
     Test x5u_vulnerability method in vulnerabilities.py
     """
@@ -280,7 +279,4 @@ def test_x5u_vulnerability(requests_mock):
     jwt_json = jwt_to_json(jwt)
     assert "x5u" in jwt_json[HEADER]
     assert os.path.exists("test_x5u_vulnerability.json")
-    assert (
-        jwt_json[HEADER]["x5u"]
-        == "http://test.com/test_x5u_vulnerability.json"
-    )
+    assert jwt_json[HEADER]["x5u"] == "http://test.com/test_x5u_vulnerability.json"

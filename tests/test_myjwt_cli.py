@@ -1,19 +1,16 @@
 """Test"""
+
 import json
 import re
+from typing import Any
 
 import requests
 from click.testing import CliRunner
 
 from myjwt.modify_jwt import change_payload
 from myjwt.myjwt_cli import myjwt_cli
-from myjwt.utils import HEADER
-from myjwt.utils import jwt_to_json
-from myjwt.utils import PAYLOAD
-from myjwt.utils import SIGNATURE
-from myjwt.variables import CHECK_DOCS
-from myjwt.variables import NOT_VALID_JWT
-from myjwt.variables import VALID_PAYLOAD_JSON
+from myjwt.utils import HEADER, PAYLOAD, SIGNATURE, jwt_to_json
+from myjwt.variables import CHECK_DOCS, NOT_VALID_JWT, VALID_PAYLOAD_JSON
 
 test_jwt = (
     "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJsb2dpbiI6ImEifQ.Fjziy6GSQpP9tQRyko5APZjdymkQ8EJGOa"
@@ -24,8 +21,7 @@ test_jwt = (
     "-CefQ4tNg6Rr6OtgGExToUfD0i0mAoAhTcvmoyO6c2paQ"
 )
 jwt_bruteforce = (
-    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjpudWxsfQ"
-    ".Tr0VvdP6rVBGBGuI_luxGCOaz6BbhC6IxRTlKOW8UjM"
+    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjpudWxsfQ" ".Tr0VvdP6rVBGBGuI_luxGCOaz6BbhC6IxRTlKOW8UjM"
 )
 password_path = "./wordlist/common_pass.txt"
 jwt_kid = (
@@ -51,7 +47,7 @@ jwt_x5u = (
 )
 
 
-def test_error_cli():
+def test_error_cli() -> None:
     """
     Test error input during call in myjwt_cli.py
     """
@@ -63,7 +59,7 @@ def test_error_cli():
     assert result.exit_code == 1
 
 
-def test_payload():
+def test_payload() -> None:
     """
     Test Payload option in myjwt_cli.py
     """
@@ -88,12 +84,15 @@ def test_payload():
         jwt_to_json(test_jwt),
         json.loads('{"username": "test", "password": "test"}'),
     )
-    jwt = re.search("new JWT: " + "(.*)", result.output).groups()[0]
+    regex = "new JWT: " + "(.*)"
+    regex_search = re.search(regex, result.output)
+    assert regex_search is not None
+    jwt = regex_search.groups()[0]
     assert jwt_to_json(jwt) == jwtVerify
     assert result.exit_code == 0
 
 
-def test_add_header():
+def test_add_header() -> None:
     """
     Test add-header option in myjwt_cli.py
     """
@@ -110,13 +109,16 @@ def test_add_header():
         myjwt_cli,
         [test_jwt, "--add-header", "username=admin"],
     )
-    jwt = re.search("new JWT: " + "(.*)", result.output).groups()[0]
+    regex = "new JWT: " + "(.*)"
+    regex_search = re.search(regex, result.output)
+    assert regex_search is not None
+    jwt = regex_search.groups()[0]
     jwt_json = jwt_to_json(jwt)
     assert jwt_json[HEADER]["username"] == "admin"
     assert result.exit_code == 0
 
 
-def test_add_payload():
+def test_add_payload() -> None:
     """
     Test add-payload option in myjwt_cli.py
     """
@@ -133,13 +135,16 @@ def test_add_payload():
         myjwt_cli,
         [test_jwt, "--add-payload", "username=admin"],
     )
-    jwt = re.search("new JWT: " + "(.*)", result.output).groups()[0]
+    regex = "new JWT: " + "(.*)"
+    regex_search = re.search(regex, result.output)
+    assert regex_search is not None
+    jwt = regex_search.groups()[0]
     jwt_json = jwt_to_json(jwt)
     assert jwt_json[PAYLOAD]["username"] == "admin"
     assert result.exit_code == 0
 
 
-def test_sign():
+def test_sign() -> None:
     """
     Test sign option in myjwt_cli.py
     """
@@ -153,12 +158,15 @@ def test_sign():
         myjwt_cli,
         [jwt_bruteforce, "--sign", "pentesterlab"],
     )
-    jwt = re.search("new JWT: " + "(.*)", result.output).groups()[0]
+    regex = "new JWT: " + "(.*)"
+    regex_search = re.search(regex, result.output)
+    assert regex_search is not None
+    jwt = regex_search.groups()[0]
     assert jwt_bruteforce == jwt
     assert result.exit_code == 0
 
 
-def test_verify():
+def test_verify() -> None:
     """
     Test verify option in myjwt_cli.py
     """
@@ -176,7 +184,7 @@ def test_verify():
     assert result.exit_code == 0
 
 
-def test_none_vulnerability():
+def test_none_vulnerability() -> None:
     """
     Test none-vulnerability option in myjwt_cli.py
     """
@@ -184,13 +192,16 @@ def test_none_vulnerability():
         myjwt_cli,
         [test_jwt, "--none-vulnerability"],
     )
-    jwt = re.search("new JWT: " + "(.*)", result.output).groups()[0]
+    regex = "new JWT: " + "(.*)"
+    regex_search = re.search(regex, result.output)
+    assert regex_search is not None
+    jwt = regex_search.groups()[0]
     assert "none" == jwt_to_json(jwt)[HEADER]["alg"]
     assert "" == jwt_to_json(jwt)[SIGNATURE]
     assert result.exit_code == 0
 
 
-def test_hmac():
+def test_hmac() -> None:
     """
     Test hmac option in myjwt_cli.py
     """
@@ -208,7 +219,7 @@ def test_hmac():
     assert result.exit_code == 0
 
 
-def test_bruteforce():
+def test_bruteforce() -> None:
     """
     Test bruteforce option in myjwt_cli.py
     """
@@ -240,7 +251,7 @@ def test_bruteforce():
     assert result.exit_code == 0
 
 
-def test_kid():
+def test_kid() -> None:
     """
     Test kid option in myjwt_cli.py
     """
@@ -254,7 +265,7 @@ def test_kid():
     assert result.exit_code == 0
 
 
-def test_print():
+def test_print() -> None:
     """
     Test print option in myjwt_cli.py
     """
@@ -262,7 +273,7 @@ def test_print():
     assert result.exit_code == 0
 
 
-def test_url(requests_mock):
+def test_url(requests_mock: Any) -> None:
     """
     Test url option in myjwt_cli.py
     """
@@ -312,7 +323,7 @@ def test_url(requests_mock):
     assert result.exit_code == 0
 
 
-def test_url_connectionError(mocker):
+def test_url_connectionError(mocker: Any) -> None:
     """
     Test url error for url option in myjwt_cli.py
     """
@@ -328,7 +339,7 @@ def test_url_connectionError(mocker):
     assert result.exit_code == 1
 
 
-def test_jku(requests_mock):
+def test_jku(requests_mock: Any) -> None:
     """
     Test jku option in myjwt_cli.py
     """
@@ -360,16 +371,16 @@ def test_jku(requests_mock):
     assert result.exit_code == 0
 
 
-def test_user_interface():
+def test_user_interface() -> None:
     """
     Test user_interface in myjwt_cli.py
     """
     result = CliRunner().invoke(myjwt_cli, [test_jwt])
     # raise UnsupportedOperation(stdin is not a terminal)
-    assert type(result.exception) == SystemExit
+    assert isinstance(result.exception, SystemExit)
 
 
-def test_x5c(requests_mock):
+def test_x5c(requests_mock: Any) -> None:
     """
     Test x5c option in myjwt_cli.py
     """

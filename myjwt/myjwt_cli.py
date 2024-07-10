@@ -1,49 +1,45 @@
 """
 Cli Package
 """
+
 import json
 import sys
 from json import JSONDecodeError
+from typing import Any
 
 import click
 import exrex
 import requests
 
-from myjwt import __commit__
-from myjwt import __version__
-from myjwt.modify_jwt import add_header
-from myjwt.modify_jwt import add_payload
-from myjwt.modify_jwt import change_alg
-from myjwt.modify_jwt import change_payload
-from myjwt.modify_jwt import signature
+from myjwt import __commit__, __version__
+from myjwt.modify_jwt import add_header, add_payload, change_alg, change_payload, signature
 from myjwt.user_interface import user_interface  # type: ignore
-from myjwt.utils import copy_to_clipboard
-from myjwt.utils import encode_jwt
-from myjwt.utils import HEADER
-from myjwt.utils import is_valid_jwt
-from myjwt.utils import jwt_to_json
-from myjwt.utils import SIGNATURE
-from myjwt.variables import CHECK_DOCS
-from myjwt.variables import CRACKED
-from myjwt.variables import INVALID_SIGNATURE
-from myjwt.variables import NEW_JWT
-from myjwt.variables import NOT_CRAKED
-from myjwt.variables import NOT_VALID_JWT
-from myjwt.variables import VALID_COOKIES
-from myjwt.variables import VALID_DATA
-from myjwt.variables import VALID_HEADER
-from myjwt.variables import VALID_PAYLOAD
-from myjwt.variables import VALID_PAYLOAD_JSON
-from myjwt.variables import VALID_SIGNATURE
-from myjwt.vulnerabilities import bruteforce_wordlist
-from myjwt.vulnerabilities import confusion_rsa_hmac
-from myjwt.vulnerabilities import inject_sql_kid
-from myjwt.vulnerabilities import jku_vulnerability
-from myjwt.vulnerabilities import print_decoded
-from myjwt.vulnerabilities import send_jwt_to_url
-from myjwt.vulnerabilities import x5u_vulnerability
+from myjwt.utils import HEADER, SIGNATURE, copy_to_clipboard, encode_jwt, is_valid_jwt, jwt_to_json
+from myjwt.variables import (
+    CHECK_DOCS,
+    CRACKED,
+    INVALID_SIGNATURE,
+    NEW_JWT,
+    NOT_CRAKED,
+    NOT_VALID_JWT,
+    VALID_COOKIES,
+    VALID_DATA,
+    VALID_HEADER,
+    VALID_PAYLOAD,
+    VALID_PAYLOAD_JSON,
+    VALID_SIGNATURE,
+)
+from myjwt.vulnerabilities import (
+    bruteforce_wordlist,
+    confusion_rsa_hmac,
+    inject_sql_kid,
+    jku_vulnerability,
+    print_decoded,
+    send_jwt_to_url,
+    x5u_vulnerability,
+)
 
-CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
+CONTEXT_SETTINGS = {"help_option_names": ["-h", "--help"]}
 
 
 @click.command(context_settings=CONTEXT_SETTINGS)
@@ -125,7 +121,7 @@ CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
     help="Cookies to send to your url.Format: key=value. if value = MY_JWT value will be replace by new jwt.",
     multiple=True,
 )
-def myjwt_cli(jwt, **kwargs):
+def myjwt_cli(jwt: str, **kwargs: Any) -> None:
     """
     \b
     This cli is for pentesters, CTF players, or dev.
@@ -150,9 +146,7 @@ def myjwt_cli(jwt, **kwargs):
     # if no option detected print user_interface
     interface_mode = True
     for option in kwargs.values():
-        if not (
-            option is None or option == () or not option or option == "GET"
-        ):
+        if not (option is None or option == () or not option or option == "GET"):
             interface_mode = False
     if interface_mode:
         user_interface(jwt)
@@ -168,15 +162,11 @@ def myjwt_cli(jwt, **kwargs):
         else:
             copy_to_clipboard(key)
             click.echo(CRACKED + key)
-            if (
-                not kwargs["add_header"]
-                and not kwargs["add_payload"]
-                and not kwargs["full_payload"]
-            ):
+            if not kwargs["add_header"] and not kwargs["add_payload"] and not kwargs["full_payload"]:
                 sys.exit()
 
     if kwargs["add_payload"]:
-        payload_dict = dict()
+        payload_dict = {}
         for payload in kwargs["add_payload"]:
             new_str = payload.split("=")
             if len(new_str) != 2:
@@ -186,7 +176,7 @@ def myjwt_cli(jwt, **kwargs):
         jwt = encode_jwt(jwt_json) + "." + jwt_json[SIGNATURE]
 
     if kwargs["add_header"]:
-        header_dict = dict()
+        header_dict = {}
         for header in kwargs["add_header"]:
             new_str = header.split("=")
             if len(new_str) != 2:
@@ -254,9 +244,7 @@ def myjwt_cli(jwt, **kwargs):
             sys.exit(CHECK_DOCS)
         new_jwt = signature(jwt_json, kwargs["verify"])
         click.echo(
-            VALID_SIGNATURE
-            if new_jwt.split(".")[2] == jwt.split(".")[2]
-            else INVALID_SIGNATURE,
+            VALID_SIGNATURE if new_jwt.split(".")[2] == jwt.split(".")[2] else INVALID_SIGNATURE,
         )
     if kwargs["crack"]:
         jwt_json = jwt_to_json(jwt)
@@ -265,10 +253,7 @@ def myjwt_cli(jwt, **kwargs):
 
         all_string = list(exrex.generate(kwargs["crack"]))
         click.echo(
-            kwargs["crack"]
-            + " have "
-            + str(len(all_string))
-            + " possibilities",
+            kwargs["crack"] + " have " + str(len(all_string)) + " possibilities",
         )
         with click.progressbar(
             all_string,
@@ -282,7 +267,7 @@ def myjwt_cli(jwt, **kwargs):
                     sys.exit("Key found: " + key)
             sys.exit(INVALID_SIGNATURE)
     if kwargs["url"]:
-        data_dict = dict()
+        data_dict = {}
         for d in kwargs["data"]:
             new_str = d.split("=")
             if len(new_str) != 2:
@@ -292,7 +277,7 @@ def myjwt_cli(jwt, **kwargs):
             else:
                 data_dict[new_str[0]] = new_str[1]
 
-        cookies_dict = dict()
+        cookies_dict = {}
         for cookie in kwargs["cookies"]:
             new_str = cookie.split("=")
             if len(new_str) != 2:

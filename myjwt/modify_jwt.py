@@ -1,21 +1,17 @@
 """
 Package for modify your jwt(header, payload, signature)
 """
+
 import base64
 import hashlib
 import hmac
-from typing import Dict
+from typing import Any
 
-from myjwt.Exception import InvalidJwtJson
-from myjwt.Exception import InvalidParam
-from myjwt.Exception import UnknownAlg
-from myjwt.utils import encode_jwt
-from myjwt.utils import HEADER
-from myjwt.utils import is_valid_jwt_json
-from myjwt.utils import PAYLOAD
+from myjwt.Exception import InvalidJwtJson, InvalidParam, UnknownAlg
+from myjwt.utils import HEADER, PAYLOAD, encode_jwt, is_valid_jwt_json
 
 
-def add_payload(jwt_json: Dict, payload) -> Dict:
+def add_payload(jwt_json: dict[str, Any], payload: dict[str, Any]) -> dict[str, Any]:
     """
     Add new key:value to jwt's payload.
 
@@ -50,7 +46,7 @@ def add_payload(jwt_json: Dict, payload) -> Dict:
     return jwt_json
 
 
-def add_header(jwt_json: Dict, header: Dict) -> Dict:
+def add_header(jwt_json: dict[str, Any], header: dict[str, Any]) -> dict[str, Any]:
     """
     Add new key:value to jwt's header.
 
@@ -85,7 +81,7 @@ def add_header(jwt_json: Dict, header: Dict) -> Dict:
     return jwt_json
 
 
-def change_alg(jwt_json: Dict, algo: str) -> Dict:
+def change_alg(jwt_json: dict[str, Any], algo: str) -> dict[str, Any]:
     """
     Change alg of your jwt.
 
@@ -113,7 +109,7 @@ def change_alg(jwt_json: Dict, algo: str) -> Dict:
     return jwt_json
 
 
-def change_payload(jwt_json: Dict, payload: Dict) -> Dict:
+def change_payload(jwt_json: dict[str, Any], payload: dict[str, Any]) -> dict[str, Any]:
     """
     Change the current payload to your jwt_json for the new payload given.
 
@@ -140,7 +136,7 @@ def change_payload(jwt_json: Dict, payload: Dict) -> Dict:
     return jwt_json
 
 
-def signature(jwt_json: Dict, key: str) -> str:
+def signature(jwt_json: dict[str, Any], key: str) -> str:
     """
     Sign your jwt.
 
@@ -176,9 +172,7 @@ def signature(jwt_json: Dict, key: str) -> str:
             jwt.encode(),
             hashlib.sha256,
         ).digest()
-        new_signature = (
-            base64.urlsafe_b64encode(signature_hmac).decode("UTF-8").strip("=")
-        )
+        new_signature = base64.urlsafe_b64encode(signature_hmac).decode("UTF-8").strip("=")
         return jwt + "." + new_signature
     elif jwt_json[HEADER]["alg"] == "HS384":
         jwt = encode_jwt(jwt_json)
@@ -187,9 +181,7 @@ def signature(jwt_json: Dict, key: str) -> str:
             jwt.encode(),
             hashlib.sha384,
         ).digest()
-        new_signature = (
-            base64.urlsafe_b64encode(signature_hmac).decode("UTF-8").strip("=")
-        )
+        new_signature = base64.urlsafe_b64encode(signature_hmac).decode("UTF-8").strip("=")
         return jwt + "." + new_signature
     elif jwt_json[HEADER]["alg"] == "HS512":
         jwt = encode_jwt(jwt_json)
@@ -198,9 +190,7 @@ def signature(jwt_json: Dict, key: str) -> str:
             jwt.encode(),
             hashlib.sha512,
         ).digest()
-        new_signature = (
-            base64.urlsafe_b64encode(signature_hmac).decode("UTF-8").strip("=")
-        )
+        new_signature = base64.urlsafe_b64encode(signature_hmac).decode("UTF-8").strip("=")
         return jwt + "." + new_signature
 
     raise UnknownAlg(

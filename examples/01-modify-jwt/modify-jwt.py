@@ -1,9 +1,5 @@
-from myjwt.modify_jwt import add_header
-from myjwt.modify_jwt import add_payload
-from myjwt.modify_jwt import change_payload
-from myjwt.utils import encode_jwt
-from myjwt.utils import jwt_to_json
-from myjwt.utils import SIGNATURE
+from myjwt.modify_jwt import add_header, add_payload, change_payload
+from myjwt.utils import SIGNATURE, encode_jwt, jwt_to_json
 
 jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjpudWxsfQ.Tr0VvdP6rVBGBGuI_luxGCOaz6BbhC6IxRTlKOW8UjM"
 # header {"typ": "JWT", "alg": "HS256"}

