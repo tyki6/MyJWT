@@ -16,6 +16,7 @@ jobs:
           python-version: "3.11"
       - name: "Install dependencies"
         run: |
+          pip install poetry
           poetry install
           mypy --install-types --non-interactive
       - name: "Run ruff"
