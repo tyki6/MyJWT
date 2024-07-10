@@ -1,5 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [2.1.0] - 10-07-2024
+### Added
+- fix read the docs
+-  exclude tests from source
 ## [2.0.0] - 10-07-2024
 ### Added
 - python 3.12 compliance
