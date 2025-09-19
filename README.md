@@ -104,7 +104,7 @@ Options:
   --bruteforce PATH            Bruteforce to guess the secret used to sign the
                                token.
 
-  -c, --crack TEXT             regex to iterate all string possibilities to
+  -r, --crack TEXT             regex to iterate all string possibilities to
                                guess the secret used to sign the token.
 
   --kid TEXT                   Kid Injection sql
