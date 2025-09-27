@@ -87,7 +87,7 @@ CONTEXT_SETTINGS = {"help_option_names": ["-h", "--help"]}
 )
 @click.option(
     "--crack",
-    "-c",
+    "-r",
     help="regex to iterate all string possibilities to guess the secret used to sign the token.",
 )
 @click.option("--kid", help="Kid Injection sql")
