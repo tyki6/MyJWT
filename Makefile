@@ -12,9 +12,9 @@ tox:
 docstr:
 	docstr-coverage
 test:
-	coverage run --branch -p -m pytest --capture=sys
+	poetry run coverage run --branch -p -m pytest --capture=sys
 coverage:
-	coverage combine | true && coverage report -m
+	poetry run coverage combine | true && poetry run coverage report -m
 html:
 	cd docs && make html && cd ../
 deploy:

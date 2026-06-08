@@ -1,4 +1,4 @@
-FROM bitnami/python:3.12 as base
+FROM bitnami/python:3.14 as base
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 WORKDIR /app
 
