@@ -115,7 +115,16 @@ def is_valid_jwt(jwt: str) -> bool:
     bool
         True if jwt is valid , False else
     """
-    return len(jwt.split(".")) == 3
+    if len(jwt.split(".")) != 3:
+        return False
+    try:
+        for segment in jwt.split(".")[:2]:
+            encoded_to_json(segment)
+    except ValueError:
+        # header/payload are not base64url-encoded JSON (binascii.Error and
+        # json.JSONDecodeError are both ValueError subclasses)
+        return False
+    return True
 
 
 def is_valid_jwt_json(jwt_json: dict[str, Any]) -> bool:
