@@ -94,3 +94,12 @@ def test_create_crt() -> None:
     create_crt()
     assert os.path.exists("selfsigned.crt")
     assert os.path.exists("private.pem")
+
+
+def test_is_valid_jwt_rejects_undecodable_segments() -> None:
+    """
+    Test is_valid_jwt method when header/payload are not base64 JSON in utils.py
+    """
+    assert not is_valid_jwt("a.b.c")
+    assert not is_valid_jwt("eyJhbGciOiJIUzI1NiJ9.not-json!.c29tZXNpZw")
+    assert is_valid_jwt(jwt)

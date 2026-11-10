@@ -410,3 +410,12 @@ def test_x5c(requests_mock: Any) -> None:
         [jwt_x5u, "--x5u", "http://test.com"],
     )
     assert result.exit_code == 0
+
+
+def test_malformed_token_exits_cleanly() -> None:
+    """
+    Test undecodable input during call in myjwt_cli.py
+    """
+    result = CliRunner().invoke(myjwt_cli, ["a.b.c", "--print"])
+    assert result.exit_code == 1
+    assert NOT_VALID_JWT in result.output
